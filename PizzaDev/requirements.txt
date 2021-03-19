@@ -1,4 +1,0 @@
-Flask
-Jinja2
-dnspython
-pymongo == 3.10.1
