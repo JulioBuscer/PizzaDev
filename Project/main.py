@@ -13,6 +13,7 @@ try:
     # define collection
     collection = db['sede']
     if db:
+        print('hola')
         print('✅ Coneccion establecida '+ str(collection.count_documents({})))
 
 except Exception as e:
@@ -26,8 +27,8 @@ document = {"ciudad":"Capital One",
 # insert document into collection
 id = collection.insert_one(document).inserted_id
 print("id")
-ffdffdddddddddddddddddddddd
-asdasd
+Pruevando XD
+Hello moto
 asdasd
 asdasd
 '''
