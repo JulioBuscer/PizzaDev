@@ -13,7 +13,7 @@ try:
     # define collection
     collection = db['sede']
     if db:
-        print('✅ Coneccion establecida ')
+        print('✅ Coneccion establecida '+ str(collection))
 
 except Exception as e:
     print('❌ Coneccion no establecida')
