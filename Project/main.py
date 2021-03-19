@@ -28,4 +28,6 @@ id = collection.insert_one(document).inserted_id
 print("id")
 ffdffdddddddddddddddddddddd
 asdasd
+asdasd
+asdasd
 '''
