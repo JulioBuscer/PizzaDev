@@ -26,5 +26,7 @@ document = {"ciudad":"Capital One",
 # insert document into collection
 id = collection.insert_one(document).inserted_id
 print("id")
+asdasda
 asdasd
+asda
 '''
