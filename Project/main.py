@@ -5,7 +5,7 @@ import datetime
 import pymongo
 import dns
 # connection string
-from flask import Blueprint, render_template, request,session, Flask
+from flask import Blueprint, render_template, request, session, Flask
 from flask.helpers import url_for
 from flask_security import login_required, current_user
 from flask_security.decorators import roles_required
@@ -18,7 +18,7 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    
+
     if current_user.has_role('admin'):
         admin = True
         return render_template('index.html', admin=admin, name=current_user.name)
@@ -36,19 +36,11 @@ try:
     # define collection
     collection = db['sede']
     if db:
-        print('✅ Coneccion establecida '+ str(collection))
+        print('✅ Coneccion establecida ' + str(collection))
 
 except Exception as e:
     print('❌ Coneccion no establecida')
     print(e)
 '''
-# sample data
-document = {"ciudad":"Capital One",
-"direccion":"McLean",
-"director":"VA"}
-# insert document into collection
-id = collection.insert_one(document).inserted_id
-print("id")
-Hola edgar como estas?
-Muy bien y tú?
+
 '''
