@@ -1,27 +1,41 @@
 import os
 from flask import Flask
-from flask_security import Security, SQLAlchemyUserDatastore
-from flask_sqlalchemy import SQLAlchemy
+from flask_mongoengine import MongoEngine
+
+from flask_security import Security, MongoEngineUserDatastore, \
+    UserMixin, RoleMixin, login_required
+from flask_principal import Permission, RoleNeed
 
 #Creamos una instancia de SQLAlchemy
-db = SQLAlchemy()
+db = MongoEngine()
 from .models import User, Role
-userDataStore = SQLAlchemyUserDatastore(db, User, Role)
+userDataStore = MongoEngineUserDatastore(db, User, Role)
 
 def create_app():
     #Creamos una instancia del flask
     app = Flask(__name__)
     
-        
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         #Generar la clave de sessión para crear una cookie con la inf. de la sessión
     app.config['SECRET_KEY'] = os.urandom(24)
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/flasksecurity'
+    app.config["MONGODB_HOST"] = "mongodb://localhost:27017/flask_security"
+    app.config["MONGODB_DB"] = True
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
-    
+    admin_permission = Permission(RoleNeed('admin'))
     db.init_app(app)
     
+    @app.before_first_request
+    def create_user():
+        test_role = user_datastore.find_or_create_role('test')
+        user_datastore.create_user(
+            email='a@example.com', password='abc123', roles=[test_role]
+        )
+        admin_role = user_datastore.find_or_create_role('admin')
+        user_datastore.create_user(
+            email='b@example.com', password='abcd1234',
+            roles=[admin_role]
+        )
+
     @app.before_first_request
     def create_all():
         try:
@@ -30,8 +44,8 @@ def create_app():
             print('error')
 
     #Vincula los modelos a flask-security
-    security = Security(app, userDataStore)
-
+    user_datastore = MongoEngineUserDatastore(db, User, Role)
+    security = Security(app, user_datastore)
     #Configurando el login_manager
     #login_manager = LoginManager()
     #login_manager.login_view = 'auth.login'
