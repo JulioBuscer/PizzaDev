@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #Definiendo la tabla relacional
 users_roles = db.Table('users_roles',
     db.Column('userId', db.Integer, db.ForeignKey('user.id')),
@@ -43,6 +44,8 @@ class Producto(db.Model):
     
 =======
 
+=======
+>>>>>>> origin/Version
 
 class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
@@ -55,4 +58,10 @@ class User(db.Document, UserMixin):
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
+<<<<<<< HEAD
 >>>>>>> origin/main
+=======
+
+
+
+>>>>>>> origin/Version
