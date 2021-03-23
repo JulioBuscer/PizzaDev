@@ -4,3 +4,4 @@ dnspython
 pymongo == 3.10.1
 flask_security
 flask_sqlalchemy
+flask_mongoengine
