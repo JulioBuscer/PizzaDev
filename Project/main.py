@@ -13,6 +13,7 @@ from flask_sqlalchemy import model
 from werkzeug.utils import redirect
 from . import db
 from . import models
+<<<<<<< HEAD
 main = Blueprint('main', __name__)
 
 
@@ -44,3 +45,20 @@ except Exception as e:
 '''
 
 '''
+=======
+from flask_principal import Principal, Permission, RoleNeed
+
+main = Blueprint('main', __name__)
+
+
+@main.route('/')
+def index():
+
+    if RoleNeed('admin'):
+        admin = True
+        return render_template('index.html', admin=admin)
+    if RoleNeed('admin'):
+        cliente = True
+        return render_template('index.html', cliente=cliente)
+    return render_template('index.html')
+>>>>>>> origin/main

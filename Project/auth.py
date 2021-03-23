@@ -19,7 +19,11 @@ def login_users_post():
     remember = True if request.form.get('remember') else False
 
     #Consultamos si existe un usuario ya registrado con el email.
+<<<<<<< HEAD
     user = User.query.filter_by(email=email).first()
+=======
+    user = User.objects(email=email)
+>>>>>>> origin/main
 
     #Verificamos si el usuario existe, encriptamos el password y lo comparamos con
     # el de la BD.
