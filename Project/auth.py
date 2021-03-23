@@ -21,6 +21,7 @@ def login_users_post():
 
     # Consultamos si existe un usuario ya registrado con el email.
     user = User.objects(email=email)
+    
 
     # Verificamos si el usuario existe, encriptamos el password y lo comparamos con
     # el de la BD.
