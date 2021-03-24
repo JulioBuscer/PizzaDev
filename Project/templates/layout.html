@@ -25,6 +25,34 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="#">Contacto</a></li>
             </ul>
+
+            {%if not current_user.is_authenticated %}
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('auth.login_users') }}" class="navbar-item">
+                        Login
+                    </a>
+                </li>
+            </ul>
+            {%endif%}
+            {%if not current_user.is_authenticated %}
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="{{ url_for('auth.register_user') }}" class="navbar-item">
+                        Registro
+                    </a>
+                </li>
+            </ul>
+
+            {%endif%}
+            {%if current_user.is_authenticated %}
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                        Cerrar Sesión
+                    </a>
+                </li>
+            </ul>
+
+            {%endif%}
             <ul id="nav-mobile" class="sidenav">
                 <li><a href="#">Navbar Link</a></li>
             </ul>

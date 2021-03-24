@@ -1,8 +1,9 @@
+from os import stat
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_security import login_required
 from flask_security.utils import login_user, logout_user
-from . models import User
+from . models import *
 from . import db, userDataStore
 
 auth = Blueprint('auth', __name__, url_prefix='/security')
@@ -19,18 +20,28 @@ def login_users_post():
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
     # Consultamos si existe un usuario ya registrado con el email.
-    user = User.objects(email=email)
-
+    pipeline = [{"$match":{"email":str(email)}} ,{"$project": {"_id": 1, "email": 1, "password":1, "active":1, "confirmet_at":1, "roles":1}}]
+    users = User.objects().aggregate(pipeline)
     # Verificamos si el usuario existe, encriptamos el password y lo comparamos con
     # el de la BD.
-    if not user or not check_password_hash(user.password, password):
+    #print (email)
+    print (users._CommandCursor__data[0])
+    s=Struct(**users._CommandCursor__data[0])
+    
+    #print(s.get_id(**users._CommandCursor__data[0]))
+    #print ("PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    user = (users._CommandCursor__data[0])
+    #print (user)
+    #print (users._CommandCursor__data[0])
+    #print(user['password'])
+    if not user or not check_password_hash(s.password, password):
         # Si el usuario no existe o no coinciden los passwords
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_users'))
 
     # En este punto el usuario tiene los datos correctos
     # Creamos una sessión y logueamso al usuario.
-    login_user(user, remember=remember)
+    login_user(users, remember=remember)
     return redirect(url_for('main.index'))
 
 

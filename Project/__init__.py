@@ -4,6 +4,8 @@ from flask_security import Security, MongoEngineUserDatastore, \
 import os
 from flask import Flask
 from flask_mongoengine import MongoEngine
+from werkzeug.security import generate_password_hash, check_password_hash
+import uuid
 # Creamos una instancia de SQLAlchemy
 db = MongoEngine()
 from .models import User, Role
@@ -33,20 +35,21 @@ def create_app():
         # print(user._CommandCursor__data[0]['_id'])
 
         # Consultar todos los registros de un documento
-        user = User.objects()
-        print(user[0]['email'])
-        roles = Role.objects
-        print(roles[1]['name'])
+        #user = User.objects()
+        #print(user[0]['email'])
+        #roles = Role.objects
+        #print(roles[1]['name'])
 
+        passw = generate_password_hash("1234", method='sha256')
         test_role = user_datastore.find_or_create_role('test')
        # user_datastore.create_user(
        #     email='a@example.com', password='abc123', roles=[test_role]
        # )
-        admin_role = user_datastore.find_or_create_role('admin')
-        user_datastore.create_user(
-            email='b@example.com', password='abcd1234',
-            roles=[admin_role]
-        )
+        #admin_role = user_datastore.find_or_create_role('admin')
+        #user_datastore.create_user(
+        #    email='b@example.com', password=passw,
+        #    roles=[admin_role]
+        #)
 
     #Vincula los modelos a flask-security
     user_datastore = MongoEngineUserDatastore(db, User, Role)
@@ -68,9 +71,6 @@ def create_app():
        #     roles=[admin_role]
        # )
 
-    # Vincula los modelos a flask-security
-    user_datastore = MongoEngineUserDatastore(db, User, Role)
-    security = Security(app, user_datastore)
     # Registramos el blueprint para las rutas auth
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
