@@ -20,7 +20,8 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-
+    print(current_user)
+    print(current_user.__dict__)
     if RoleNeed('admin'):
         admin = True
         return render_template('index.html', admin=admin)

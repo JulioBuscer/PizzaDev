@@ -20,28 +20,31 @@ def login_users_post():
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
     # Consultamos si existe un usuario ya registrado con el email.
-    pipeline = [{"$match":{"email":str(email)}} ,{"$project": {"_id": 1, "email": 1, "password":1, "active":1, "confirmet_at":1, "roles":1}}]
+    pipeline = [{"$match": {"email": str(email)}}]
     users = User.objects().aggregate(pipeline)
     # Verificamos si el usuario existe, encriptamos el password y lo comparamos con
     # el de la BD.
-    #print (email)
-    print (users._CommandCursor__data[0])
-    s=Struct(**users._CommandCursor__data[0])
-    
-    #print(s.get_id(**users._CommandCursor__data[0]))
+    #print (users.__dict__)
+    usersMongo = users._CommandCursor__data[0]
+    #print(usersMongo)
+    user = Struct(**usersMongo)
+    print(user.get_id)
+    roles = Struct(**user.roles[0])
+    print(roles.name)
+    # print(s.get_id(**users._CommandCursor__data[0]))
     #print ("PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    user = (users._CommandCursor__data[0])
+    
     #print (user)
     #print (users._CommandCursor__data[0])
-    #print(user['password'])
-    if not user or not check_password_hash(s.password, password):
+    # print(user['password'])
+    if not user or not check_password_hash(user.password, password):
         # Si el usuario no existe o no coinciden los passwords
         flash('El usuario y/o la contraseña son incorrectos')
         return redirect(url_for('auth.login_users'))
 
     # En este punto el usuario tiene los datos correctos
     # Creamos una sessión y logueamso al usuario.
-    login_user(users, remember=remember)
+    login_user(user, remember=remember)
     return redirect(url_for('main.index'))
 
 
@@ -58,7 +61,7 @@ def register_user_post():
 
     # Consultamos si existe un usuario ya registrado con el email.
     user = User.query.filter_by(email=email).first()
-
+    
     if user:  # El usuario existe y regresamos a la página de registro.
         flash('El correo ya existe')
         return redirect(url_for('auth.register_user'))

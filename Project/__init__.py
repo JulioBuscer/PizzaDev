@@ -11,11 +11,12 @@ db = MongoEngine()
 from .models import User, Role
 userDataStore = MongoEngineUserDatastore(db, User, Role)
 
+
 def create_app():
     # Creamos una instancia del flask
     app = Flask(__name__)
-    
-        #Generar la clave de sessión para crear una cookie con la inf. de la sessión
+
+    # Generar la clave de sessión para crear una cookie con la inf. de la sessión
     # Generar la clave de sessión para crear una cookie con la inf. de la sessión
     app.config['SECRET_KEY'] = os.urandom(24)
 
@@ -36,40 +37,40 @@ def create_app():
 
         # Consultar todos los registros de un documento
         #user = User.objects()
-        #print(user[0]['email'])
+        # print(user[0]['email'])
         #roles = Role.objects
-        #print(roles[1]['name'])
+        # print(roles[1]['name'])
 
-        passw = generate_password_hash("1234", method='sha256')
-        test_role = user_datastore.find_or_create_role('test')
-       # user_datastore.create_user(
-       #     email='a@example.com', password='abc123', roles=[test_role]
-       # )
+        # passw = generate_password_hash("1234", method='sha256')
+        # test_role = user_datastore.find_or_create_role('test')
+        # user_datastore.create_user(
+        #     email='a@example.com', password='abc123', roles=[test_role]
+        # )
         #admin_role = user_datastore.find_or_create_role('admin')
-        #user_datastore.create_user(
+        # user_datastore.create_user(
         #    email='b@example.com', password=passw,
         #    roles=[admin_role]
-        #)
+        # )
 
-    #Vincula los modelos a flask-security
+    # Vincula los modelos a flask-security
     user_datastore = MongoEngineUserDatastore(db, User, Role)
     security = Security(app, user_datastore)
-    #Configurando el login_manager
+    # Configurando el login_manager
     #login_manager = LoginManager()
     #login_manager.login_view = 'auth.login'
-    #login_manager.init_app(app)
+    # login_manager.init_app(app)
 
-    #Importamos la clase User.
+    # Importamos la clase User.
     #from .models import User
-    #@login_manager.user_loader
-    #def load_user(user_id):
-        #return User.query.get(int(user_id))
+    # @login_manager.user_loader
+    # def load_user(user_id):
+    # return User.query.get(int(user_id))
 
-    #Registramos el blueprint para las rutas auth
-       # user_datastore.create_user(
-       #     email='b@example.com', password='abcd1234',
-       #     roles=[admin_role]
-       # )
+    # Registramos el blueprint para las rutas auth
+    # user_datastore.create_user(
+    #     email='b@example.com', password='abcd1234',
+    #     roles=[admin_role]
+    # )
 
     # Registramos el blueprint para las rutas auth
     from .auth import auth as auth_blueprint
