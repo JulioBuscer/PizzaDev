@@ -3,9 +3,6 @@ Jinja2
 dnspython
 pymongo == 3.10.1
 flask_security
-<<<<<<< HEAD
-flask_sqlalchemy
-=======
 flask_sqlalchemy
 flask_mongoengine
->>>>>>> origin/main
+mysqlclient
