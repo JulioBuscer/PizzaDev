@@ -1,17 +1,69 @@
-from flask_principal import Permission, RoleNeed
-from flask_security import Security, MongoEngineUserDatastore, \
-    UserMixin, RoleMixin, login_required
-import os
 from flask import Flask
+from flask_principal import Permission, RoleNeed
 from flask_mongoengine import MongoEngine
+from flask_sqlalchemy import SQLAlchemy
+from flask_security import Security, MongoEngineUserDatastore, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from pymongo import MongoClient
+import os
 import uuid
 # Creamos una instancia de SQLAlchemy
-db = MongoEngine()
+dbSQL = SQLAlchemy()
+from . models import User, Role
+userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
+# Creamos una instancia de PyMongo
+cluster = MongoClient(
+    "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/flask_security?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
+dbMongo = cluster['pizza_dev']
+
+''' Creamos una instancia de MongoEngine
+dbMongo = MongoEngine()
 from .models import User, Role
 userDataStore = MongoEngineUserDatastore(db, User, Role)
+'''
 
 
+def create_app():
+    #Creamos una instancia del flask
+    app = Flask(__name__)
+
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    #Generar la clave de sessión para crear una cookie con la inf. de la sessión
+    app.config['SECRET_KEY'] = os.urandom(24)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/tiendaflask'
+    app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
+    dbSQL.init_app(app)
+
+    @app.before_first_request
+    def create_all():
+        dbSQL.create_all()
+
+    #Vincula los modelos a flask-security
+    security = Security(app, userDataStore)
+
+    #Configurando el login_manager
+    #login_manager = LoginManager()
+    #login_manager.login_view = 'auth.login'
+    #login_manager.init_app(app)
+
+    #Importamos la clase User.
+    #from .models import User
+    #@login_manager.user_loader
+    #def load_user(user_id):
+        #return User.query.get(int(user_id))
+
+    #Registramos el blueprint para las rutas auth
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+
+    #Registramos el blueprint para el resto de la aplicación
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    return app
+
+
+'''
 def create_app():
     # Creamos una instancia del flask
     app = Flask(__name__)
@@ -52,32 +104,33 @@ def create_app():
         #    roles=[admin_role]
         # )
 
-    # Vincula los modelos a flask-security
-    user_datastore = MongoEngineUserDatastore(db, User, Role)
-    security = Security(app, user_datastore)
-    # Configurando el login_manager
-    #login_manager = LoginManager()
-    #login_manager.login_view = 'auth.login'
-    # login_manager.init_app(app)
+        # Vincula los modelos a flask-security
+        user_datastore = MongoEngineUserDatastore(db, User, Role)
+        security = Security(app, user_datastore)
+        # Configurando el login_manager
+        #login_manager = LoginManager()
+        #login_manager.login_view = 'auth.login'
+        # login_manager.init_app(app)
 
-    # Importamos la clase User.
-    #from .models import User
-    # @login_manager.user_loader
-    # def load_user(user_id):
-    # return User.query.get(int(user_id))
+        # Importamos la clase User.
+        #from .models import User
+        # @login_manager.user_loader
+        # def load_user(user_id):
+        # return User.query.get(int(user_id))
 
-    # Registramos el blueprint para las rutas auth
-    # user_datastore.create_user(
-    #     email='b@example.com', password='abcd1234',
-    #     roles=[admin_role]
-    # )
+        # Registramos el blueprint para las rutas auth
+        # user_datastore.create_user(
+        #     email='b@example.com', password='abcd1234',
+        #     roles=[admin_role]
+        # )
 
-    # Registramos el blueprint para las rutas auth
-    from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint)
+        # Registramos el blueprint para las rutas auth
+        from .auth import auth as auth_blueprint
+        app.register_blueprint(auth_blueprint)
 
-    # Registramos el blueprint para el resto de la aplicación
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+        # Registramos el blueprint para el resto de la aplicación
+        from .main import main as main_blueprint
+        app.register_blueprint(main_blueprint)
 
     return app
+'''

@@ -11,7 +11,7 @@ from flask_security import login_required, current_user
 from flask_security.decorators import roles_required
 from flask_sqlalchemy import model
 from werkzeug.utils import redirect
-from . import db
+from . import dbSQL,dbMongo
 from . import models
 from flask_principal import Principal, Permission, RoleNeed
 
@@ -20,8 +20,6 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    print(current_user)
-    print(current_user.__dict__)
     if RoleNeed('admin'):
         admin = True
         return render_template('index.html', admin=admin)
