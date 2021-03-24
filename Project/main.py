@@ -28,3 +28,13 @@ def index():
         cliente = True
         return render_template('index.html', cliente=cliente)
     return render_template('index.html')
+
+
+@main.route('/recetario')
+def recetario():
+    return render_template("recetario.html")
+
+
+@main.route('/registroRecetario')
+def registroRecetario():
+    return render_template("registrarRecetario.html")
