@@ -15,8 +15,9 @@ userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
 cluster = MongoClient(
     "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/pizza_dev?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
 dbMongo = cluster['pizza_dev']
-print(dbMongo.list_collection_names())
-''' Creamos una instancia de MongoEngine
+
+''' 
+Creamos una instancia de MongoEngine
 dbMongo = MongoEngine()
 from .models import User, Role
 userDataStore = MongoEngineUserDatastore(db, User, Role)
