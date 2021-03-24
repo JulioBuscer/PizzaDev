@@ -25,6 +25,7 @@ def login_users_post():
     # Verificamos si el usuario existe, encriptamos el password y lo comparamos con
     # el de la BD.
     #print (email)
+    print (users)
     print (users._CommandCursor__data[0])
     s=Struct(**users._CommandCursor__data[0])
     
