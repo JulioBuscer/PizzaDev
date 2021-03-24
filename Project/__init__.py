@@ -13,9 +13,9 @@ from . models import User, Role
 userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
 # Creamos una instancia de PyMongo
 cluster = MongoClient(
-    "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/flask_security?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
+    "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/pizza_dev?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
 dbMongo = cluster['pizza_dev']
-
+print(dbMongo.list_collection_names())
 ''' Creamos una instancia de MongoEngine
 dbMongo = MongoEngine()
 from .models import User, Role
@@ -41,24 +41,19 @@ def create_app():
     #Vincula los modelos a flask-security
     security = Security(app, userDataStore)
 
-    #Configurando el login_manager
-    #login_manager = LoginManager()
-    #login_manager.login_view = 'auth.login'
-    #login_manager.init_app(app)
-
-    #Importamos la clase User.
-    #from .models import User
-    #@login_manager.user_loader
-    #def load_user(user_id):
-        #return User.query.get(int(user_id))
-
     #Registramos el blueprint para las rutas auth
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
+    #Registramos el blueprint para las rutas admin
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint)
+
     #Registramos el blueprint para el resto de la aplicación
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+
 
     return app
 
