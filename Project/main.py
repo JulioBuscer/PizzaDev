@@ -18,6 +18,18 @@ from flask_principal import Principal, Permission, RoleNeed
 main = Blueprint('main', __name__)
 
 
+@main.route('/perfil')
+def perfil():
+        return render_template('perfil.html')
+
+@main.route('/pedidosDia')
+def pedidosDia():
+        return render_template('pedidosDia.html')
+
+@main.route('/pedidosSemana')
+def pedidosSemana():
+        return render_template('pedidosSemana.html')
+    
 @main.route('/')
 def index():
     if current_user.has_role('admin'):

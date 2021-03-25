@@ -10,6 +10,18 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="../static/materialize/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="../static/materialize/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+    <!--  Scripts-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../static/materialize/js/materialize.js"></script>
+    <script type="text/javascript" src="../static/materialize/js/init.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+    </script>
 </head>
 
 <body>
@@ -26,6 +38,14 @@
             {%if not current_user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('main.proveedores') }}">Proveedores</a></li>
+                <li>
+                    <a href="{{ url_for('main.perfil') }}" class="navbar-item">
+                        Perfil
+                    </a>
+                </li>
+            </ul>
+            {%endif%} {%if not current_user.is_authenticated %}
+            <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('auth.login_users') }}" class="navbar-item">
                         Login
                     </a>
