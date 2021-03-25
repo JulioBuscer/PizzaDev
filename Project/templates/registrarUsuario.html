@@ -1,0 +1,39 @@
+{% extends "layout.html"%}
+{% block content %}
+</br></br></br></br>
+
+<div class="container">
+    <div class="row">
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="last_name" type="email" class="validate">
+                        <label for="last_name">Correo</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="last_name" type="password" class="validate">
+                        <label for="last_name">Contraseña</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select>
+                            <option value="" disabled selected>Elije el rol</option>
+                            <option value="1">test</option>
+                            <option value="2">admin</option>
+                        </select>
+                        <label>Selecciona un rol</label>
+                    </div>
+                </div>
+                </br></br></br></br>
+                <a href="registrarUsuario" class="btn btn-danger" style="background: #1ADE97;"><i
+                        class="icon-remove icon-white"></i>Guardar</a>
+            </form>
+        </div>
+    </div>
+</div>
+</br></br></br></br>
+</br></br></br></br>
+</br></br></br></br>
+{% endblock %}

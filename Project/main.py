@@ -28,3 +28,16 @@ def index():
         cliente = True
         return render_template('index.html', cliente=cliente)
     return render_template('index.html')
+
+
+@main.route("/usuario")
+def mostrarDatosUsuario():
+    return render_template("usuario.html")
+
+@main.route("/proveedores")
+def proveedores():
+    return render_template("proveedores.html")
+
+@main.route('/registrarProveedor',methods=['GET','POST'])
+def registrarProveedor():
+    return render_template('registrarProveedor.html')

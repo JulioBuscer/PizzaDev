@@ -1,0 +1,44 @@
+{% extends "layout.html"%}
+{% block content %}
+</br></br></br></br>
+
+<div class="container">
+    <div class="row">
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="last_name" type="text" class="validate">
+                        <label for="last_name">Nombre</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="last_name" type="text" class="validate">
+                        <label for="last_name">Dirección</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="last_name" type="text" class="validate">
+                        <label for="last_name">Telefono</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="input-field col s12">
+                            <select multiple>
+                                <option value="1">Salsa para pizza</option>
+                                <option value="2">Peperoni</option>
+                                <option value="3">Salami</option>
+                            </select>
+                            <label>Seleccione los productos</label>
+                        </div>
+                    </div>
+                </div>
+                </br></br></br></br>
+                <a href="registrarUsuario" class="btn btn-danger" style="background: #1ADE97;"><i
+                        class="icon-remove icon-white"></i>Guardar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
