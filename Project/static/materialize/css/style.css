@@ -5,6 +5,26 @@
  *
  * Made By MaterializeCSS.com
  */
+ html,
+ body {
+     height: 100%;
+ }
+ .containers {
+  display: table;
+  margin: auto;
+}
+ #login-page {
+    width: 500px;
+ }
+ .card-image img{
+   background:black;
+ }
+ .card:before{
+  background: black;
+}
+.imagenes:before{
+   background: black;
+ }
 
 nav ul a,
 nav .brand-logo {

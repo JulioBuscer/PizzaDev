@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {%block content %}
 <div id="login-page" class="row">
-    <form class="login-form" method="POST" action="/security/login_users">
+    <form class="login-form" method="POST" action="/security/register_user">
 
         <div class="row">
             <div class="col s12 ">
                 <div class="card">
                     <div class="card-image">
                         <img src="../../static/img/background1.jpg">
-                        <span class="card-title">Iniciar Sesión</span>
+                        <span class="card-title">Registrarse</span>
                     </div>
                     <div class="card-content">
                         <div class="row">
@@ -16,6 +16,13 @@
                                 <i class="material-icons prefix">mail_outline</i>
                                 <input class="validate" name="email" id="email" type="email">
                                 <label for="email" data-error="wrong" data-success="right">Correo</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input class="validate" name="name" id="name" type="text">
+                                <label for="name" data-error="wrong" data-success="right">Nombre</label>
                             </div>
                         </div>
                         <div class="row">
@@ -34,7 +41,7 @@
                         </div>
                     </div>
                     <div class="card-action">
-                        <a href="{{ url_for('auth.register_user') }}">Regístrate ahora!</a>
+                        <a href="{{ url_for('auth.login_users') }}">Iniciar sesión</a>
                     </div>
                 </div>
             </div>
