@@ -19,7 +19,7 @@ main = Blueprint('main', __name__)
 
 
 @main.route('/perfil')
-def layout():
+def perfil():
         return render_template('perfil.html')
 
 @main.route('/pedidosDia')

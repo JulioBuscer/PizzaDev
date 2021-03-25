@@ -1,6 +1,7 @@
 {% extends "layout.html" %} 
 {% block content %}
-    <div class="row">
+    <div class="container">
+        <div class="row">
         <form action="#">
             <div class="row" style="margin-left:83%; margin-top:3%"><a style="background:#ef5350" class="btn" href="http://127.0.0.1:5000/pedidosDia">Ver mis pedidos</a></div>
             <div class="col s5 margin-top:3%; text-align:center;">
@@ -59,7 +60,7 @@
                 </div>
                 </div>
             </div>
-            <div class="row" style="margin-left:74%; margin-top:3%"><a style="background:#F3C807" class="btn">Actualizar mi información</a></div>
+            <div class="row" style="margin-left:72%; margin-top:3%"><a style="background:#F3C807" class="btn">Actualizar mi información</a></div>
             <div class="row" id="agregarDireccion">
                 <div class="input-field col s3">
                     <input id="txtCalle" type="password" class="validate">
@@ -111,6 +112,7 @@
                 </div>
             <div>
         </form>
+    </div>
     </div>
     
 {% endblock %}
