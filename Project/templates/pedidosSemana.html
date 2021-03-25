@@ -1,0 +1,88 @@
+{% extends "layout.html" %} 
+{% block content %}
+    <form action="#">
+        <div class="row">
+            <div class="input-field col s6">
+                <a style="background:#ef5350; width:100%" class="btn" href="http://127.0.0.1:5000/pedidosDia">Ver Por Día</a>
+            </div>
+            <div class="input-field col s6">
+                <a style="background:#ef5350; width:100%" class="btn" href="http://127.0.0.1:5000/pedidosSemana">Ver Por Semana</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row" style="box-shadow: 2px 2px 5px #999">
+                <div class="col s6">
+                    <h6>Semana: 22-03-2021 - 28-03-2021</h6>
+                </div>
+                <div class="col s6">
+                    <h6>No.Compra: 9686JFH5489N5</h6>
+                    <h6>Fecha: 22-03-2021</h6>
+                </div>
+            </div>
+            <table>
+                <thead style="color:#900C3F">
+                    <tr>
+                        <th>Sabor</th>
+                        <th>Tamaño</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr>
+                        <td>Champiñon</td>
+                        <td>Mediana</td>
+                        <td>2</td>
+                        <td>$300</td>
+                    </tr>
+                    <tr>
+                        <td>Italiana</td>
+                        <td>Grande</td>
+                        <td>1</td>
+                        <td>$250</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            <div class="row" style="box-shadow: 2px 2px 5px #999">
+                <div class="col s6">
+                    <h6>Semana: 29-03-2021 - 04-04-2021</h6>
+                </div>
+                <div class="col s6">
+                    <h6>No.Compra: 9686JFH5489N5</h6>
+                    <h6>Fecha: 03-04-2021</h6>
+                </div>
+            </div>
+            <table>
+                <thead style="color:#900C3F">
+                    <tr>
+                        <th>Sabor</th>
+                        <th>Tamaño</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr>
+                        <td>Champiñon</td>
+                        <td>Chica</td>
+                        <td>2</td>
+                        <td>$250</td>
+                    </tr>
+                    <tr>
+                        <td>Hawaiana</td>
+                        <td>Grande</td>
+                        <td>2</td>
+                        <td>$300</td>
+                    </tr>
+                     <tr>
+                        <td>Salamí</td>
+                        <td>Media</td>
+                        <td>3</td>
+                        <td>$360</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock %}

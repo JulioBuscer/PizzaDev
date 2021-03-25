@@ -16,6 +16,18 @@ from . import models
 main = Blueprint('main', __name__)
 
 
+@main.route('/perfil')
+def layout():
+        return render_template('perfil.html')
+
+@main.route('/pedidosDia')
+def pedidosDia():
+        return render_template('pedidosDia.html')
+
+@main.route('/pedidosSemana')
+def pedidosSemana():
+        return render_template('pedidosSemana.html')
+    
 @main.route('/')
 def index():
 
@@ -28,8 +40,8 @@ def index():
     return render_template('index.html')
 
 
-client = pymongo.MongoClient(
-    "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+#client = pymongo.MongoClient(
+ #   "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 # test
 try:
     db = client['ayuda_humanitaria']
