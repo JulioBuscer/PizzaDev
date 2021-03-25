@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<a href="#modal1" class="waves-effect waves-light btn modal-trigger" style="background: #1ADE97;"><i
+        class="icon-remove icon-white"></i>Añadir</a>
+<div class="container">
+    <div class="section">
+        <table class="responsive-table highlight centered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Cantidad</th>
+                    <th>Fecha caducidad</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        Pepperoni
+                    </td>
+                    <td>
+                        Materia prima
+                    </td>
+                    <td>
+                        1000 g
+                    </td>
+                    <td>
+                        2021-03-29
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <div class="card">
+            <div class="card-image">
+                <img src="../../static/img/background1.jpg">
+                <span class="card-title">Registrar materia prima/producto</span>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">phone</i>
+                        <input class="validate" name="text" id="text" type="text">
+                        <label for="text" data-error="wrong" data-success="right">Nombre</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">phone</i>
+                        <input class="validate" name="text" id="text" type="text">
+                        <label for="text" data-error="wrong" data-success="right">Categoria</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">phone</i>
+                        <input class="validate" name="text" id="text" type="text">
+                        <label for="text" data-error="wrong" data-success="right">Cantidad</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" class="datepicker" placeholder="Fecha caducidad">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn waves-effect waves-light btn-large" type="submit" name="action">Confirmar
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action">
+                <a href="{{ url_for('auth.register_user') }}">Regístrate ahora!</a>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+{%endblock%}
