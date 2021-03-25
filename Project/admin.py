@@ -19,3 +19,10 @@ def detalle_ventas():
         admin = True
         return render_template('/admin/detalle_venta.html', admin=admin)
     return redirect(url_for('main.index'))
+
+@admin.route('inventario')
+def inventario():
+    if current_user.has_role('admin'):
+        admin = True
+        return render_template('/admin/inventario.html', admin=admin)
+    return redirect(url_for('main.index'))
