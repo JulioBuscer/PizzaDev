@@ -11,8 +11,10 @@ from flask_security import login_required, current_user
 from flask_security.decorators import roles_required
 from flask_sqlalchemy import model
 from werkzeug.utils import redirect
-from . import db
+from . import dbSQL, dbMongo
 from . import models
+from flask_principal import Principal, Permission, RoleNeed
+
 main = Blueprint('main', __name__)
 
 
@@ -30,29 +32,26 @@ def pedidosSemana():
     
 @main.route('/')
 def index():
-
     if current_user.has_role('admin'):
         admin = True
-        return render_template('index.html', admin=admin, name=current_user.name)
+        return render_template('index.html', admin=admin)
     if current_user.has_role('cliente'):
         cliente = True
-        return render_template('index.html', cliente=cliente, name=current_user.name)
+        return render_template('index.html', cliente=cliente)
     return render_template('index.html')
 
 
-#client = pymongo.MongoClient(
- #   "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-# test
-try:
-    db = client['ayuda_humanitaria']
-    # define collection
-    collection = db['sede']
-    if db:
-        print('✅ Coneccion establecida ' + str(collection))
+@main.route('/ventas')
+def ventas():
+    if current_user.has_role('cliente'):
+        cliente = True
+        return render_template('ventas.html', cliente=cliente)
+    return render_template('index.html')
 
-except Exception as e:
-    print('❌ Coneccion no establecida')
-    print(e)
-'''
 
-'''
+@main.route('/admin/ventas')
+def admin_ventas():
+    if current_user.has_role('admin'):
+        admin = True
+        return render_template('admin/ventas.html', admin=admin)
+    return render_template('index.html')

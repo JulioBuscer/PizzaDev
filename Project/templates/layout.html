@@ -1,64 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PizzaDev | IDGS801</title>
 
-  <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="../static/materialize/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link href="../static/materialize/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link rel="stylesheet" href="../static/styles.css">
-  <link rel="stylesheet" href="../static/funciones.js">
-  <!--  Scripts-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="../static/materialize/js/materialize.js"></script>
-    <script type="text/javascript" src="../static/materialize/js/init.js"></script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PizzaDev | IDGS801</title>
 
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-          var elems = document.querySelectorAll('select');
-          var instances = M.FormSelect.init(elems);
-      });
-    </script>
-    </head>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../static/materialize/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="../static/materialize/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
 
-<body onload="ocultarDiv()">
+<body>
     <nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">PizzaDev</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Inicio</a></li>
-      </ul>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Ordenar</a></li>
-      </ul>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Contacto</a></li>
-      </ul>
-      <ul id="nav-mobile" class="sidenav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="{{ url_for('main.index') }}" class="brand-logo">PizzaDev</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="">Ordenar</a></li>
+            </ul>
+            {%if not current_user.is_authenticated %}
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('auth.login_users') }}" class="navbar-item">
+                        Login
+                    </a>
+                </li>
+            </ul>
+            {%endif%}
+            {%if not current_user.is_authenticated %}
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="{{ url_for('auth.register_user') }}" class="navbar-item">
+                        Registro
+                    </a>
+                </li>
+            </ul>
+
+            {%endif%}
+            {%if current_user.is_authenticated %}
+            {%if admin%}
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('admin.ventas') }}" class="navbar-item">
+                        Ventas
+                    </a>
+                </li>
+            </ul>
+            {%endif%}
+            {%if cliente%}
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('main.ventas') }}" class="navbar-item">
+                        Ventas
+                    </a>
+                </li>
+            </ul>
+            {%endif%}
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                        Cerrar Sesión
+                    </a>
+                </li>
+            </ul>
+
+            {%endif%}
+            <ul id="nav-mobile" class="sidenav">
+                <li><a href="#">Navbar Link</a></li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+    <div class="containers">
+        {% block content %}
+        {% endblock %}
     </div>
-  </nav>
-            <div class="container">
-                    {% block content %}
-                    {% endblock %}
+
+
+    <footer class="page-footer teal">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">PizzaDev</h5>
+                    <p class="grey-text text-lighten-4">Nos ubicamos en León, Guanajuato en donde desde hace 25 años
+                        hemos satisfecho el apetito de nuestros clientes con comida preparada al momento con
+                        ingredientes frescos y de calidad. Gracias a ello, nos hemos ganado la preferencia del público
+                        que busca un delicioso sabor.</p>
+
+
+                </div>
+                <div class="col l6 s12">
+                    <h5 class="white-text">Ubícanos</h5>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.236796297834!2d-101.58337303459726!3d21.06320254197643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1079df76c4bd098d!2sCafeter%C3%ADa%20UTL!5e0!3m2!1ses-419!2smx!4v1616572910471!5m2!1ses-419!2smx"
+                        width="600" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
             </div>
-    </div>
-    </body>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                Copyright MaCrobios &reg; 2021</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="../static/materialize/js/materialize.js"></script>
+    <script src="../static/materialize/js/init.js"></script>
+
+</body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
