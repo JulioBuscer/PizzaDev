@@ -5,6 +5,7 @@ from flask_security import UserMixin, RoleMixin
 import shortuuid
 from datetime import datetime
 
+hoy = datetime.now()
 
 # Definiendo la tabla relacional
 users_roles = dbSQL.Table('users_roles',
