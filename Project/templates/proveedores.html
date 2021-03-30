@@ -2,43 +2,43 @@
 {% block content %}
 
 </br></br></br></br>
-<div class="container">
-    <div class="row">   
-        <a href="registrarProveedor" class="btn btn-danger" style="background: #1ADE97;"><i
-            class="icon-remove icon-white" ></i>Añadir</a>
-        <table class="responsive-table">
-            <thead>
-                <tr class="tr-head">
-                    <th style="color: #900C3F;">Nombre</th>
-                    <th style="color: #900C3F;">Direccion</th>
-                    <th style="color: #900C3F;">Telefono</th>
-                    <th style="color: #900C3F;">Productos</th>
-                    <th style="color: #900C3F;">Eliminar</th>
-                    <th style="color: #900C3F;">Modificar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>ALIMENTEC</td>
-                    <td>PALACIO 123 Ciudad de México, CDMX </td>
-                    <td>56779800</td>
-                    <td>Salsa para pizza</td>
-                    <td><a onclick="confirmarEliminacion()" class="btn btn-danger" style="background: #DE1F1A;"><i
-                                class="icon-remove icon-white" ></i>Eliminar</a></td>
-                    <td><a href="modificar" class="btn btn-warning" style="background: #F3C807;"><i class="icon-pencil icon-white"></i>Modificar</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Piasa</td>
-                    <td>Av. Industrial 140 Apodaca, Nuevo León . México. </td>
-                    <td>56779800</td>
-                    <td>Peperoni y salami</td>
-                    <td><a onclick="confirmarEliminacion()" class="btn btn-danger" style="background: #DE1F1A;"><i
-                                class="icon-remove icon-white" ></i>Eliminar</a></td>
-                    <td><a href="modificar" class="btn btn-warning" style="background: #F3C807;"><i class="icon-pencil icon-white"></i>Modificar</a>
-                    </td>
-                </tr>
-                <!-- {%for alumno in alumnos%}  
+<a href="registrarProveedor" class="btn btn-danger" style="background: #1ADE97;"><i
+        class="icon-remove icon-white"></i>Añadir</a>
+<table class="responsive-table">
+    <thead>
+        <tr class="tr-head">
+            <th style="color: #900C3F;">Nombre</th>
+            <th style="color: #900C3F;">Direccion</th>
+            <th style="color: #900C3F;">Telefono</th>
+            <th style="color: #900C3F;">Productos</th>
+            <th style="color: #900C3F;">Eliminar</th>
+            <th style="color: #900C3F;">Modificar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>ALIMENTEC</td>
+            <td>PALACIO 123 Ciudad de México, CDMX </td>
+            <td>56779800</td>
+            <td>Salsa para pizza</td>
+            <td><a onclick="confirmarEliminacion()" class="btn btn-danger" style="background: #DE1F1A;"><i
+                        class="icon-remove icon-white"></i>Eliminar</a></td>
+            <td><a href="modificar" class="btn btn-warning" style="background: #F3C807;"><i
+                        class="icon-pencil icon-white"></i>Modificar</a>
+            </td>
+        </tr>
+        <tr>
+            <td>Piasa</td>
+            <td>Av. Industrial 140 Apodaca, Nuevo León . México. </td>
+            <td>56779800</td>
+            <td>Peperoni y salami</td>
+            <td><a onclick="confirmarEliminacion()" class="btn btn-danger" style="background: #DE1F1A;"><i
+                        class="icon-remove icon-white"></i>Eliminar</a></td>
+            <td><a href="modificar" class="btn btn-warning" style="background: #F3C807;"><i
+                        class="icon-pencil icon-white"></i>Modificar</a>
+            </td>
+        </tr>
+        <!-- {%for alumno in alumnos%}  
         <tr>
             <td>{{alumno.nombre}}</td>
             <td>{{alumno.apaterno}}</td>
@@ -51,17 +51,14 @@
         </tr>
         {%endfor%}
         {% if alumnos|count == 0 %} -->
-                <!-- <tr colspan="6">
+        <!-- <tr colspan="6">
             <td colspan="6">
                 No hay datos disponibles
             </td>
         </tr> -->
-                <!-- {%endif%} -->
-            </tbody>
-        </table>
-    </div>
-</div>
-
+        <!-- {%endif%} -->
+    </tbody>
+</table>
 </br></br></br></br>
 </br></br></br></br>
 </br></br></br></br>

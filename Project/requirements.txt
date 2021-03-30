@@ -6,3 +6,4 @@ flask_security
 flask_sqlalchemy
 flask_mongoengine
 mysqlclient
+shortuuid

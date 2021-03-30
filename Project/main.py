@@ -40,6 +40,11 @@ def proveedores():
 @main.route('/registrarProveedor',methods=['GET','POST'])
 def registrarProveedor():
     return render_template('registrarProveedor.html')
+
+@main.route('/registrarUsuario',methods=['GET','POST'])
+def registrarUsuario():
+    return render_template('registrarUsuario.html')
+
 @main.route('/ventas')
 def ventas():
     if current_user.has_role('cliente'):

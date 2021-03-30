@@ -2,38 +2,38 @@
 {% block content %}
 </br></br></br></br>
 
-<div class="container">
-    <div class="row">
-        <a href="registrarUsuario" class="btn btn-danger" style="background: #1ADE97;"><i
-            class="icon-remove icon-white" ></i>Añadir</a>
-        <table class="responsive-table">
-            <thead>
-                <tr class="tr-head">
-                    <th style="color: #900C3F;">Correo</th>
-                    <th style="color: #900C3F;">Rol</th>
-                    <th style="color: #900C3F;">Eliminar</th>
-                    <th style="color: #900C3F;">Modificar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>a@example.com</td>
-                    <td>test </td>
-                    <td><a onclick="confirmarEliminacion()" class="btn btn-danger" style="background: #DE1F1A;"><i
-                                class="icon-remove icon-white"></i>Eliminar</a></td>
-                    <td><a href="modificar" class="btn btn-warning" style="background: #F3C807;"><i class="icon-pencil icon-white"></i>Modificar</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>b@example.com</td>
-                    <td>admin</td>
-                    <td><a onclick="confirmarEliminacion()" class="btn btn-danger" style="background: #DE1F1A;"><i
-                                class="icon-remove icon-white" ></i>Eliminar</a></td>
-                    <td><a href="modificar" class="btn btn-warning" style="background: #F3C807;"><i class="icon-pencil icon-white"></i>Modificar</a>
-                    </td>
-                </tr>
-                <!-- {%for alumno in alumnos%} -->
-                <!-- <tr>
+<a href="registrarUsuario" class="btn btn-danger" style="background: #1ADE97;"><i
+        class="icon-remove icon-white"></i>Añadir</a>
+<table class="responsive-table">
+    <thead>
+        <tr class="tr-head">
+            <th style="color: #900C3F;">Correo</th>
+            <th style="color: #900C3F;">Rol</th>
+            <th style="color: #900C3F;">Eliminar</th>
+            <th style="color: #900C3F;">Modificar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>a@example.com</td>
+            <td>test </td>
+            <td><a onclick="confirmarEliminacion()" class="btn btn-danger" style="background: #DE1F1A;"><i
+                        class="icon-remove icon-white"></i>Eliminar</a></td>
+            <td><a href="modificar" class="btn btn-warning" style="background: #F3C807;"><i
+                        class="icon-pencil icon-white"></i>Modificar</a>
+            </td>
+        </tr>
+        <tr>
+            <td>b@example.com</td>
+            <td>admin</td>
+            <td><a onclick="confirmarEliminacion()" class="btn btn-danger" style="background: #DE1F1A;"><i
+                        class="icon-remove icon-white"></i>Eliminar</a></td>
+            <td><a href="modificar" class="btn btn-warning" style="background: #F3C807;"><i
+                        class="icon-pencil icon-white"></i>Modificar</a>
+            </td>
+        </tr>
+        <!-- {%for alumno in alumnos%} -->
+        <!-- <tr>
            <td>{{alumno.nombre}}</td>
            <td>{{alumno.apaterno}}</td>
            <td>{{alumno.amaterno}}</td>
@@ -43,18 +43,16 @@
            <td><a href="modificar?id={{alumno.id}}"
            class="btn btn-warning"><i class="icon-pencil icon-white"></i>Modificar</a></td>
        </tr> -->
-                <!-- {%endfor%} -->
-                <!-- {% if alumnos|count == 0 %} -->
-                <!-- <tr colspan="6">
+        <!-- {%endfor%} -->
+        <!-- {% if alumnos|count == 0 %} -->
+        <!-- <tr colspan="6">
                     <td colspan="6">
                         No hay datos disponibles
                     </td>
                 </tr> -->
-                <!-- {%endif%} -->
-            </tbody>
-        </table>
-    </div>
-</div>
+        <!-- {%endif%} -->
+    </tbody>
+</table>
 </br></br></br></br>
 </br></br></br></br>
 </br></br></br></br>
