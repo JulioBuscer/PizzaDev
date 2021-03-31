@@ -45,11 +45,13 @@ def admin_ventas():
     return render_template('index.html')
 
 
-@main.route('/recetario')
-def recetario():
-    return render_template("recetario.html")
+@main.route('/Inventario')
+def Inventario():
+    return render_template("Inventario.html")
 
 
-@main.route('/registroRecetario')
-def registroRecetario():
-    return render_template("registrarRecetario.html")
+@main.route('/registroInventario')
+def registroInventario():
+    return render_template("registrarInventario.html")
+
+
