@@ -93,8 +93,6 @@ class Venta(dbSQL.Model):
     idrecetar= dbSQL.relationship('Recetario',
                                 secondary=venta_recetario,
                                 backref=dbSQL.backref('recetario', lazy='dynamic'))
-    idDireccion= dbSQL.Column('idDireccion', dbSQL.Integer,dbSQL.ForeignKey('Direccion.idDireccion'))
-    idDir = dbSQL.relationship('Direccion', backref=dbSQL.backref('direccion', lazy='dynamic'))
 
 class Recetario(dbSQL.Model):
     """Recetario model"""
