@@ -13,6 +13,7 @@ from flask_sqlalchemy import model
 from werkzeug.utils import redirect
 from . import dbSQL, dbMongo
 from . import models
+from .models import Proveedor
 from flask_principal import Principal, Permission, RoleNeed
 
 main = Blueprint('main', __name__)
@@ -37,9 +38,24 @@ def mostrarDatosUsuario():
 def proveedores():
     return render_template("proveedores.html")
 
-@main.route('/registrarProveedor',methods=['GET','POST'])
+@main.route('/registrarProveedor',methods=['GET'])
 def registrarProveedor():
     return render_template('registrarProveedor.html')
+
+@main.route('/guardarProveedor',methods=['GET','POST'])
+def guardarProveedor():
+    
+    if request.method=='POST':
+        # print(request.form.get("txtEmpresa"))
+        pro=models.Proveedor(
+            empresa=request.form.get("txtEmpresa"),
+            direccionPro=request.form.get("txtDireccion"),
+            email=request.form.get("txtEmail"),
+            representante=request.form.get("txtRepresentante"),
+            telefono=request.form.get("txtTelefono"))
+        dbSQL.session.add(pro)
+        dbSQL.session.commit()
+    return render_template('proveedores.html')
 
 @main.route('/registrarUsuario',methods=['GET','POST'])
 def registrarUsuario():
@@ -59,3 +75,13 @@ def admin_ventas():
         admin = True
         return render_template('admin/ventas.html', admin=admin)
     return render_template('index.html')
+
+
+@main.route('/recetario')
+def recetario():
+    return render_template("recetario.html")
+
+
+@main.route('/registroRecetario')
+def registroRecetario():
+    return render_template("registrarRecetario.html")

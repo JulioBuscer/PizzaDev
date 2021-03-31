@@ -1,40 +1,38 @@
 {% extends "layout.html"%}
 {% block content %}
 </br></br></br></br>
-
 <div class="row">
-    <form class="col s12">
+    <form action="guardarProveedor" method="POST" class="col s12">
         <div class="row">
             <div class="input-field col s6">
-                <input id="last_name" type="text" class="validate">
-                <label for="last_name">Nombre</label>
+                <input name="txtEmpresa" id="last_name" type="text" class="validate">
+                <label for="last_name">Empresa</label>
             </div>
             <div class="input-field col s6">
-                <input id="last_name" type="text" class="validate">
+                <input name="txtDireccion" id="last_name" type="text" class="validate">
                 <label for="last_name">Dirección</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
-                <input id="last_name" type="text" class="validate">
+            <div class="input-field col s6">
+                <input name="txtEmail" id="last_name" type="text" class="validate">
+                <label for="last_name">Email</label>
+            </div>
+            <div class="input-field col s6">
+                <input name="txtTelefono" id="last_name" type="text" class="validate">
                 <label for="last_name">Telefono</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
-                <div class="input-field col s12">
-                    <select multiple>
-                        <option value="1">Salsa para pizza</option>
-                        <option value="2">Peperoni</option>
-                        <option value="3">Salami</option>
-                    </select>
-                    <label>Seleccione los productos</label>
-                </div>
+            <div class="input-field col s6">
+                <input name="txtRepresentante" id="last_name" type="text" class="validate">
+                <label for="last_name">Representante</label>
             </div>
         </div>
         </br></br></br></br>
-        <a href="registrarUsuario" class="btn btn-danger" style="background: #1ADE97;"><i
-                class="icon-remove icon-white"></i>Guardar</a>
+        <button type="submit" class="btn btn-default btn-primary" style="background: #1ADE97;">
+            <i class="icon-book icon-white"></i> Guardar
+        </button>
     </form>
 </div>
 {% endblock %}

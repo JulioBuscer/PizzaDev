@@ -30,7 +30,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Generar la clave de sessión para crear una cookie con la inf. de la sessión
     app.config['SECRET_KEY'] = os.urandom(24)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/tiendaflask'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/tiendaflask'
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
     dbSQL.init_app(app)
 
@@ -38,7 +38,7 @@ def create_app():
     def create_all():
         dbSQL.create_all()
 
-    #Vincula los modelos a flask-security
+    #Vincula los modelos a flask-security}
     security = Security(app, userDataStore)
 
     #Registramos el blueprint para las rutas auth
