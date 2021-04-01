@@ -43,3 +43,13 @@ def admin_ventas():
         admin = True
         return render_template('admin/ventas.html', admin=admin)
     return render_template('index.html')
+
+
+@main.route('/recetario')
+def recetario():
+    return render_template("recetario.html")
+
+
+@main.route('/registroRecetario')
+def registroRecetario():
+    return render_template("registrarRecetario.html")

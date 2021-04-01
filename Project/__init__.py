@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
 import os
 # Creamos una instancia de SQLAlchemy
-db = SQLAlchemy()
+dbSQL = SQLAlchemy()
 from . models import User, Role
 userDataStore = SQLAlchemyUserDatastore(db, User, Role)
 # Creamos una instancia de PyMongo
@@ -29,7 +29,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Generar la clave de sessión para crear una cookie con la inf. de la sessión
     app.config['SECRET_KEY'] = os.urandom(24)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/tiendaflask'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root12@localhost:3303/tiendaflask'
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
     db.init_app(app)
 
