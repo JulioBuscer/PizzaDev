@@ -97,9 +97,7 @@ def register_user_post():
         userDataStore.create_user(name=name, email=email,
                                   password=generate_password_hash(password, method='sha256'))
         # Agregamos el usuario a la bd.
-        db.session.commit()
-        current_app.logger.debug(logMsg('Usuario Creado', 'Correo: "{}" , Nombre: "{}"'.format(
-            email, name)))
+        dbSQL.session.commit()
     except:
         flash('Eror al crregistrar usuario')
 
