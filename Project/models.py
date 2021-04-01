@@ -1,38 +1,37 @@
-from collections import defaultdict
-from . import dbSQL
+from . import db
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
-import shortuuid
+
 from datetime import datetime
 
 hoy = datetime.now()
 
 # Definiendo la tabla relacional
-users_roles = dbSQL.Table('users_roles',
-                          dbSQL.Column('userId', dbSQL.Integer,
-                                       dbSQL.ForeignKey('user.id')),
-                          dbSQL.Column('roleId', dbSQL.Integer, dbSQL.ForeignKey('role.id')))
+users_roles = db.Table('users_roles',
+                          db.Column('userId', db.Integer,
+                                       db.ForeignKey('user.id')),
+                          db.Column('roleId', db.Integer, db.ForeignKey('role.id')))
 
 
-class User(UserMixin, dbSQL.Model):
+class User(UserMixin, db.Model):
     """User account model"""
 
     __tablename__ = 'user'
-    id = dbSQL.Column(dbSQL.Integer, primary_key=True)
-    name = dbSQL.Column(dbSQL.String(100), nullable=False)
-    email = dbSQL.Column(dbSQL.String(100), nullable=False, unique=True)
-    password = dbSQL.Column(dbSQL.String(255), nullable=False)
-    active = dbSQL.Column(dbSQL.Boolean)
-    confirmed_at = dbSQL.Column(dbSQL.DateTime, default=hoy)
-    roles = dbSQL.relationship('Role',
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False)
+    active = db.Column(db.Boolean)
+    confirmed_at = db.Column(db.DateTime, default=hoy)
+    roles = db.relationship('Role',
                                secondary=users_roles,
-                               backref=dbSQL.backref('users', lazy='dynamic'))
+                               backref=db.backref('users', lazy='dynamic'))
 
 
-class Role(RoleMixin, dbSQL.Model):
+class Role(RoleMixin, db.Model):
     """Role model"""
 
     __tablename__ = 'role'
-    id = dbSQL.Column(dbSQL.Integer, primary_key=True)
-    name = dbSQL.Column(dbSQL.String(50), nullable=False)
-    description = dbSQL.Column(dbSQL.String(255))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(255))

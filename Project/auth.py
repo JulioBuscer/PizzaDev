@@ -1,10 +1,10 @@
-from os import stat
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_security import login_required
 from flask_security.utils import login_user, logout_user
-from . models import *
-from . import dbSQL, userDataStore
+from . models import User
+from . import db, userDataStore
+
 
 auth = Blueprint('auth', __name__, url_prefix='/security')
 
@@ -98,8 +98,6 @@ def register_user_post():
                                   password=generate_password_hash(password, method='sha256'))
         # Agregamos el usuario a la bd.
         db.session.commit()
-        current_app.logger.debug(logMsg('Usuario Creado', 'Correo: "{}" , Nombre: "{}"'.format(
-            email, name)))
     except:
         flash('Eror al crregistrar usuario')
 

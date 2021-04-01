@@ -6,11 +6,10 @@ from flask_security import Security, MongoEngineUserDatastore, SQLAlchemyUserDat
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
 import os
-import uuid
 # Creamos una instancia de SQLAlchemy
-dbSQL = SQLAlchemy()
+db = SQLAlchemy()
 from . models import User, Role
-userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
+userDataStore = SQLAlchemyUserDatastore(db, User, Role)
 # Creamos una instancia de PyMongo
 cluster = MongoClient(
     "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/pizza_dev?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
@@ -32,11 +31,11 @@ def create_app():
     app.config['SECRET_KEY'] = os.urandom(24)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/tiendaflask'
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
-    dbSQL.init_app(app)
+    db.init_app(app)
 
     @app.before_first_request
     def create_all():
-        dbSQL.create_all()
+        db.create_all()
 
     #Vincula los modelos a flask-security
     security = Security(app, userDataStore)
