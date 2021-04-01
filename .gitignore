@@ -3,3 +3,6 @@
 *.pyc
 env
 venv
+pizzadev_env
+venv-pizza-dev
+.vscode
