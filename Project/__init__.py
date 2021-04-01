@@ -9,7 +9,7 @@ import os
 # Creamos una instancia de SQLAlchemy
 dbSQL = SQLAlchemy()
 from . models import User, Role
-userDataStore = SQLAlchemyUserDatastore(db, User, Role)
+userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
 # Creamos una instancia de PyMongo
 cluster = MongoClient(
     "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/pizza_dev?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
@@ -18,7 +18,7 @@ print(dbMongo.list_collection_names())
 ''' Creamos una instancia de MongoEngine
 dbMongo = MongoEngine()
 from .models import User, Role
-userDataStore = MongoEngineUserDatastore(db, User, Role)
+userDataStore = MongoEngineUserDatastore(dbSQL, User, Role)
 '''
 
 
@@ -29,13 +29,14 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Generar la clave de sessión para crear una cookie con la inf. de la sessión
     app.config['SECRET_KEY'] = os.urandom(24)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root12@localhost:3303/tiendaflask'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
-    db.init_app(app)
+    dbSQL.init_app(app)
 
     @app.before_first_request
     def create_all():
-        db.create_all()
+        dbSQL.create_all()
 
     #Vincula los modelos a flask-security
     security = Security(app, userDataStore)
@@ -71,7 +72,7 @@ def create_app():
     app.config["MONGODB_DB"] = True
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
     admin_permission = Permission(RoleNeed('admin'))
-    db.init_app(app)
+    dbSQL.init_app(app)
 
     @app.before_first_request
     def create_user():
@@ -99,7 +100,7 @@ def create_app():
         # )
 
         # Vincula los modelos a flask-security
-        user_datastore = MongoEngineUserDatastore(db, User, Role)
+        user_datastore = MongoEngineUserDatastore(dbSQL, User, Role)
         security = Security(app, user_datastore)
         # Configurando el login_manager
         #login_manager = LoginManager()

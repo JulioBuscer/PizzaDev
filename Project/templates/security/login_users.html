@@ -11,6 +11,13 @@
                         <span class="card-title">Iniciar Sesión</span>
                     </div>
                     <div class="card-content">
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <div class="notification is-danger">
+                            {{ messages[0] }}
+                        </div>
+                        {% endif %}
+                        {% endwith %}
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">mail_outline</i>
@@ -27,9 +34,10 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
-                                <button class="btn waves-effect waves-light btn-large" type="submit" name="action">Confirmar
+                                <button class="btn waves-effect waves-light btn-large" type="submit"
+                                    name="action">Confirmar
                                     <i class="material-icons right">send</i>
-                                  </button>
+                                </button>
                             </div>
                         </div>
                     </div>

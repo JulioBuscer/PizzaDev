@@ -8,9 +8,9 @@ hoy = datetime.now()
 
 # Definiendo la tabla relacional
 users_roles = dbSQL.Table('users_roles',
-                          db.Column('userId', db.Integer,
-                                       db.ForeignKey('user.id')),
-                          db.Column('roleId', db.Integer, db.ForeignKey('role.id')))
+                          dbSQL.Column('userId', dbSQL.Integer,
+                                       dbSQL.ForeignKey('user.id')),
+                          dbSQL.Column('roleId', dbSQL.Integer, dbSQL.ForeignKey('role.id')))
 
 personas_direcciones = dbSQL.Table('personas_direcciones',
                         dbSQL.Column('idPersona', dbSQL.Integer,dbSQL.ForeignKey('Persona.idPersona')),
@@ -25,7 +25,7 @@ recetario_Inventario = dbSQL.Table('recetario_Inventario',
                         dbSQL.Column('idRecetario', dbSQL.Integer, dbSQL.ForeignKey('Recetario.idRecetario')),
                         dbSQL.Column('idInventario', dbSQL.Integer, dbSQL.ForeignKey('Inventario.idInventario')))
 
-class User(UserMixin, db.Model):
+class User(UserMixin, dbSQL.Model):
     """User account model"""
 
     __tablename__ = 'user'
@@ -37,10 +37,10 @@ class User(UserMixin, db.Model):
     confirmed_at = dbSQL.Column(dbSQL.DateTime, default=hoy)
     roles = dbSQL.relationship('Role',
                                secondary=users_roles,
-                               backref=db.backref('users', lazy='dynamic'))
+                               backref=dbSQL.backref('users', lazy='dynamic'))
 
 
-class Role(RoleMixin, db.Model):
+class Role(RoleMixin, dbSQL.Model):
     """Role model"""
 
     __tablename__ = 'role'
