@@ -1,8 +1,7 @@
-from collections import defaultdict
 from . import dbSQL
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
-import shortuuid
+
 from datetime import datetime
 
 hoy = datetime.now()

@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="../static/materialize/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="../static/materialize/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
 </head>
 
 <body>
@@ -44,6 +45,13 @@
                     </a>
                 </li>
             </ul>
+
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('admin.inventario') }}" class="navbar-item">
+                        Inventario
+                    </a>
+                </li>
+            </ul>
             {%endif%} {%if cliente%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('main.ventas') }}" class="navbar-item">
@@ -51,6 +59,7 @@
                     </a>
                 </li>
             </ul>
+            {%endif%}
             {%endif%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('auth.logout') }}" class="navbar-item">
@@ -121,7 +130,19 @@
             </div>
         </div>
     </footer>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.datepicker');
+            var instances = M.Datepicker.init(elems, options);
+        });
 
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('.datepicker').datepicker();
+        });
+
+    </script>
 
     <!--  Scripts-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
