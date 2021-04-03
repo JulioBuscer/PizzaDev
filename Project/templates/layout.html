@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="shortcut icon" href="../static/img/background1.jpg" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>PizzaDev | IDGS801</title>
@@ -11,22 +12,41 @@
     <link href="../static/materialize/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="../static/materialize/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 
+    <!--  Scripts-->
+    <script src="../static/materialize/js/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <script src="../static/materialize/js/init.js"></script>
+    <script src="../static/materialize/js/loader.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            var options = {}
+            var instances = M.Dropdown.init(elems, options);
+        });
+
+    </script>
 </head>
 
 <body>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="{{ url_for('main.index') }}" class="brand-logo">PizzaDev</a>
+            <a id="logo-container" href="{{ url_for('main.index') }}" class="orange-text brand-logo">PizzaDev</a>
+            {%if current_user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
-                <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                <li> <a class='dropdown-trigger' href='#' data-target='dropdown1'><i
+                            class="material-icons prefix">person</i></a></li>
             </ul>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="">Ordenar</a></li>
+            <ul id='dropdown1' class='dropdown-content'>
+                <li><a href="#" class="orange-text">{{name}}</a></li>
+                <li><a href="{{ url_for('auth.logout') }}" class="orange-text">Salir</a></li>
+
             </ul>
+            {%endif%}
+
             {%if not current_user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('auth.login_users') }}" class="navbar-item">
-                        Login
+                        Iniciar sesión
                     </a>
                 </li>
             </ul>
@@ -41,6 +61,14 @@
             </ul>
 
             {%endif%}
+
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="">Ordenar</a></li>
+            </ul>
+
             {%if current_user.is_authenticated %}
             {%if admin%}
             <ul class="right hide-on-med-and-down">
@@ -66,30 +94,78 @@
                 </li>
             </ul>
             {%endif%}
-            <ul class="right hide-on-med-and-down">
-                <li><a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                        Cerrar Sesión
-                    </a>
-                </li>
-            </ul>
+
+
 
             {%endif%}
+
+            <!-- Mobile navbar-->
+
+
             <ul id="nav-mobile" class="sidenav">
-                <li><a href="#">Navbar Link</a></li>
+                {%if current_user.is_authenticated %}
+                <li> <a class='dropdown-trigger' href='#' data-target='dropdown2'><i
+                            class="material-icons prefix">person</i>Usuario</a></li>
+                {%endif%}
+
+                {%if not current_user.is_authenticated %}
+                <li><a href="{{ url_for('auth.login_users') }}">
+                        Iniciar sesión
+                    </a>
+                </li>
+                {%endif%}
+                {%if not current_user.is_authenticated %}
+                <li>
+                    <a href="{{ url_for('auth.register_user') }}">
+                        Registro
+                    </a>
+                </li>
+
+                {%endif%}
+
+                <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                <li><a href="">Ordenar</a></li>
+
+                {%if current_user.is_authenticated %}
+                {%if admin%}
+                <li><a href="{{ url_for('admin.ventas') }}">
+                        Ventas
+                    </a>
+                </li>
+                {%endif%}
+                {%if admin%}
+                <li><a href="{{ url_for('admin.inventario') }}">
+                        Inventario
+                    </a>
+                </li>
+                {%endif%}
+                {%if cliente%}
+                <li><a href="{{ url_for('main.ventas') }}">
+                        Ventas
+                    </a>
+                </li>
+                {%endif%}
+                {%endif%}
             </ul>
+            <ul id="dropdown2" class="dropdown-content">
+                <li><a href="#">{{name}}</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Salir</a></li>
+
+            </ul>
+
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
     </nav>
-    <div class="containers">
+    <main class="container">
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
 
 
-    <footer class="page-footer teal">
+    <footer class="page-footer orange accent-4">
         <div class="container">
             <div class="row">
-                <div class="col l6 s12">
+                <div class="col l8 s12">
                     <h5 class="white-text">PizzaDev</h5>
                     <p class="grey-text text-lighten-4">Nos ubicamos en León, Guanajuato en donde desde hace 25 años
                         hemos satisfecho el apetito de nuestros clientes con comida preparada al momento con
@@ -98,11 +174,11 @@
 
 
                 </div>
-                <div class="col l6 s12">
+                <div class="col l4 s12">
                     <h5 class="white-text">Ubícanos</h5>
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.236796297834!2d-101.58337303459726!3d21.06320254197643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1079df76c4bd098d!2sCafeter%C3%ADa%20UTL!5e0!3m2!1ses-419!2smx!4v1616572910471!5m2!1ses-419!2smx"
-                        width="600" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        max-width="600" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
@@ -112,24 +188,8 @@
             </div>
         </div>
     </footer>
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.datepicker');
-            var instances = M.Datepicker.init(elems, options);
-        });
 
-        // Or with jQuery
 
-        $(document).ready(function () {
-            $('.datepicker').datepicker();
-        });
-
-    </script>
-
-    <!--  Scripts-->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="../static/materialize/js/materialize.js"></script>
-    <script src="../static/materialize/js/init.js"></script>
 
 </body>
 

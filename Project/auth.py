@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_security import login_required, current_user
 from flask_security.utils import login_user, logout_user
-from . models import User, users_roles
+from . models import User
 from . import dbSQL, userDataStore
 
 auth = Blueprint('auth', __name__, url_prefix='/security')
@@ -39,10 +39,10 @@ def login_users_post():
                 return redirect(url_for('main.index'))
             else:
                 logout_user()
-                flash('Rol no encontrado')
+                flash('No tienes permiso para acceder al sistema')
                 return redirect(url_for('auth.login_users'))
         except:
-            flash('Rol no encontrado')
+            flash('Error al iniciar sesión')
             return redirect(url_for('auth.login_users'))
     except:
         flash('El usuario y/o la contraseña son incorrectos')
@@ -99,7 +99,7 @@ def register_user_post():
 
     if user:  
         # El usuario existe y regresamos a la página de registro.
-        flash('El correo ya existe')
+        flash('El correo '+ email +  ' ya está registrado')
         return redirect(url_for('auth.register_user'))
     try:
         # Creamos un nuevo usuario
@@ -109,7 +109,7 @@ def register_user_post():
         # Agregamos el usuario a la bd.
         dbSQL.session.commit()
     except:
-        flash('Eror al crregistrar usuario')
+        flash('Eror al registrar usuario')
 
     return redirect(url_for('auth.login_users'))
 
