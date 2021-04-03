@@ -11,6 +11,16 @@
                         <span class="card-title">Registrarse</span>
                     </div>
                     <div class="card-content">
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <div class="notification is-danger">
+                            <script>
+                                var toastHTML = '<span>{{ messages[0] }}</span>';
+                                M.toast({ html: toastHTML });
+                            </script>
+                        </div>
+                        {% endif %}
+                        {% endwith %}
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">mail_outline</i>
