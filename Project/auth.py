@@ -1,9 +1,8 @@
-from os import stat
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_security import login_required
+from flask_security import login_required, current_user
 from flask_security.utils import login_user, logout_user
-from . models import *
+from . models import User
 from . import dbSQL, userDataStore
 
 auth = Blueprint('auth', __name__, url_prefix='/security')
@@ -17,6 +16,7 @@ def login_users():
 @auth.route('/login_users', methods=['POST'])
 def login_users_post():
     try:
+        
         email = request.form.get('email')
         password = request.form.get('password')
         remember = True if request.form.get('remember') else False
@@ -34,7 +34,17 @@ def login_users_post():
 
         # En este punto el usuario tiene los datos correctos
         # Creamos una sessión y logueamso al usuario.
-        login_user(user, remember=remember)
+        try:
+            login_user(user, remember=remember)
+            if current_user.has_role('cliente') or current_user.has_role('admin'):
+                return redirect(url_for('main.index'))
+            else:
+                logout_user()
+                flash('No tienes permiso para acceder al sistema')
+                return redirect(url_for('auth.login_users'))
+        except:
+            flash('Error al iniciar sesión')
+            return redirect(url_for('auth.login_users'))
     except:
         flash('El usuario y/o la contraseña son incorrectos')
     return redirect(url_for('main.index'))
@@ -90,18 +100,19 @@ def register_user_post():
 
     if user:  
         # El usuario existe y regresamos a la página de registro.
-        flash('El correo ya existe')
+        flash('El correo '+ email +  ' ya está registrado')
         return redirect(url_for('auth.register_user'))
     try:
         # Creamos un nuevo usuario
+        cliente_role = userDataStore.find_or_create_role('cliente')
         userDataStore.create_user(name=name, email=email,
-                                  password=generate_password_hash(password, method='sha256'))
+                                  password=generate_password_hash(password, method='sha256'), roles=[cliente_role])
         # Agregamos el usuario a la bd.
         db.session.commit()
         current_app.logger.debug(logMsg('Usuario Creado', 'Correo: "{}" , Nombre: "{}"'.format(
             email, name)))
     except:
-        flash('Eror al crregistrar usuario')
+        flash('Eror al registrar usuario')
 
     return redirect(url_for('auth.login_users'))
 
@@ -127,7 +138,7 @@ def register_user_post():
                               password=generate_password_hash(password, method='sha256'))
 
     # Agregamos el usuario a la bd.
-    db.session.commit()
+    dbSQL.session.commit()
     return redirect(url_for('auth.login_users'))
 '''
 

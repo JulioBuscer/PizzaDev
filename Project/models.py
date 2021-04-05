@@ -1,8 +1,7 @@
-from collections import defaultdict
 from . import dbSQL
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
-import shortuuid
+
 from datetime import datetime
 
 hoy = datetime.now()
@@ -22,9 +21,9 @@ venta_recetario = dbSQL.Table('venta_recetario',
                         dbSQL.Column('idRecetario', dbSQL.Integer, dbSQL.ForeignKey('Recetario.idRecetario')),
                         dbSQL.Column('cantidad', dbSQL.Integer, nullable=False))
 
-recetario_Inventario = dbSQL.Table('recetario_Inventario',
+recetario_materiaprima = dbSQL.Table('recetario_materiaprima',
                         dbSQL.Column('idRecetario', dbSQL.Integer, dbSQL.ForeignKey('Recetario.idRecetario')),
-                        dbSQL.Column('idInventario', dbSQL.Integer, dbSQL.ForeignKey('Inventario.idInventario')))
+                        dbSQL.Column('idMateriaPrima', dbSQL.Integer, dbSQL.ForeignKey('MateriaPrima.idMateriaPrima')))
 
 class User(UserMixin, dbSQL.Model):
     """User account model"""
@@ -60,11 +59,12 @@ class Persona(dbSQL.Model):
     apellidoM= dbSQL.Column(dbSQL.String(50), nullable=False)
     telefono= dbSQL.Column(dbSQL.String(12), nullable=False)
     fotografia= dbSQL.Column(dbSQL.Text(), nullable=False)
-    idUsuario= dbSQL.Column('idUsuario', dbSQL.Integer,dbSQL.ForeignKey('user.id'))
-    idUser = dbSQL.relationship('User', backref=dbSQL.backref('users', lazy='dynamic'))
-    iddire = dbSQL.relationship('Direccion',
+    usuario = dbSQL.relationship('User', backref=dbSQL.backref('userspersona', lazy='dynamic'))
+    direccion = dbSQL.relationship('Direccion',
                                 secondary=personas_direcciones,
-                                backref=dbSQL.backref('direccion', lazy='dynamic'))
+                                backref=dbSQL.backref('direccionpersona', lazy='dynamic'))
+    idUsuario= dbSQL.Column('idUsuario', dbSQL.Integer,dbSQL.ForeignKey('user.id'))
+
 
 class Direccion(dbSQL.Model):
     """ Direccion model"""
@@ -88,11 +88,13 @@ class Venta(dbSQL.Model):
     subtotal= dbSQL.Column(dbSQL.Integer, nullable=False)
     fecha = dbSQL.Column(dbSQL.String(40), nullable=False)
     descripcion= dbSQL.Column(dbSQL.String(100), nullable=False)
-    idPersona= dbSQL.Column('idPersona', dbSQL.Integer,dbSQL.ForeignKey('Persona.idPersona'))
-    idPerson = dbSQL.relationship('Persona', backref=dbSQL.backref('persona', lazy='dynamic'))
-    idrecetar= dbSQL.relationship('Recetario',
+    direccion = dbSQL.Column(dbSQL.String(200), nullable=False)
+    estatus = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)
+    persona = dbSQL.relationship('Persona', backref=dbSQL.backref('personasventa', lazy='dynamic'))
+    recetario= dbSQL.relationship('Recetario',
                                 secondary=venta_recetario,
                                 backref=dbSQL.backref('recetario', lazy='dynamic'))
+    idPersona= dbSQL.Column('idPersona', dbSQL.Integer,dbSQL.ForeignKey('Persona.idPersona'))
 
 class Recetario(dbSQL.Model):
     """Recetario model"""
@@ -103,26 +105,26 @@ class Recetario(dbSQL.Model):
     descripcion= dbSQL.Column(dbSQL.String(50), nullable=False)
     costo= dbSQL.Column(dbSQL.String(8), nullable=False)
     foto= dbSQL.Column(dbSQL.Text(), nullable=False)
+    active = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)
+    materiaprima= dbSQL.relationship('MateriaPrima',
+                            secondary=recetario_materiaprima,
+                            backref=dbSQL.backref('recetariosmateriaprima', lazy='dynamic'))
 
 
+class MateriaPrima(dbSQL.Model):
+    """MateriaPrima model"""
 
-
-class Inventario(dbSQL.Model):
-    """Inventario model"""
-
-    __tablename__="Inventario"
-    idInventario = dbSQL.Column(dbSQL.Integer, primary_key=True)
+    __tablename__="MateriaPrima"
+    idMateriaPrima = dbSQL.Column(dbSQL.Integer, primary_key=True)
     nombre= dbSQL.Column(dbSQL.String(50), nullable=False)
     descripcion= dbSQL.Column(dbSQL.String(80), nullable=False)
     categoria= dbSQL.Column(dbSQL.String(20), nullable=False)
     precio= dbSQL.Column(dbSQL.String(10), nullable=False)
     cantidad= dbSQL.Column(dbSQL.Integer, nullable=False)
     fecha= dbSQL.Column(dbSQL.String(40), nullable=False)
+    active = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)
     idProveedor= dbSQL.Column('idProveedor', dbSQL.Integer,dbSQL.ForeignKey('Proveedor.idProveedor'))
-    idProv = dbSQL.relationship('Proveedor', backref=dbSQL.backref('proveedor', lazy='dynamic'))
-    idrecetar= dbSQL.relationship('Recetario',
-                            secondary=recetario_Inventario,
-                            backref=dbSQL.backref('recetarios', lazy='dynamic'))
+    proveedor = dbSQL.relationship('Proveedor', backref=dbSQL.backref('proveedores', lazy='dynamic'))
 
 class Proveedor(dbSQL.Model):
     """Proveedor model"""
@@ -134,3 +136,4 @@ class Proveedor(dbSQL.Model):
     email= dbSQL.Column(dbSQL.String(80), nullable=False)
     representante= dbSQL.Column(dbSQL.String(80), nullable=False)
     telefono= dbSQL.Column(dbSQL.String(80), nullable=False)
+    active = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)
