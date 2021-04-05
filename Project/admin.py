@@ -27,13 +27,12 @@ def detalle_ventas():
 def inventario():
     matPrima = dbSQL.session.query(models.MateriaPrima).join(models.Proveedor, models.Proveedor.idProveedor == models.MateriaPrima.idProveedor).all()
     matPrima = []
-    persona = dbSQL.session.query(models.Persona,models.PersonaDireccion, models.Direccion).join(models.PersonaDireccion.persona, models.PersonaDireccion.direccion).filter(models.Persona.idPersona == 2)
+    persona = dbSQL.session.query(models.users_roles,models.User, models.Role).join(models.User,models.User.id==models.Role.id).all()
     #direccion = dbSQL.session.query(models.Direccion).join(persona, persona.idDireccion == models.Direccion.idDireccion).filter(idPersona=persona)
     print(persona)
     for x in persona:
-        print(x.Persona.__dict__)
-        print(x.PersonaDireccion.__dict__)
-        print(x.Direccion.__dict__)
+        print(x.User.__dict__)
+        print(x.Role.__dict__)
     if current_user.has_role('admin'):
         admin = True
         return render_template('/admin/inventario.html', admin=admin, matPr = matPrima)

@@ -45,9 +45,9 @@ def admin_ventas():
     return render_template('index.html')
 
 
-@main.route('/Inventario')
-def Inventario():
-    return render_template("Inventario.html")
+@main.route('/menu')
+def menu():
+    return render_template("menu.html")
 
 
 @main.route('/registroInventario')

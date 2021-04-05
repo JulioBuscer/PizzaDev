@@ -82,6 +82,7 @@ class Venta(dbSQL.Model):
     fecha = dbSQL.Column(dbSQL.String(40), nullable=False)
     descripcion= dbSQL.Column(dbSQL.String(100), nullable=False)
     direccion = dbSQL.Column(dbSQL.String(200), nullable=False)
+    estatus = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)
     idPersona= dbSQL.Column('idPersona', dbSQL.Integer,dbSQL.ForeignKey('Persona.idPersona'))
     persona = dbSQL.relationship('Persona', backref=dbSQL.backref('personasventa', lazy='dynamic'))
 
@@ -105,6 +106,7 @@ class Recetario(dbSQL.Model):
     descripcion= dbSQL.Column(dbSQL.String(50), nullable=False)
     costo= dbSQL.Column(dbSQL.String(8), nullable=False)
     foto= dbSQL.Column(dbSQL.Text(), nullable=False)
+    active = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)
 
 class RecetarioMateriaPrima(dbSQL.Model):
     """RecetarioMateriaPrima model"""
@@ -141,3 +143,4 @@ class Proveedor(dbSQL.Model):
     email= dbSQL.Column(dbSQL.String(80), nullable=False)
     representante= dbSQL.Column(dbSQL.String(80), nullable=False)
     telefono= dbSQL.Column(dbSQL.String(80), nullable=False)
+    active = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)

@@ -18,20 +18,18 @@
     <script src="../static/materialize/js/init.js"></script>
     <script src="../static/materialize/js/loader.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.dropdown-trigger');
             var options = {}
             var instances = M.Dropdown.init(elems, options);
         });
-
     </script>
 </head>
 
 <body>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="{{ url_for('main.index') }}" class="orange-text brand-logo">PizzaDev</a>
-            {%if current_user.is_authenticated %}
+            <a id="logo-container" href="{{ url_for('main.index') }}" class="orange-text brand-logo">PizzaDev</a> {%if current_user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
                 <li> <a class='dropdown-trigger' href='#' data-target='dropdown1'><i
                             class="material-icons prefix">person</i></a></li>
@@ -41,17 +39,14 @@
                 <li><a href="{{ url_for('auth.logout') }}" class="orange-text">Salir</a></li>
 
             </ul>
-            {%endif%}
-
-            {%if not current_user.is_authenticated %}
+            {%endif%} {%if not current_user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('auth.login_users') }}" class="navbar-item">
                         Iniciar sesión
                     </a>
                 </li>
             </ul>
-            {%endif%}
-            {%if not current_user.is_authenticated %}
+            {%endif%} {%if not current_user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
                 <li>
                     <a href="{{ url_for('auth.register_user') }}" class="navbar-item">
@@ -68,36 +63,32 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="">Ordenar</a></li>
             </ul>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('main.menu') }}">Menu</a></li>
+            </ul>
 
-            {%if current_user.is_authenticated %}
-            {%if admin%}
+            {%if current_user.is_authenticated %} {%if admin%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('admin.ventas') }}" class="navbar-item">
                         Ventas
                     </a>
                 </li>
             </ul>
-            {%endif%}
-            {%if admin%}
+            {%endif%} {%if admin%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('admin.inventario') }}" class="navbar-item">
                         Inventario
                     </a>
                 </li>
             </ul>
-            {%endif%}
-            {%if cliente%}
+            {%endif%} {%if cliente%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('main.ventas') }}" class="navbar-item">
                         Ventas
                     </a>
                 </li>
             </ul>
-            {%endif%}
-
-
-
-            {%endif%}
+            {%endif%} {%endif%}
 
             <!-- Mobile navbar-->
 
@@ -106,15 +97,12 @@
                 {%if current_user.is_authenticated %}
                 <li> <a class='dropdown-trigger' href='#' data-target='dropdown2'><i
                             class="material-icons prefix">person</i>Usuario</a></li>
-                {%endif%}
-
-                {%if not current_user.is_authenticated %}
+                {%endif%} {%if not current_user.is_authenticated %}
                 <li><a href="{{ url_for('auth.login_users') }}">
                         Iniciar sesión
                     </a>
                 </li>
-                {%endif%}
-                {%if not current_user.is_authenticated %}
+                {%endif%} {%if not current_user.is_authenticated %}
                 <li>
                     <a href="{{ url_for('auth.register_user') }}">
                         Registro
@@ -125,27 +113,27 @@
 
                 <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
                 <li><a href="">Ordenar</a></li>
+                <li><a href="{{ url_for('main.menu') }}">
+                    Menu
+                </a>
+                </li>
 
-                {%if current_user.is_authenticated %}
-                {%if admin%}
+                {%if current_user.is_authenticated %} {%if admin%}
                 <li><a href="{{ url_for('admin.ventas') }}">
                         Ventas
                     </a>
                 </li>
-                {%endif%}
-                {%if admin%}
+                {%endif%} {%if admin%}
                 <li><a href="{{ url_for('admin.inventario') }}">
                         Inventario
                     </a>
                 </li>
-                {%endif%}
-                {%if cliente%}
+                {%endif%} {%if cliente%}
                 <li><a href="{{ url_for('main.ventas') }}">
                         Ventas
                     </a>
                 </li>
-                {%endif%}
-                {%endif%}
+                {%endif%} {%endif%}
             </ul>
             <ul id="dropdown2" class="dropdown-content">
                 <li><a href="#">{{name}}</a></li>
@@ -157,8 +145,7 @@
         </div>
     </nav>
     <main class="container">
-        {% block content %}
-        {% endblock %}
+        {% block content %} {% endblock %}
     </main>
 
 
@@ -167,17 +154,14 @@
             <div class="row">
                 <div class="col l8 s12">
                     <h5 class="white-text">PizzaDev</h5>
-                    <p class="grey-text text-lighten-4">Nos ubicamos en León, Guanajuato en donde desde hace 25 años
-                        hemos satisfecho el apetito de nuestros clientes con comida preparada al momento con
-                        ingredientes frescos y de calidad. Gracias a ello, nos hemos ganado la preferencia del público
-                        que busca un delicioso sabor.</p>
+                    <p class="grey-text text-lighten-4">Nos ubicamos en León, Guanajuato en donde desde hace 25 años hemos satisfecho el apetito de nuestros clientes con comida preparada al momento con ingredientes frescos y de calidad. Gracias a ello, nos hemos ganado la preferencia del
+                        público que busca un delicioso sabor.</p>
 
 
                 </div>
                 <div class="col l4 s12">
                     <h5 class="white-text">Ubícanos</h5>
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.236796297834!2d-101.58337303459726!3d21.06320254197643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1079df76c4bd098d!2sCafeter%C3%ADa%20UTL!5e0!3m2!1ses-419!2smx!4v1616572910471!5m2!1ses-419!2smx"
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.236796297834!2d-101.58337303459726!3d21.06320254197643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1079df76c4bd098d!2sCafeter%C3%ADa%20UTL!5e0!3m2!1ses-419!2smx!4v1616572910471!5m2!1ses-419!2smx"
                         max-width="600" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
