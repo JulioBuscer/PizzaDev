@@ -1,0 +1,57 @@
+{% extends "layout.html"%}
+{% block content %}
+</br></br></br></br>
+<div class="row">
+    <form action="/modificarProveedor" method="POST" class="col s12">
+        <input type="hidden" name="idProveedor" value="{{proveedor.idProveedor}}">
+        <div class="row">
+            <div class="input-field col s6">
+                <input name="txtEmpresa" type="text" class="validate" value="{{proveedor.empresa}}">
+            </div>
+            <div class="input-field col s6">
+                <input name="txtDireccion" type="text" class="validate" value="{{proveedor.direccion}}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <input name="txtEmail" id="last_name" type="text" class="validate" value="{{proveedor.email}}">
+            </div>
+            <div class="input-field col s6">
+                <input name="txtTelefono" id="last_name" type="text" class="validate" value="{{proveedor.telefono}}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <input name="txtRepresentante" id="last_name" type="text" class="validate" value="{{proveedor.representante}}">
+            </div>
+        </div>
+        </br></br></br></br>
+        <input style="background: #1ADE97;" type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input style="background: #1ADE97;" type="button" onclick="confirmarModificacion('{{proveedor.empresa}}')" id='datos' name='datos' value="Modificar">
+    </form>
+</div>
+
+<script>
+
+    var confirmarModificacion = (empresa)=>{
+        swal({
+            title: "¿Quieres modificar la información del proveedor ?",
+            text: "Una vez hecho no podrás deshacer los cambios",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $("#form1").submit();
+            } else {
+                window.location.href = 'proveedores';
+            }
+        });
+
+    };  
+
+
+
+</script>
+
+{% endblock %}
