@@ -22,10 +22,10 @@ main = Blueprint('main', __name__)
 def index():
     if current_user.has_role('admin'):
         admin = True
-        return render_template('index.html', admin=admin)
+        return render_template('index.html', admin=admin, name=current_user.name)
     if current_user.has_role('cliente'):
         cliente = True
-        return render_template('index.html', cliente=cliente)
+        return render_template('index.html', cliente=cliente, name=current_user.name)
     return render_template('index.html')
 
 
