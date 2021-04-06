@@ -29,12 +29,9 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Generar la clave de sessión para crear una cookie con la inf. de la sessión
     app.config['SECRET_KEY'] = os.urandom(24)
-<<<<<<< HEAD
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/tiendaflask'
-=======
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
->>>>>>> Edgar
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
     dbSQL.init_app(app)
 
