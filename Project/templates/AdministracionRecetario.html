@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col s12">
             <br><br>
-            <h2>Materia Prima</h2>
+            <h2>Recetario</h2>
             <ul id="tabs-swipe-demo" class="tabs">
                 <li class="tab col s4 organge"><a class="active" href="#test-swipe-1">Activos</a></li>
                 <li class="tab col s4"><a href="#test-swipe-2">Inactivos</a></li>
@@ -15,43 +15,34 @@
                     <table class="responsive-table highlight centered">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Id</th>
+                                <th>Foto</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
-                                <th>Categoria</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                                <th>Fecha</th>
-                                <th>Proveedor</th>
-                                <th>Acciones</th>
+                                <th>Costo</th>
+                                <th>Ingredientes</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {%for x in matPr%}
+                            {%for x in recetario%}
                             <tr>
                                 <td>
-                                    {{x.idInventario}}
+                                    {{x.Recetario.idRecetario}}
                                 </td>
                                 <td>
-                                    {{x.nombre}}
+                                    {{x.Recetario.nombre}}
                                 </td>
                                 <td>
-                                    {{x.descripcion}}
+                                    {{x.Recetario.nombre}}
                                 </td>
                                 <td>
-                                    {{x.categoria}}
+                                    {{x.Recetario.descripcion}}
                                 </td>
                                 <td>
-                                    ${{x.precio}}
+                                    ${{x.Recetario.costo}}
                                 </td>
                                 <td>
-                                    {{x.cantidad}} Kg
-                                </td>
-                                <td>
-                                    {{x.fecha}}
-                                </td>
-                                <td>
-                                    {{x.idProveedor.empresa}}
+                                    {{x.MateriaPrima.nombre}}
                                 </td>
                                 <td>
                                     <a class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>

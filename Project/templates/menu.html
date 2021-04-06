@@ -9,9 +9,7 @@
                 <h5 class="header col s12 white-text text-darken-2">Las mejores pizzas de la comunidad en este menu.
                 </h5>
             </div>
-            <div class="row center">
-                <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange accent-4">Ordenar</a>
-            </div>
+
             <br><br>
 
         </div>
@@ -24,18 +22,24 @@
     <div class="section">
 
         <!--   Icon Section   -->
+        {%for x in menu%}
         <div class="row">
             <div class="col s12 m4">
                 <div class="card">
                     <div class="card-image">
-                        <img img src="../static/img/background3.jpg">
-                        <span class="card-title">Card Title</span>
+                        <img img height="250" width="150" src="{{x.Recetario.foto}}">
+                        <span class="card-title">{{x.Recetario.nombre}}</span>
                     </div>
                     <div class="card-content">
-                        <p>pizza LE PEPERONE</p>
-                        <p>pizza de peperoni, cebollin, aceitunas negras y perejil</p>
+                        <p>Precio ${{x.Recetario.costo}}</p>
+                        <p>Ingredientes{{x.MateriaPrima.nombre}}</p>
                     </div>
                     <div class="card-action">
+                        <a href="#">Agregar al carrito
+                            <i class="material-icons left">add</i>
+                        </a>
+                    </div>
+                    <!--<div class="card-action">
                         <a href="#">Editar
                             <i class="material-icons left">edit</i>
                         </a>
@@ -44,60 +48,14 @@
                         <a href="#">Eliminar
                             <i class="material-icons left">delete</i>
                         </a>
-                    </div>
+                    </div>-->
                 </div>
             </div>
+            {% endfor %}
 
-            <div class="col s12 m4">
-                <div class="card">
-                    <div class="card-image">
-                        <img img src="../static/img/background3.jpg">
-                        <span class="card-title">Card Title</span>
-                    </div>
-                    <div class="card-content">
-                        <p>pizza LE PEPERONE</p>
-                        <p>pizza de peperoni, cebollin, aceitunas negras y perejil</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="#">Editar
-                            <i class="material-icons left">edit</i>
-                        </a>
-                    </div>
-                    <div class="card-action">
-                        <a href="#">Eliminar
-                            <i class="material-icons left">delete</i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col s12 m4">
-                <div class="card">
-                    <div class="card-image">
-                        <img img src="../static/img/background3.jpg">
-                        <span class="card-title">Card Title</span>
-                    </div>
-                    <div class="card-content">
-                        <p>pizza LE PEPERONE</p>
-                        <p>pizza de peperoni, cebollin, aceitunas negras y perejil</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="#">Editar
-                            <i class="material-icons left">edit</i>
-                        </a>
-                    </div>
-                    <div class="card-action">
-                        <a href="#">Eliminar
-                            <i class="material-icons left">delete</i>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
-
     </div>
-</div>
 
 
 
-{%endblock%}
+    {%endblock%}

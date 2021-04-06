@@ -47,11 +47,24 @@ def admin_ventas():
 
 @main.route('/menu')
 def menu():
-    return render_template("menu.html")
+    
+    contador= dbSQL.session.query(models.recetario_materiaprima).all()
+    recetario = dbSQL.session.query( models.recetario_materiaprima,models.Recetario, models.MateriaPrima).join(models.Recetario).join(models.MateriaPrima).filter(models.Recetario.idRecetario==models.Recetario.idRecetario)
+    print(recetario)
+    conta=[]
+    
+    for x in recetario:
+        print(x.Recetario.idRecetario)
 
 
-@main.route('/registroInventario')
+    return render_template("menu.html", menu=recetario)
+
+
+@main.route('/recetario')
 def registroInventario():
-    return render_template("registrarInventario.html")
+    recetario = dbSQL.session.query( models.recetario_materiaprima,models.Recetario, models.MateriaPrima).join(models.Recetario).join(models.MateriaPrima).filter(models.Recetario.idRecetario==models.Recetario.idRecetario)
+    
+    
+    return render_template("AdministracionRecetario.html", recetario=recetario)
 
 
