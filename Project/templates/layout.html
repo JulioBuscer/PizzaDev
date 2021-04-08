@@ -73,13 +73,18 @@
             </ul>
             {%endif%}
 
-            {%if not current_user.is_authenticated %}
+            {%if admin%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('main.proveedores') }}">Proveedores</a></li>
                 <li><a href="{{ url_for('auth.login_users') }}" class="navbar-item">
                         Iniciar sesión
                     </a>
                 </li>
+            </ul>
+            {%endif%}
+            {%if admin%}
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('main.usuario') }}">Usuarios</a></li>
             </ul>
             {%endif%}
             {%if not current_user.is_authenticated %}

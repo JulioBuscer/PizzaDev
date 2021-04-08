@@ -1,20 +1,20 @@
 from flask import Flask
 from flask_principal import Permission, RoleNeed
-from flask_mongoengine import MongoEngine
+# from flask_mongoengine import MongoEngine
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, MongoEngineUserDatastore, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from pymongo import MongoClient
+# from pymongo import MongoClient
 import os
 # Creamos una instancia de SQLAlchemy
 dbSQL = SQLAlchemy()
 from . models import User, Role
 userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
 # Creamos una instancia de PyMongo
-cluster = MongoClient(
-    "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/pizza_dev?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
-dbMongo = cluster['pizza_dev']
-print(dbMongo.list_collection_names())
+# cluster = MongoClient(
+#     "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/pizza_dev?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
+# dbMongo = cluster['pizza_dev']
+# print(dbMongo.list_collection_names())
 ''' Creamos una instancia de MongoEngine
 dbMongo = MongoEngine()
 from .models import User, Role
