@@ -54,7 +54,6 @@ def perfil():
         if request.form.get("btnActualizarDatos"):
             user_.name=request.form.get('txtNombre') 
             user_.email=request.form.get('txtEmail')
-            
             #user_.password=request.form.get('txtContrasena')
                             
             per.nombre=request.form.get('txtNombre')
