@@ -27,26 +27,23 @@
                             {%for x in recetario%}
                             <tr>
                                 <td>
-                                    {{x.Recetario.idRecetario}}
+                                    {{x.id}}
                                 </td>
                                 <td>
-                                    {{x.Recetario.nombre}}
+                                    {{x.nombre}}
                                 </td>
                                 <td>
-                                    {{x.Recetario.nombre}}
+                                    {{x.ingrediente}}
                                 </td>
                                 <td>
-                                    {{x.Recetario.descripcion}}
+                                    {{x.descripcion}}
                                 </td>
                                 <td>
-                                    ${{x.Recetario.costo}}
+                                    ${{x.costo}}
                                 </td>
                                 <td>
-                                    {{x.MateriaPrima.nombre}}
-                                </td>
-                                <td>
-                                    <a class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
-                                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
+                                    <a onclick="confirmarEliminacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
+                                    <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
                                 </td>
                             </tr>
                             {%endfor%}
@@ -55,7 +52,43 @@
                 </div>
             </div>
             <div id="test-swipe-2">
-
+                <table class="responsive-table highlight centered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Foto</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Costo</th>
+                            <th>Ingredientes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for x in recetariodesac%}
+                        <tr>
+                            <td>
+                                {{x.id}}
+                            </td>
+                            <td>
+                                {{x.nombre}}
+                            </td>
+                            <td>
+                                {{x.ingrediente}}
+                            </td>
+                            <td>
+                                {{x.descripcion}}
+                            </td>
+                            <td>
+                                ${{x.costo}}
+                            </td>
+                            <td>
+                                <a onclick="confirmarEliminacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
+                                <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
+                            </td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
             </div>
             <div id="test-swipe-3">
                 <div class="row">

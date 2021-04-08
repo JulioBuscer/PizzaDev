@@ -1,6 +1,7 @@
 
 # import datetime module
 import datetime
+from operator import concat
 # import pymongo module
 import pymongo
 import dns
@@ -47,24 +48,57 @@ def admin_ventas():
 
 @main.route('/menu')
 def menu():
+      
+    query="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE rm.idRecetario= r.idRecetario GROUP BY r.nombre;"
     
-    contador= dbSQL.session.query(models.recetario_materiaprima).all()
-    recetario = dbSQL.session.query( models.recetario_materiaprima,models.Recetario, models.MateriaPrima).join(models.Recetario).join(models.MateriaPrima).filter(models.Recetario.idRecetario==models.Recetario.idRecetario)
-    print(recetario)
-    conta=[]
-    
+    recetario = dbSQL.session.execute(query)
+    pizzas = []
     for x in recetario:
-        print(x.Recetario.idRecetario)
-
-
-    return render_template("menu.html", menu=recetario)
+        pizzas.append({
+            "id":x.idRecetario,
+            "nombre":x.nombre,
+            "costo":x.costo,
+            "descripcion":x.descripcion,
+            "foto":x.foto,
+            "ingrediente":x.nombreIngre
+            })
+        
+        
+    return render_template("menu.html", menu=pizzas)
 
 
 @main.route('/recetario')
 def registroInventario():
-    recetario = dbSQL.session.query( models.recetario_materiaprima,models.Recetario, models.MateriaPrima).join(models.Recetario).join(models.MateriaPrima).filter(models.Recetario.idRecetario==models.Recetario.idRecetario)
+    query="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
     
+    recetario = dbSQL.session.execute(query)
+    pizzasactiv = []
+    for x in recetario:
+        pizzasactiv.append({
+            "id":x.idRecetario,
+            "nombre":x.nombre,
+            "costo":x.costo,
+            "descripcion":x.descripcion,
+            "foto":x.foto,
+            "ingrediente":x.nombreIngre
+            })
+        
+        
+    query2="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
     
-    return render_template("AdministracionRecetario.html", recetario=recetario)
+    recetario2 = dbSQL.session.execute(query2)
+    pizzasdeactiv = []
+    for x in recetario2:
+        pizzasdeactiv.append({
+            "id":x.idRecetario,
+            "nombre":x.nombre,
+            "costo":x.costo,
+            "descripcion":x.descripcion,
+            "foto":x.foto,
+            "ingrediente":x.nombreIngre
+            })
+        
+        
+    return render_template("AdministracionRecetario.html", recetario=pizzasactiv, recetariodesac= pizzasdeactiv)
 
 

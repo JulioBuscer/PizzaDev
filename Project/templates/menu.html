@@ -22,33 +22,24 @@
     <div class="section">
 
         <!--   Icon Section   -->
-        {%for x in menu%}
+        {% for x in menu %}
         <div class="row">
             <div class="col s12 m4">
                 <div class="card">
                     <div class="card-image">
-                        <img img height="250" width="150" src="{{x.Recetario.foto}}">
-                        <span class="card-title">{{x.Recetario.nombre}}</span>
+                        <img img height="250" width="150" src="{{x.foto}}">
+                        <span class="card-title">{{x.nombre}}</span>
                     </div>
                     <div class="card-content">
-                        <p>Precio ${{x.Recetario.costo}}</p>
-                        <p>Ingredientes{{x.MateriaPrima.nombre}}</p>
+                        <p>Descripción {{x.descripcion}}</p>
+                        <p>Precio ${{x.costo}}</p>
+                        <p>Ingredientes {{x.ingrediente}}</p>
                     </div>
                     <div class="card-action">
                         <a href="#">Agregar al carrito
                             <i class="material-icons left">add</i>
                         </a>
                     </div>
-                    <!--<div class="card-action">
-                        <a href="#">Editar
-                            <i class="material-icons left">edit</i>
-                        </a>
-                    </div>
-                    <div class="card-action">
-                        <a href="#">Eliminar
-                            <i class="material-icons left">delete</i>
-                        </a>
-                    </div>-->
                 </div>
             </div>
             {% endfor %}
