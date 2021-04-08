@@ -54,7 +54,7 @@ def perfil():
         if request.form.get("btnActualizarDatos"):
             user_.name=request.form.get('txtNombre') 
             user_.email=request.form.get('txtEmail')
-            user_.password=request.form.get('txtContrasena')
+            #user_.password=request.form.get('txtContrasena')
                             
             per.nombre=request.form.get('txtNombre')
             per.apellidoP=request.form.get('txtApellidoP')
@@ -102,7 +102,7 @@ def perfil():
         if request.form.get("btnActualizarDatos"):
             user_.name=request.form.get('txtNombre') 
             user_.email=request.form.get('txtEmail')
-            user_.password=request.form.get('txtContrasena')
+            #user_.password=request.form.get('txtContrasena')
                             
             per.nombre=request.form.get('txtNombre')
             per.apellidoP=request.form.get('txtApellidoP')
@@ -115,6 +115,7 @@ def perfil():
             dbSQL.session.add(per)
             dbSQL.session.commit()
         
+        user = dbSQL.session.query(models.Persona,models.User).join(models.User, models.Persona.idUsuario == models.User.id).filter(models.Persona.idUsuario==id) 
         return render_template('perfil.html', admin=admin,name=current_user.name,user=user,user_=user_)
     return redirect(url_for('main.index'))
 
