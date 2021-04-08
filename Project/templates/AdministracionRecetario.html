@@ -82,7 +82,7 @@
                                 ${{x.costo}}
                             </td>
                             <td>
-                                <a onclick="confirmarActivacion('{{x.id}}','{{x.nombre}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons"></i></a>
+                                <a onclick="confirmarActivacion('{{x.id}}','{{x.nombre}}')" class="waves-effect waves-light green btn modal-trigger"> <i class="material-icons"></i></a>
 
                             </td>
                         </tr>
@@ -277,7 +277,7 @@
         });
     }
 
-    var confirmarEliminacion = (id, nombre) => {
+    var confirmarEliminacion = (idRecetario, nombre) => {
         swal({
             title: "¿Quieres borrar " + nombre + " de la materia prima? ",
             text: "No se podrá deshacer esta acción",
@@ -289,13 +289,11 @@
                 swal("Eliminada con éxito", {
                     icon: "success",
                 });
-                window.location.href = 'deleteMatPrim?id=' + idMateriaPrima + '&name=' + nombre +
-                    '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad=' +
-                    cantidad + '&proveedor_empresa=' + proveedor_empresa;
+                window.location.href = 'deleteMatPrim?id=' + idRecetario;
             } else {}
         });
     };
-    var confirmarActivacion = (id, nombre) => {
+    var confirmarActivacion = (idRecetario, nombre) => {
         swal({
             title: "¿Quieres activar la materia prima " + nombre + "?",
             text: "No se podrá deshacer esta acción",
@@ -307,9 +305,7 @@
                 swal("Activado con éxito", {
                     icon: "success",
                 });
-                window.location.href = 'updateMatPrim?id=' + idMateriaPrima + '&name=' + nombre +
-                    '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad=' +
-                    cantidad + '&proveedor_empresa=' + proveedor_empresa;
+                window.location.href = 'updateMatPrim?id=' + idRecetario;
             } else {}
         });
     };

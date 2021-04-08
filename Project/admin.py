@@ -48,7 +48,7 @@ def inventario():
 @admin.route('/recetario')
 def registroInventario():
     if current_user.has_role('admin'):
-        admins = True
+        admin = True
         query="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
     
         recetario = dbSQL.session.execute(query)
@@ -77,8 +77,8 @@ def registroInventario():
                 "foto":x.foto,
                 "ingrediente":x.nombreIngre
                 })
-        return render_template("AdministracionRecetario.html", recetario=pizzasactiv, recetariodesac= pizzasdeactiv)
-    return render_template("AdministracionRecetario.html")
+        return render_template("AdministracionRecetario.html", recetario=pizzasactiv, recetariodesac= pizzasdeactiv, admin=admin,)
+    return redirect(url_for('main.index'))
             
         
    
@@ -102,6 +102,39 @@ def deleteMatPrim():
         dbSQL.session.add(matPrim)
         dbSQL.session.commit()
         return redirect(url_for('admin.inventario'))
+
+
+@admin.route('/activarPizza', methods=['GET', 'POST'])
+def activarPizza():
+    if current_user.has_role('admin'):
+        admin = True
+        if request.method == 'GET':
+            id = request.args.get("id")
+            pro = dbSQL.session.query(models.Proveedor).filter(
+                models.Proveedor.idProveedor == id).first()
+        pro.active = 1
+        dbSQL.session.add(pro)
+        dbSQL.session.commit()
+        return redirect(url_for('main.proveedores'))
+    return redirect(url_for('main.index'))
+
+@admin.route('/desactivarPizza', methods=['GET', 'POST'])
+def eliminarPizza():
+    if current_user.has_role('admin'):
+        admin = True
+        if request.method == 'GET':
+            id = request.args.get("idProveedor")
+            pro = dbSQL.session.query(models.Proveedor).filter(
+                models.Proveedor.idProveedor == id).first()
+        pro.active = 0
+        dbSQL.session.add(pro)
+        dbSQL.session.commit()
+        return redirect(url_for('main.proveedores'))
+    return redirect(url_for('main.index'))
+
+
+
+
 
 @admin.route('updateMatPrim')
 def updateMatPrim():
