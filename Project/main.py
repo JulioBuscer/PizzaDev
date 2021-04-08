@@ -79,6 +79,7 @@ def perfil():
         print(str('--------------')+str(id))  
         
         user = dbSQL.session.query(models.Persona,models.User).join(models.User, models.Persona.idUsuario == models.User.id).filter(models.Persona.idUsuario==id) 
+        
         apellidoP= ''
         per=0
         for d in user:
