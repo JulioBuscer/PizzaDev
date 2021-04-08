@@ -1,5 +1,8 @@
-/__pycache__/
+__pycache__
 .cache
 *.pyc
 env
 venv
+pizzadev_env
+venv-pizza-dev
+.vscode

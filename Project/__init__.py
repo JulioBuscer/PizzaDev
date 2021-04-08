@@ -1,3 +1,4 @@
+from . models import User, Role
 from flask import Flask
 from flask_principal import Permission, RoleNeed
 from flask_mongoengine import MongoEngine
@@ -6,10 +7,8 @@ from flask_security import Security, MongoEngineUserDatastore, SQLAlchemyUserDat
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
 import os
-import uuid
 # Creamos una instancia de SQLAlchemy
 dbSQL = SQLAlchemy()
-from . models import User, Role
 userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
 # Creamos una instancia de PyMongo
 cluster = MongoClient(
@@ -19,18 +18,22 @@ print(dbMongo.list_collection_names())
 ''' Creamos una instancia de MongoEngine
 dbMongo = MongoEngine()
 from .models import User, Role
-userDataStore = MongoEngineUserDatastore(db, User, Role)
+userDataStore = MongoEngineUserDatastore(dbSQL, User, Role)
 '''
 
 
 def create_app():
-    #Creamos una instancia del flask
+    # Creamos una instancia del flask
     app = Flask(__name__)
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    #Generar la clave de sessión para crear una cookie con la inf. de la sessión
+    # Generar la clave de sessión para crear una cookie con la inf. de la sessión
     app.config['SECRET_KEY'] = os.urandom(24)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/tiendaflask'
+    
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root12@localhost:3303/tiendaflask'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/tiendaflask'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
+
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
     dbSQL.init_app(app)
 
@@ -38,22 +41,20 @@ def create_app():
     def create_all():
         dbSQL.create_all()
 
-    #Vincula los modelos a flask-security
+    # Vincula los modelos a flask-security
     security = Security(app, userDataStore)
 
-    #Registramos el blueprint para las rutas auth
+    # Registramos el blueprint para las rutas auth
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
-    #Registramos el blueprint para las rutas admin
+    # Registramos el blueprint para las rutas admin
     from .admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint)
 
-    #Registramos el blueprint para el resto de la aplicación
+    # Registramos el blueprint para el resto de la aplicación
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
-
-
 
     return app
 
@@ -72,7 +73,7 @@ def create_app():
     app.config["MONGODB_DB"] = True
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
     admin_permission = Permission(RoleNeed('admin'))
-    db.init_app(app)
+    dbSQL.init_app(app)
 
     @app.before_first_request
     def create_user():
@@ -100,7 +101,7 @@ def create_app():
         # )
 
         # Vincula los modelos a flask-security
-        user_datastore = MongoEngineUserDatastore(db, User, Role)
+        user_datastore = MongoEngineUserDatastore(dbSQL, User, Role)
         security = Security(app, user_datastore)
         # Configurando el login_manager
         #login_manager = LoginManager()

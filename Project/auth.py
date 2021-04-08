@@ -1,9 +1,8 @@
-from os import stat
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_security import login_required
+from flask_security import login_required, current_user
 from flask_security.utils import login_user, logout_user
-from . models import *
+from . models import User, users_roles
 from . import dbSQL, userDataStore
 
 auth = Blueprint('auth', __name__, url_prefix='/security')
@@ -33,10 +32,25 @@ def login_users_post():
             return redirect(url_for('auth.login_users'))
 
         # En este punto el usuario tiene los datos correctos
-        # Creamos una sessión y logueamso al usuario.
-        login_user(user, remember=remember)
+        try:
+
+            # Creamos una sessión y logueamso al usuario.
+            login_user(user, remember=remember)
+            # verificamos que el usuario tenga un rol valido
+            if current_user.has_role('cliente') or current_user.has_role('admin'):
+                return redirect(url_for('main.index'))
+                
+            #Si no tiene un rol valido, cierra la sesion
+            else:
+                logout_user()
+                flash('Rol no encontrado')
+                return redirect(url_for('auth.login_users'))
+        except:
+            flash('Rol no encontrado')
+            return redirect(url_for('auth.login_users'))
     except:
         flash('El usuario y/o la contraseña son incorrectos')
+        return redirect(url_for('auth.login_users'))
     return redirect(url_for('main.index'))
 
 
@@ -75,9 +89,11 @@ def login_users_post():
     return redirect(url_for('main.index'))
 '''
 
+
 @auth.route('/register_user')
 def register_user():
     return render_template('/security/register_user.html')
+
 
 @auth.route('/register_user', methods=['POST'])
 def register_user_post():
@@ -88,14 +104,15 @@ def register_user_post():
     # Consultamos si existe un usuario ya registrado con el email.
     user = User.query.filter_by(email=email).first()
 
-    if user:  
+    if user:
         # El usuario existe y regresamos a la página de registro.
         flash('El correo ya existe')
         return redirect(url_for('auth.register_user'))
     try:
         # Creamos un nuevo usuario
+        cliente_role = userDataStore.find_or_create_role('cliente')
         userDataStore.create_user(name=name, email=email,
-                                  password=generate_password_hash(password, method='sha256'))
+                                  password=generate_password_hash(password, method='sha256'), roles=[cliente_role])
         # Agregamos el usuario a la bd.
         dbSQL.session.commit()
     except:
@@ -125,9 +142,10 @@ def register_user_post():
                               password=generate_password_hash(password, method='sha256'))
 
     # Agregamos el usuario a la bd.
-    db.session.commit()
+    dbSQL.session.commit()
     return redirect(url_for('auth.login_users'))
 '''
+
 
 @auth.route('/logout')
 @login_required
@@ -135,4 +153,3 @@ def logout():
     # Cerramos la session
     logout_user()
     return redirect(url_for('main.index'))
-
