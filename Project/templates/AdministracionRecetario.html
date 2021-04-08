@@ -42,8 +42,8 @@
                                     ${{x.costo}}
                                 </td>
                                 <td>
-                                    <a onclick="confirmarEliminacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
-                                    <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
+                                    <a onclick="confirmarEliminacion('{{x.id}}','{{x.nombre}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
+                                    <a onclick="modal('{{x.id}}','{{x.nombre}}','{{x.ingrediente}}','{{x.descripcion}}','{{x.costo}}','{{x.foto}}')" class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
                                 </td>
                             </tr>
                             {%endfor%}
@@ -82,8 +82,8 @@
                                 ${{x.costo}}
                             </td>
                             <td>
-                                <a onclick="confirmarEliminacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
-                                <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
+                                <a onclick="confirmarActivacion('{{x.id}}','{{x.nombre}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons"></i></a>
+
                             </td>
                         </tr>
                         {%endfor%}
@@ -108,30 +108,55 @@
                                     <div class="card-content">
                                         <div class="row">
                                             <div class="input-field col s12">
-                                                <i class="material-icons prefix">person</i>
+                                                <i class="material-icons prefix">assignment</i>
                                                 <input class="validate" name="text" id="text" type="text">
                                                 <label for="text" data-error="wrong" data-success="right">Nombre</label>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="input-field col s12">
-                                                <i class="material-icons prefix">mail_outline</i>
-                                                <input class="validate" name="email" id="email" type="email">
-                                                <label for="email" data-error="wrong" data-success="right">Correo</label>
+                                            <div class="input-field col s6">
+                                                <i class="material-icons prefix">description</i>
+                                                <input class="validate" name="desc" id="desc" type="text">
+                                                <label for="desc" data-error="wrong" data-success="right">Descripción</label>
+                                            </div>
+
+                                            <div class="input-field col s6">
+                                                <i class="material-icons prefix">class</i>
+                                                <input class="validate" name="text" id="ffd" type="text">
+                                                <label for="text" data-error="wrong" data-success="right">Categoria</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <i class="material-icons prefix">attach_money</i>
+                                                <input class="validate" name="text" id="text" type="number">
+                                                <label for="text" data-error="wrong" data-success="right">Precio</label>
+                                            </div>
+                                            <div class="input-field col s6">
+                                                <i class="material-icons prefix">shopping_basket</i>
+                                                <input class="validate" name="text" id="text" type="number">
+                                                <label for="text" data-error="wrong" data-success="right">Cantidad</label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s12">
-                                                <i class="material-icons prefix">phone</i>
-                                                <input class="validate" name="text" id="text" type="text">
-                                                <label for="text" data-error="wrong" data-success="right">Teléfono</label>
+                                                <i class="material-icons prefix">date_range</i>
+                                                <input class="validate" type="text" class="datepicker">
+                                                <label for="text" data-error="wrong" data-success="right">Fecha</label>
                                             </div>
                                         </div>
                                         <div class="row">
+
                                             <div class="input-field col s12">
-                                                <i class="material-icons prefix">edit</i>
-                                                <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-                                                <label for="icon_prefix2">Mensaje</label>
+
+                                                <select class="validate">
+                                                    <option value="" disabled selected>Elegir...</option>
+                                                    {%for xs in prov%}
+                                                    <option class="red" value="{{xs.idProveedor}}">{{xs.empresa}}
+                                                    </option>
+                                                    {%endfor%}
+                                                </select>
+                                                <label>Proveedor</label>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -155,61 +180,71 @@
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer">
     <div class="modal-content">
-        <h4>Modal Header</h4>
-        <p>A bunch of text</p>
+        <h4>Actualizar Materia Prima</h4>
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">assignment</i>
+                <input class="validate" name="text" id="text" type="text">
+                <label for="text" data-error="wrong" data-success="right">Nombre</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <i class="material-icons prefix">description</i>
+                <input class="validate" name="desc" id="desc" type="text">
+                <label for="desc" data-error="wrong" data-success="right">Descripción</label>
+            </div>
+
+            <div class="input-field col s6">
+                <i class="material-icons prefix">class</i>
+                <input class="validate" name="text" id="ffd" type="text">
+                <label for="text" data-error="wrong" data-success="right">Categoria</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <i class="material-icons prefix">attach_money</i>
+                <input class="validate" name="text" id="text" type="number">
+                <label for="text" data-error="wrong" data-success="right">Precio</label>
+            </div>
+            <div class="input-field col s6">
+                <i class="material-icons prefix">shopping_basket</i>
+                <input class="validate" name="text" id="text" type="number">
+                <label for="text" data-error="wrong" data-success="right">Cantidad</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">date_range</i>
+                <input class="validate" type="text" class="datepicker">
+                <label for="text" data-error="wrong" data-success="right">Fecha</label>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="input-field col s12">
+
+                <select class="validate">
+                    <option value="" disabled selected>Elegir...</option>
+                    {%for xs in prov%}
+                    <option class="red" value="{{xs.idProveedor}}">{{xs.empresa}}</option>
+                    {%endfor%}
+                </select>
+                <label>Proveedor</label>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        <a class="waves-effect waves-light red btn modal-close" id="closebtn" type="submit" name="action">
+            <i class="material-icons">cancel</i>
+        </a>
+        <a class="waves-effect waves-light green btn modal-trigger" id="updateBtn" type="submit" name="action">
+            <i class="material-icons">send</i>
+        </a>
     </div>
 </div>
 
-<div id="modal3" class="modal bottom-sheet open" tabindex="0" style="z-index: 1003; display: block; opacity: 1; bottom: 0px;">
-    <div class="modal-content">
-        <h3 class="header">Modal Header</h3>
-        <ul class="collection">
-            <li class="collection-item avatar">
-                <img src="images/yuna.jpg" alt="" class="circle">
-                <span class="title">Title</span>
-                <p>First Line
-                    <br> Second Line
-                </p>
-                <a href="#!" class="secondary-content">
-                    <i class="material-icons">grade</i>
-                </a>
-            </li>
-            <li class="collection-item avatar">
-                <i class="material-icons circle">folder</i>
-                <span class="title">Title</span>
-                <p>First Line
-                    <br> Second Line
-                </p>
-                <a href="#!" class="secondary-content">
-                    <i class="material-icons">grade</i>
-                </a>
-            </li>
-            <li class="collection-item avatar">
-                <i class="material-icons circle green">assessment</i>
-                <span class="title">Title</span>
-                <p>First Line
-                    <br> Second Line
-                </p>
-                <a href="#!" class="secondary-content">
-                    <i class="material-icons">grade</i>
-                </a>
-            </li>
-            <li class="collection-item avatar">
-                <i class="material-icons circle red">play_arrow</i>
-                <span class="title">Title</span>
-                <p>First Line
-                    <br> Second Line
-                </p>
-                <a href="#!" class="secondary-content">
-                    <i class="material-icons">grade</i>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
+
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.modal');
@@ -220,5 +255,63 @@
     $(document).ready(function() {
         $('ul.tabs').tabs();
     });
+
+    function modal(idMateriaPrima, nombre, descripcion, categoria, precio, cantidad, proveedor_empresa) {
+
+
+        $("#updateBtn").click(function() {
+            swal({
+                title: "¿Quieres actualizar el producto?",
+                text: "No se podrá deshacer esta acción",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    window.location.href = 'modificarProducto?id=' + idMateriaPrima + '&name=' + nombre +
+                        '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad=' +
+                        cantidad + '&fecha=' + fecha + '&proveedor_empresa=' + proveedor_empresa;
+                } else {}
+            });
+            $(".modal").removeClass("is-active");
+        });
+    }
+
+    var confirmarEliminacion = (id, nombre) => {
+        swal({
+            title: "¿Quieres borrar " + nombre + " de la materia prima? ",
+            text: "No se podrá deshacer esta acción",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                swal("Eliminada con éxito", {
+                    icon: "success",
+                });
+                window.location.href = 'deleteMatPrim?id=' + idMateriaPrima + '&name=' + nombre +
+                    '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad=' +
+                    cantidad + '&proveedor_empresa=' + proveedor_empresa;
+            } else {}
+        });
+    };
+    var confirmarActivacion = (id, nombre) => {
+        swal({
+            title: "¿Quieres activar la materia prima " + nombre + "?",
+            text: "No se podrá deshacer esta acción",
+            icon: "info",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                swal("Activado con éxito", {
+                    icon: "success",
+                });
+                window.location.href = 'updateMatPrim?id=' + idMateriaPrima + '&name=' + nombre +
+                    '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad=' +
+                    cantidad + '&proveedor_empresa=' + proveedor_empresa;
+            } else {}
+        });
+    };
 </script>
 {%endblock%}
