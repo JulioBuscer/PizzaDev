@@ -13,18 +13,6 @@
     <link href="../static/materialize/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 
     <!--  Scripts-->
-<<<<<<< HEAD
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="../static/materialize/js/materialize.js"></script>
-    <script type="text/javascript" src="../static/materialize/js/init.js"></script>
-
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-          var elems = document.querySelectorAll('select');
-          var instances = M.FormSelect.init(elems);
-      });
-  </script>
-=======
     <script src="../static/materialize/js/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
     <script src="../static/materialize/js/init.js"></script>
@@ -67,7 +55,6 @@
         });
 
     </script>
->>>>>>> Edgar
 </head>
 
 <body>
@@ -80,19 +67,9 @@
                             class="material-icons prefix">person</i></a></li>
             </ul>
             <ul id='dropdown1' class='dropdown-content'>
-                <li><a href="#" class="orange-text">{{name}}</a></li>
+                <li><a href="{{ url_for('main.perfil') }}" class="orange-text">{{name}}</a></li>
                 <li><a href="{{ url_for('auth.logout') }}" class="orange-text">Salir</a></li>
 
-            </ul>
-            {%endif%}
-
-            {%if not current_user.is_authenticated %}
-            <ul class="right hide-on-med-and-down">
-                <li>
-                    <a href="{{ url_for('main.perfil') }}" class="navbar-item">
-                        Perfil
-                    </a>
-                </li>
             </ul>
             {%endif%}
             {%if not current_user.is_authenticated %}
@@ -239,9 +216,6 @@
             </div>
         </div>
     </footer>
-
-
-
 </body>
 
 </html>

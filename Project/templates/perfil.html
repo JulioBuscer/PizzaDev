@@ -1,56 +1,61 @@
 {% extends "layout.html" %} 
 {% block content %}
-    <div class="container">
+    <div class="section">
         <div class="row">
-        <form action="#">
+        <form name='form1' action="/perfil" method="POST">
+        {%if cliente%}
             <div class="row" style="margin-left:83%; margin-top:3%"><a style="background:#ef5350" class="btn" href="http://127.0.0.1:5000/pedidosDia">Ver mis pedidos</a></div>
-            <div class="col s5 margin-top:3%; text-align:center;">
-                <div><img src="../static/img/perfil.jpg" style="width:60%; height:60%; border-radius:50%; margin-left:22%"></div>
-                    <div class="file-field input-field">
-                        <div class="btn" style="background:#e57373">
-                            <span>Actualizar</span>
-                            <input type="file"/>
+        {%endif %}
+        {%if user_ != null%}
+            {%for x in user%}
+                <div class="col s5 margin-top:3%; text-align:center;">
+                    <div><img src="../static/img/perfil.jpg" style="width:60%; height:60%; border-radius:50%; margin-left:22%"></div>
+                        <div class="file-field input-field">
+                            <div class="btn red lighten-2" >
+                                <span>Actualizar</span>
+                                <input type="file" name="txtFoto"/>
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text"/>
+                            </div>
                         </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text"/>
+                </div>
+                <div class="col s7" style="margin-top:3%; border-left:#eeeeee solid;">
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input id="txtNombre" type="text" class="validate" name="txtNombre" value="{{user_.name}}">
+                            <label for="last_name">Nombre</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="txtApellidoP" type="text" name="txtApellidoP" class="validate" value="{{x.Persona.apellidoP}}">
+                            <label for="last_name">Apellido Paterno</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="txtApellidoM" type="text" name="txtApellidoM" class="validate" value="{{x.Persona.apellidoM}}">
+                            <label for="last_name">Apellido Materno</label>
                         </div>
                     </div>
-            </div>
-            <div class="col s7" style="margin-top:3%; border-left:#eeeeee solid;">
-                <div class="row">
-                    <div class="input-field col s4">
-                        <input id="txtNombre" type="text" class="validate">
-                        <label for="last_name">Nombre</label>
+                    <div class="row">
+                        <div class="input-field col s5">
+                            <input id="email" type="email" class="validate" name="txtEmail" value="{{user_.email}}">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="txtUsuario" type="text" name="txtTelefono" class="validate" value="{{x.Persona.telefono}}">
+                            <label for="password">Teléfono</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input id="txtContrasena" type="password" class="validate">
+                            <label for="password">Contraseña</label>
+                        </div>
                     </div>
-                    <div class="input-field col s4">
-                        <input id="txtApellidoPaterno" type="text" class="validate">
-                        <label for="last_name">Apellido Paterno</label>
-                    </div>
-                     <div class="input-field col s4">
-                        <input id="txtApellidoMaterno" type="text" class="validate">
-                        <label for="last_name">Apellido Materno</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s4">
-                        <input id="email" type="email" class="validate">
-                        <label for="email">Email</label>
-                    </div>
-                    <div class="input-field col s4">
-                        <input id="txtUsuario" type="password" class="validate">
-                        <label for="password">Usuario</label>
-                    </div>
-                    <div class="input-field col s4">
-                        <input id="txtContrasena" type="password" class="validate">
-                        <label for="password">Contraseña</label>
-                    </div>
-                </div>
+                {%endfor%}
+            {%endif%}   
                 <div class="row">
                     <div class="input-field col s8">
                         <select>
                             <option value="" disabled selected>Selecciona una opción</option>
-                            <option value="1">Zaragoza #111 </option>
-                            <option value="2">Panorámica #110</option>
+                            
                         </select>
                         <label>Dirección</label>
                     </div>
@@ -60,7 +65,7 @@
                 </div>
                 </div>
             </div>
-            <div class="row" style="margin-left:72%; margin-top:3%"><a style="background:#F3C807" class="btn">Actualizar mi información</a></div>
+            <input style="margin-left:72%; margin-top:3%; background:#F3C807" class="btn btn-lg btn-warning" type="submit" id='btnDatos' name='btnActualizarDatos' value="Actualizar mi información">
             <div class="row" id="agregarDireccion">
                 <div class="input-field col s3">
                     <input id="txtCalle" type="password" class="validate">
@@ -93,20 +98,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                     <tr>
-                        <td>Zaragoza</td>
-                        <td># 111</td>
-                        <td>León Gto</td>
-                        <td>37640</td>
-                        <td><a style="background:#DE1F1A;" class="btn" id="btnAgregarUna">Eliminar</a></td>
-                    </tr>
-                    <tr>
-                        <td>Panorámica</td>
-                        <td># 110</td>
-                        <td>León Gto</td>
-                        <td>27430</td>
-                        <td><a style="background:#DE1F1A;" class="btn" id="btnAgregarUna">Eliminar</a></td>
-                    </tr>
+                     
                 </tbody>
             </table>
                 </div>
@@ -114,5 +106,13 @@
         </form>
     </div>
     </div>
-    
+    <script type="text/javascript">
+        var campo = document.getElementById('txtApellidoP');
+        var boton = document.getElementById('btnDatos');
+
+        if (campo.innerText == '') 
+  		    boton.innerText = 'Agregar información';
+        else boton.innerText = 'Actualizar mi información'; 
+
+    </script>
 {% endblock %}

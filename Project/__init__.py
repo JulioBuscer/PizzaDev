@@ -11,10 +11,10 @@ dbSQL = SQLAlchemy()
 from . models import User, Role
 userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
 # Creamos una instancia de PyMongo
-cluster = MongoClient(
-    "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/pizza_dev?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
-dbMongo = cluster['pizza_dev']
-print(dbMongo.list_collection_names())
+#cluster = MongoClient(
+    #"mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/pizza_dev?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
+#dbMongo = cluster['pizza_dev']
+#print(dbMongo.list_collection_names())
 ''' Creamos una instancia de MongoEngine
 dbMongo = MongoEngine()
 from .models import User, Role
@@ -29,8 +29,8 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Generar la clave de sessión para crear una cookie con la inf. de la sessión
     app.config['SECRET_KEY'] = os.urandom(24)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/tiendaflask'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
+    app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:root@127.0.0.1/tiendaflask'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'
     dbSQL.init_app(app)

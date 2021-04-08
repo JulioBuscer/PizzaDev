@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_security import login_required, current_user
 from flask_security.utils import login_user, logout_user
 from . models import User
+from . models import Persona
 from . import dbSQL, userDataStore
 
 auth = Blueprint('auth', __name__, url_prefix='/security')
@@ -94,6 +95,7 @@ def register_user_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
+    
 
     # Consultamos si existe un usuario ya registrado con el email.
     user = User.query.filter_by(email=email).first()
@@ -108,9 +110,8 @@ def register_user_post():
         userDataStore.create_user(name=name, email=email,
                                   password=generate_password_hash(password, method='sha256'), roles=[cliente_role])
         # Agregamos el usuario a la bd.
-        db.session.commit()
-        current_app.logger.debug(logMsg('Usuario Creado', 'Correo: "{}" , Nombre: "{}"'.format(
-            email, name)))
+        
+        dbSQL.session.commit()
     except:
         flash('Eror al registrar usuario')
 
