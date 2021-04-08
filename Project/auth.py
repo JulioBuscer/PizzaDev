@@ -32,11 +32,15 @@ def login_users_post():
             return redirect(url_for('auth.login_users'))
 
         # En este punto el usuario tiene los datos correctos
-        # Creamos una sessión y logueamso al usuario.
         try:
+
+            # Creamos una sessión y logueamso al usuario.
             login_user(user, remember=remember)
+            # verificamos que el usuario tenga un rol valido
             if current_user.has_role('cliente') or current_user.has_role('admin'):
                 return redirect(url_for('main.index'))
+                
+            #Si no tiene un rol valido, cierra la sesion
             else:
                 logout_user()
                 flash('Rol no encontrado')
@@ -46,6 +50,7 @@ def login_users_post():
             return redirect(url_for('auth.login_users'))
     except:
         flash('El usuario y/o la contraseña son incorrectos')
+        return redirect(url_for('auth.login_users'))
     return redirect(url_for('main.index'))
 
 
@@ -84,9 +89,11 @@ def login_users_post():
     return redirect(url_for('main.index'))
 '''
 
+
 @auth.route('/register_user')
 def register_user():
     return render_template('/security/register_user.html')
+
 
 @auth.route('/register_user', methods=['POST'])
 def register_user_post():
@@ -97,7 +104,7 @@ def register_user_post():
     # Consultamos si existe un usuario ya registrado con el email.
     user = User.query.filter_by(email=email).first()
 
-    if user:  
+    if user:
         # El usuario existe y regresamos a la página de registro.
         flash('El correo ya existe')
         return redirect(url_for('auth.register_user'))
@@ -139,10 +146,10 @@ def register_user_post():
     return redirect(url_for('auth.login_users'))
 '''
 
+
 @auth.route('/logout')
 @login_required
 def logout():
     # Cerramos la session
     logout_user()
     return redirect(url_for('main.index'))
-
