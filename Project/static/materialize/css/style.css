@@ -5,6 +5,9 @@
  *
  * Made By MaterializeCSS.com
  */
+ .tabs .indicator {
+  background-color: #222;
+}
  body {
   display: flex;
   min-height: 100vh;

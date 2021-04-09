@@ -5,8 +5,8 @@
         <div class="col s12">
             <br><br>
             <h2>Materia Prima</h2>
-            <ul id="tabs-swipe-demo" class="tabs">
-                <li class="tab col s4 organge"><a class="active" href="#test-swipe-1">Activos</a></li>
+            <ul id="tabs-swipe-demo teal lighten-1" class="tabs">
+                <li class="tab col s4  "><a class="active" href="#test-swipe-1">Activos</a></li>
                 <li class="tab col s4"><a href="#test-swipe-2">Inactivos</a></li>
                 <li class="tab col s4"><a href="#test-swipe-3">Registro</a></li>
             </ul>
@@ -27,10 +27,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {%for x in matPr%}
-                            <tr>
+                            {%for x in matPr%} {%if x.cantidad
+                            <=1 0 %} <tr class="red darken-4">
                                 <td>
-                                    {{x.idInventario}}
+                                    {{x.idMateriaPrima}}
                                 </td>
                                 <td>
                                     {{x.nombre}}
@@ -51,20 +51,101 @@
                                     {{x.fecha}}
                                 </td>
                                 <td>
-                                    {{x.idProveedor.empresa}}
+                                    {{x.proveedor.empresa}}
                                 </td>
                                 <td>
-                                    <a class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
-                                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
+                                    <a onclick="confirmarEliminacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
+                                    <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
+                                    <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light green btn modal-trigger" href="#modal1"> <i class="material-icons">add_shopping_cart
+                                        </i></a>
                                 </td>
-                            </tr>
-                            {%endfor%}
+                                </tr>
+                                {%else%}
+                                <tr>
+                                    <td>
+                                        {{x.idMateriaPrima}}
+                                    </td>
+                                    <td>
+                                        {{x.nombre}}
+                                    </td>
+                                    <td>
+                                        {{x.descripcion}}
+                                    </td>
+                                    <td>
+                                        {{x.categoria}}
+                                    </td>
+                                    <td>
+                                        ${{x.precio}}
+                                    </td>
+                                    <td>
+                                        {{x.cantidad}} Kg
+                                    </td>
+                                    <td>
+                                        {{x.fecha}}
+                                    </td>
+                                    <td>
+                                        {{x.proveedor.empresa}}
+                                    </td>
+                                    <td>
+                                        <a onclick="confirmarEliminacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
+                                        <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
+                                    </td>
+                                </tr>
+
+                                {%endif%} {%endfor%}
                         </tbody>
                     </table>
                 </div>
             </div>
             <div id="test-swipe-2">
-
+                <table class="responsive-table highlight centered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Categoria</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Fecha</th>
+                            <th>Proveedor</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for x in matPrIn%}
+                        <tr>
+                            <td>
+                                {{x.idInventario}}
+                            </td>
+                            <td>
+                                {{x.nombre}}
+                            </td>
+                            <td>
+                                {{x.descripcion}}
+                            </td>
+                            <td>
+                                {{x.categoria}}
+                            </td>
+                            <td>
+                                ${{x.precio}}
+                            </td>
+                            <td>
+                                {{x.cantidad}} Kg
+                            </td>
+                            <td>
+                                {{x.fecha}}
+                            </td>
+                            <td>
+                                {{x.proveedor.empresa}}
+                            </td>
+                            <td>
+                                <a onclick="confirmarActivacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')" class="waves-effect waves-light green btn modal-trigger"> <i class="material-icons">check</i></a>
+                            </td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
             </div>
             <div id="test-swipe-3">
                 <div class="row">
@@ -115,6 +196,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
+
                                             <div class="input-field col s12">
                                                 <i class="material-icons prefix">date_range</i>
                                                 <input class="validate" type="text" class="datepicker">
