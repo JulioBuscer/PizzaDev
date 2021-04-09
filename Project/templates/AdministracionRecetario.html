@@ -16,11 +16,11 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Foto</th>
                                 <th>Nombre</th>
+                                <th>Ingredientes</th>
                                 <th>Descripción</th>
                                 <th>Costo</th>
-                                <th>Ingredientes</th>
+                                <th>acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,11 +56,11 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Foto</th>
                             <th>Nombre</th>
+                            <th>Ingredientes</th>
                             <th>Descripción</th>
                             <th>Costo</th>
-                            <th>Ingredientes</th>
+                            <th>acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,7 +82,8 @@
                                 ${{x.costo}}
                             </td>
                             <td>
-                                <a onclick="confirmarActivacion('{{x.id}}','{{x.nombre}}')" class="waves-effect waves-light green btn modal-trigger"> <i class="material-icons"></i></a>
+                                <a onclick="confirmarActivacion('{{x.id}}','{{x.nombre}}')" class="waves-effect waves-light green btn modal-trigger"> <i class="material-icons">check</i></a>
+                            </td>
 
                             </td>
                         </tr>
@@ -99,7 +100,7 @@
                                 <div class="card" style="background:black;">
                                     <div class="card-image imagenes">
                                         <img src="../../static/img/background1.jpg">
-                                        <span class="card-title">Nueva materia prima</span>
+                                        <span class="card-title">Nueva Pizza</span>
                                     </div>
                                 </div>
                             </div>
@@ -114,55 +115,50 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="input-field col s6">
+                                            <div class="input-field col s12">
                                                 <i class="material-icons prefix">description</i>
                                                 <input class="validate" name="desc" id="desc" type="text">
                                                 <label for="desc" data-error="wrong" data-success="right">Descripción</label>
                                             </div>
 
                                             <div class="input-field col s6">
-                                                <i class="material-icons prefix">class</i>
-                                                <input class="validate" name="text" id="ffd" type="text">
-                                                <label for="text" data-error="wrong" data-success="right">Categoria</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s6">
                                                 <i class="material-icons prefix">attach_money</i>
-                                                <input class="validate" name="text" id="text" type="number">
-                                                <label for="text" data-error="wrong" data-success="right">Precio</label>
-                                            </div>
-                                            <div class="input-field col s6">
-                                                <i class="material-icons prefix">shopping_basket</i>
-                                                <input class="validate" name="text" id="text" type="number">
-                                                <label for="text" data-error="wrong" data-success="right">Cantidad</label>
+                                                <input class="validate" name="text" id="ffd" type="number">
+                                                <label for="text" data-error="wrong" data-success="right">Costo</label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s12">
-                                                <i class="material-icons prefix">date_range</i>
-                                                <input class="validate" type="text" class="datepicker">
-                                                <label for="text" data-error="wrong" data-success="right">Fecha</label>
+                                                <img id="imgFoto2" height="380" width="380">
+                                                <div class="file-field input-field">
+                                                    <div class="btn btn-info btn-sm float-left waves-effect waves-light">
+                                                        <span>File</span>
+                                                        <input type="file">
+                                                        <input type="file" name="txtFoto2" id="txtFoto2" class="form-control text-black" onchange="cargarFoto1();">
+                                                        <textarea hidden="true" class="form-control text-black" name="txtBase642" id="txtBase642"></textarea>
+                                                    </div>
+                                                    <div class="file-path-wrapper">
+                                                        <input class="file-path validate" type="text">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row ">
 
-                                            <div class="input-field col s12">
-
-                                                <select class="validate">
-                                                    <option value="" disabled selected>Elegir...</option>
-                                                    {%for xs in prov%}
-                                                    <option class="red" value="{{xs.idProveedor}}">{{xs.empresa}}
-                                                    </option>
+                                            <div class="input-field col s12 ">
+                                                <select multiple>
+                                                    <option value=" " disabled selected>Elegir...</option>
+                                                    {%for x in ingredientes%}
+                                                    <option value="{{x.id}}" >{{x.nombre}}</option>
                                                     {%endfor%}
-                                                </select>
-                                                <label>Proveedor</label>
+                                                  </select>
+                                                <label>Ingredientes</label>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <button class="btn waves-effect waves-red orange accent-4 btn-large" type="submit" name="action">Enviar
-                                                    <i class="material-icons right">send</i>
+                                        <div class="row ">
+                                            <div class="input-field col s12 ">
+                                                <button class="btn waves-effect waves-red orange accent-4 btn-large " type="submit " name="action ">Registrar
+                                                    <i class="material-icons right ">send</i>
                                                 </button>
                                             </div>
                                         </div>
@@ -178,74 +174,85 @@
 </div>
 
 <!-- Modal Structure -->
-<div id="modal1" class="modal modal-fixed-footer">
-    <div class="modal-content">
-        <h4>Actualizar Materia Prima</h4>
-        <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">assignment</i>
-                <input class="validate" name="text" id="text" type="text">
-                <label for="text" data-error="wrong" data-success="right">Nombre</label>
+<div id="modal1 " class="modal modal-fixed-footer ">
+    <div class="modal-content ">
+        <h4>Actualizar Recetario</h4>
+        <div class="row ">
+            <div class="input-field col s12 ">
+                <i class="material-icons prefix ">assignment</i>
+                <input class="validate " hidden=True name="text " id="idRecetario " type="text ">
+                <label for="text " data-error="wrong " data-success="right ">Nombre</label>
             </div>
         </div>
-        <div class="row">
-            <div class="input-field col s6">
-                <i class="material-icons prefix">description</i>
-                <input class="validate" name="desc" id="desc" type="text">
-                <label for="desc" data-error="wrong" data-success="right">Descripción</label>
+        <div class="row ">
+            <div class="input-field col s12 ">
+                <i class="material-icons prefix ">assignment</i>
+                <input class="validate " name="text " id="nombre " type="text ">
+                <label for="text " data-error="wrong " data-success="right ">Nombre</label>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="input-field col s6 ">
+                <i class="material-icons prefix ">description</i>
+                <input class="validate " name="desc " id="desc " type="text ">
+                <label for="desc " data-error="wrong " data-success="right ">Descripción</label>
             </div>
 
-            <div class="input-field col s6">
-                <i class="material-icons prefix">class</i>
-                <input class="validate" name="text" id="ffd" type="text">
-                <label for="text" data-error="wrong" data-success="right">Categoria</label>
+            <div class="input-field col s6 ">
+                <i class="material-icons prefix ">attach_money</i>
+                <input class="validate " name="text " id="costo " type="text ">
+                <label for="text " data-error="wrong " data-success="right ">Costo</label>
             </div>
         </div>
-        <div class="row">
-            <div class="input-field col s6">
-                <i class="material-icons prefix">attach_money</i>
-                <input class="validate" name="text" id="text" type="number">
-                <label for="text" data-error="wrong" data-success="right">Precio</label>
-            </div>
-            <div class="input-field col s6">
-                <i class="material-icons prefix">shopping_basket</i>
-                <input class="validate" name="text" id="text" type="number">
-                <label for="text" data-error="wrong" data-success="right">Cantidad</label>
+        <div class="row ">
+            <div class="input-field col s6 ">
+                <i class="material-icons prefix ">assignment</i>
+                <input class="validate " name="text " id="cantidad " type="number ">
+                <label for="text " data-error="wrong " data-success="right ">Cantidad</label>
             </div>
         </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">date_range</i>
-                <input class="validate" type="text" class="datepicker">
-                <label for="text" data-error="wrong" data-success="right">Fecha</label>
+        <div class="row ">
+            <div class="input-field col s12 ">
+                <img id="imgFoto2" height="380" width="380">
+                <div class="file-field input-field">
+                    <div class="btn btn-info btn-sm float-left waves-effect waves-light">
+                        <span>File</span>
+                        <input type="file">
+                        <input type="file" name="txtFoto2" id="txtFoto2" class="form-control text-black" onchange="cargarFoto1();">
+                        <textarea hidden="true" class="form-control text-black" name="txtBase642" id="txtBase642"></textarea>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row ">
 
-            <div class="input-field col s12">
+            <div class="input-field col s12 ">
 
-                <select class="validate">
-                    <option value="" disabled selected>Elegir...</option>
-                    {%for xs in prov%}
-                    <option class="red" value="{{xs.idProveedor}}">{{xs.empresa}}</option>
+                <select multiple>
+                    <option value=" " disabled selected>Elegir...</option>
+                    {%for x in ingredientes%}
+                    <option value="{{x.id}}" id="ingredientes" >{{x.nombre}}</option>
                     {%endfor%}
-                </select>
-                <label>Proveedor</label>
+                  </select>
+                <label>Ingredientes</label>
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <a class="waves-effect waves-light red btn modal-close" id="closebtn" type="submit" name="action">
-            <i class="material-icons">cancel</i>
+    <div class="modal-footer ">
+        <a class="waves-effect waves-light red btn modal-close " id="closebtn " type="submit " name="action ">
+            <i class="material-icons ">cancel</i>
         </a>
-        <a class="waves-effect waves-light green btn modal-trigger" id="updateBtn" type="submit" name="action">
-            <i class="material-icons">send</i>
+        <a class="waves-effect waves-light green btn modal-trigger " id="updateBtn " type="submit " name="action ">
+            <i class="material-icons ">send</i>
         </a>
     </div>
 </div>
 
 
-<script type="text/javascript">
+<script type="text/javascript ">
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.modal');
         var options = {}
@@ -256,56 +263,67 @@
         $('ul.tabs').tabs();
     });
 
-    function modal(idMateriaPrima, nombre, descripcion, categoria, precio, cantidad, proveedor_empresa) {
+    function modal(idRecetario, nombre, ingrediente, descripcion, costo, foto) {
+        $("#idRecetario").val(idRecetario);
+        $("#nombre").val(nombre);
+        $("#desc").val(descripcion);
+        $("#costo").val(costo);
+        //$("#cantidad").val(telefono);
+        $("#imgFoto2").val(foto);
+        $("#txtBase642").val(foto);
+        $("#ingredientes").val(ingrediente);
 
 
         $("#updateBtn").click(function() {
             swal({
-                title: "¿Quieres actualizar el producto?",
+                title: "¿Quieres actualizar el Recetario?",
                 text: "No se podrá deshacer esta acción",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
-                    window.location.href = 'modificarProducto?id=' + idMateriaPrima + '&name=' + nombre +
-                        '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad=' +
-                        cantidad + '&fecha=' + fecha + '&proveedor_empresa=' + proveedor_empresa;
+                    var idRecetario = $("#idRecetario").val();
+                    var nombre = $("#nombre").val();
+                    var costo = $("#costo").val();
+                    var ingrediente = $("#ingredientes").val();
+                    var descripcion = $("#desc").val();
+                    var foto = $("#txtBase642").val();
+                    window.location.href = 'modificarProveedor?id=' + idRecetario + '&' + 'nombre=' + nombre + '&' + 'descripcion=' + descripcion + '&' + 'costo=' + costo + '&' + 'foto=' + foto + '&' + 'ingrediente=' + ingrediente;
                 } else {}
             });
-            $(".modal").removeClass("is-active");
         });
     }
 
     var confirmarEliminacion = (idRecetario, nombre) => {
         swal({
             title: "¿Quieres borrar " + nombre + " de la materia prima? ",
-            text: "No se podrá deshacer esta acción",
+            text: "No se podrá deshacer esta acción ",
             icon: "warning",
             buttons: true,
             dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {
-                swal("Eliminada con éxito", {
+                swal("Eliminada con éxito ", {
                     icon: "success",
                 });
-                window.location.href = 'deleteMatPrim?id=' + idRecetario;
+                window.location.href = 'desactivarPizza?id=' + idRecetario;
             } else {}
         });
     };
     var confirmarActivacion = (idRecetario, nombre) => {
         swal({
-            title: "¿Quieres activar la materia prima " + nombre + "?",
-            text: "No se podrá deshacer esta acción",
+            title: "¿Quieres activar la materia prima " + nombre + "? ",
+            text: "No se podrá deshacer esta acción ",
             icon: "info",
             buttons: true,
             dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {
-                swal("Activado con éxito", {
+                swal("Activado con éxito ", {
                     icon: "success",
                 });
-                window.location.href = 'updateMatPrim?id=' + idRecetario;
+                window.location.href = 'activarPizza?id=' + idRecetario;
             } else {}
         });
     };
