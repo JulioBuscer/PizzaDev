@@ -51,7 +51,7 @@ def inventario():
 
 
 @admin.route('/recetario')
-def registroInventario():
+def recetario():
     if current_user.has_role('admin'):
         admin = True
         query="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
@@ -116,7 +116,7 @@ def activarPizza():
         rec.active = 1
         dbSQL.session.add(rec)
         dbSQL.session.commit()
-        return redirect(url_for('admin.registroInventario'))
+        return redirect(url_for('admin.recetario'))
     return redirect(url_for('main.index'))
 
 @admin.route('/desactivarPizza', methods=['GET', 'POST'])
@@ -130,36 +130,68 @@ def eliminarPizza():
         rec.active = 0
         dbSQL.session.add(rec)
         dbSQL.session.commit()
-        return redirect(url_for('admin.registroInventario'))
+        return redirect(url_for('admin.recetario'))
     return redirect(url_for('main.index'))
 
 
 
 
 
-@admin.route('updateRecetario')
+@admin.route('updateRecetario', methods=['POST', 'GET'])
 def updateRecetario():
     if current_user.has_role('admin'):
         admin = True
-    if request.method == 'GET':
-        id = request.args.get("id")
+    if request.method == 'POST' :
+        id = request.form.get("idRecetarioModal")
+        print(id)
         recetario = dbSQL.session.query(models.Recetario).filter(models.Recetario.idRecetario == id).first()
-        recetario = request.args.get("name")
+        recetario.nombre = request.form.get("nombreModal")
+        recetario.descripcion=request.form.get("descripcionModal")
+        recetario.costo=request.form.get("costoModal")
+        recetario.foto= ("data:image/jpeg;base64,"+request.form.get("textareaModal"))
 
-        #dbSQL.session.add(matPrim)
+        dbSQL.session.add(recetario)
         dbSQL.session.commit()
-        return redirect(url_for('admin.inventario'))
-    matPrimaIn = dbSQL.session.query(models.MateriaPrima).join(models.Proveedor, models.Proveedor.idProveedor == models.MateriaPrima.idProveedor).filter(models.MateriaPrima.active == 0)
-    proveedor = dbSQL.session.query(models.Proveedor).filter(models.Proveedor.active == 1)
-    #persona = dbSQL.session.query(models.Persona,models.PersonaDireccion, models.Direccion).join(models.PersonaDireccion.persona, models.PersonaDireccion.direccion).filter(models.Persona.idPersona == 2)
-    #direccion = dbSQL.session.query(models.Direccion).join(persona, persona.idDireccion == models.Direccion.idDireccion).filter(idPersona=persona)
-    persona = dbSQL.session.query(models.users_roles, models.User, models.Role).join(models.User).join(models.Role).all()
-    for x in persona:
-        print(x)
-    if current_user.has_role('admin'):
-        admin = True
-        return render_template('/admin/inventario.html', name=current_user.name, admin=admin, matPr = matPrima, matPrIn = matPrimaIn, prov= proveedor)
+        return redirect(url_for('admin.recetario'))
     return redirect(url_for('main.index'))
+
+@admin.route('/agregarRecetario', methods=['POST', 'GET'])
+def agregarRecetario():
+    if current_user.has_role('admin'):
+        admin = True 
+        if request.method == 'POST':
+            pizza = models.Recetario(
+                nombre= request.form.get('nombrePizza'),
+                descripcion= request.form.get('descripcionPizza'),
+                costo= request.form.get('costoPizza'),
+                 foto = ("data:image/jpeg;base64,"+request.form.get("textarea")),
+                active= 1
+                     
+            )
+            dbSQL.session.add(pizza)
+            dbSQL.session.commit()
+            
+            
+            lastid = dbSQL.session.query(models.Recetario).order_by(models.Recetario.idRecetario.desc()).first()
+            
+            ingredientes=request.form.getlist("ingredientes")
+            print(ingredientes)
+            for x in ingredientes:
+                print("ingrediente"+x[0])
+                rec_mat= "insert into recetario_materiaprima() values("+str(lastid.idRecetario)+","+x[0]+ "," + str(0) +")"
+                dbSQL.session.execute(rec_mat)
+                dbSQL.session.commit()
+        
+            
+            
+            return redirect(url_for('admin.recetario'))
+    return redirect(url_for('main.index'))
+
+
+
+
+
+
 
 @admin.route('deleteMatPrim')
 def deleteMatPrim():

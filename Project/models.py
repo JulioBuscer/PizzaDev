@@ -106,7 +106,7 @@ class Recetario(dbSQL.Model):
     nombre= dbSQL.Column(dbSQL.String(50), nullable=False)
     descripcion= dbSQL.Column(dbSQL.String(50), nullable=False)
     costo= dbSQL.Column(dbSQL.String(8), nullable=False)
-    foto= dbSQL.Column(dbSQL.Text(), nullable=False)
+    foto= dbSQL.Column(dbSQL.Text, nullable=False)
     active = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)
     materiaprima= dbSQL.relationship('MateriaPrima',
                             secondary=recetario_materiaprima,

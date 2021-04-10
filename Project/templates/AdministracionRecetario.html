@@ -15,7 +15,7 @@
                     <table class="responsive-table highlight centered">
                         <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>Foto</th>
                                 <th>Nombre</th>
                                 <th>Ingredientes</th>
                                 <th>Descripción</th>
@@ -27,7 +27,8 @@
                             {%for x in recetario%}
                             <tr>
                                 <td>
-                                    {{x.id}}
+                                    <img height="100" width="100" src="{{x.foto}}">
+
                                 </td>
                                 <td>
                                     {{x.nombre}}
@@ -43,7 +44,7 @@
                                 </td>
                                 <td>
                                     <a onclick="confirmarEliminacion('{{x.id}}','{{x.nombre}}')" class="waves-effect waves-light red btn modal-trigger"> <i class="material-icons">delete</i></a>
-                                    <a onclick="modal('{{x.id}}','{{x.nombre}}','{{x.ingrediente}}','{{x.descripcion}}','{{x.costo}}','{{x.foto}}')" class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
+                                    <a onclick="modal('{{x.id}}','{{x.nombre}}','{{x.descripcion}}','{{x.costo}}','{{x.foto}}')" class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i class="material-icons">edit</i></a>
                                 </td>
                             </tr>
                             {%endfor%}
@@ -51,11 +52,12 @@
                     </table>
                 </div>
             </div>
+
             <div id="test-swipe-2">
                 <table class="responsive-table highlight centered">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>Foto</th>
                             <th>Nombre</th>
                             <th>Ingredientes</th>
                             <th>Descripción</th>
@@ -67,7 +69,7 @@
                         {%for x in recetariodesac%}
                         <tr>
                             <td>
-                                {{x.id}}
+                                <img height="100" width="100" src="{{x.foto}}">
                             </td>
                             <td>
                                 {{x.nombre}}
@@ -91,75 +93,78 @@
                     </tbody>
                 </table>
             </div>
-            <div id="test-swipe-3">
-                <div class="row">
-                    <div class="col s12 center">
-                        <h3><i class="mdi-content-send brown-text"></i></h3>
-                        <div class="row">
-                            <div class="col s12 m6 imagenes">
-                                <div class="card" style="background:black;">
-                                    <div class="card-image imagenes">
-                                        <img src="../../static/img/background1.jpg">
-                                        <span class="card-title">Nueva Pizza</span>
+            <form action="agregarRecetario" method="POST">
+                <div id="test-swipe-3">
+                    <div class="row">
+                        <div class="col s12 center">
+                            <h3><i class="mdi-content-send brown-text"></i></h3>
+                            <div class="row">
+                                <div class="col s12 m6 imagenes">
+                                    <div class="card" style="background:black;">
+                                        <div class="card-image imagenes">
+                                            <img src="../../static/img/background1.jpg">
+                                            <span class="card-title">Nueva Pizza</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col s12 m6 ">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <i class="material-icons prefix">assignment</i>
-                                                <input class="validate" name="text" id="text" type="text">
-                                                <label for="text" data-error="wrong" data-success="right">Nombre</label>
+                                <div class="col s12 m6 ">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <i class="material-icons prefix">assignment</i>
+                                                    <input class="validate" name="nombrePizza" id="nombrePizza" type="text">
+                                                    <label for="text" data-error="wrong" data-success="right">Nombre</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <i class="material-icons prefix">description</i>
-                                                <input class="validate" name="desc" id="desc" type="text">
-                                                <label for="desc" data-error="wrong" data-success="right">Descripción</label>
-                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <i class="material-icons prefix">description</i>
+                                                    <input class="validate" name="descripcionPizza" id="descripcionPizza" type="text">
+                                                    <label for="desc" data-error="wrong" data-success="right">Descripción</label>
+                                                </div>
 
-                                            <div class="input-field col s6">
-                                                <i class="material-icons prefix">attach_money</i>
-                                                <input class="validate" name="text" id="ffd" type="number">
-                                                <label for="text" data-error="wrong" data-success="right">Costo</label>
+                                                <div class="input-field col s6">
+                                                    <i class="material-icons prefix">attach_money</i>
+                                                    <input class="validate" name="costoPizza" id="costopizza" type="number">
+                                                    <label for="text" data-error="wrong" data-success="right">Costo</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <img id="imgFoto2" height="380" width="380">
-                                                <div class="file-field input-field">
-                                                    <div class="btn btn-info btn-sm float-left waves-effect waves-light">
-                                                        <span>File</span>
-                                                        <input type="file">
-                                                        <input type="file" name="txtFoto2" id="txtFoto2" class="form-control text-black" onchange="cargarFoto1();">
-                                                        <textarea hidden="true" class="form-control text-black" name="txtBase642" id="txtBase642"></textarea>
-                                                    </div>
-                                                    <div class="file-path-wrapper">
-                                                        <input class="file-path validate" type="text">
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <img id="imgFoto2" height="380" width="380">
+                                                    <div class="file-field input-field">
+                                                        <div class="btn btn-info btn-sm float-left waves-effect waves-light">
+                                                            <span>File</span>
+                                                            <input type="file">
+                                                            <input type="file" name="txtFoto2" id="txtFoto2" class="form-control text-black" onchange="cargarFoto1();">
+                                                            <textarea id="textarea" name="textarea" class="materialize-textarea" data-length="120"></textarea>
+                                                        </div>
+                                                        <div class="file-path-wrapper">
+                                                            <input class="file-path validate" type="text">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row ">
 
-                                            <div class="input-field col s12 ">
-                                                <select multiple>
+                                            <div class="row ">
+
+                                                <div class="input-field col s12 ">
+                                                    <select multiple  name="ingredientes" id="ingredientes">
                                                     <option value=" " disabled selected>Elegir...</option>
                                                     {%for x in ingredientes%}
-                                                    <option value="{{x.id}}" >{{x.nombre}}</option>
+                                                    <option value="{{x.id}}">{{x.nombre}}</option>
                                                     {%endfor%}
                                                   </select>
-                                                <label>Ingredientes</label>
+                                                    <label>Ingredientes</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row ">
-                                            <div class="input-field col s12 ">
-                                                <button class="btn waves-effect waves-red orange accent-4 btn-large " type="submit " name="action ">Registrar
+                                            <div class="row ">
+                                                <div class="input-field col s12 ">
+                                                    <button onchange="" class="btn waves-effect waves-red orange accent-4 btn-large " type="submit " name="action ">Registrar
                                                     <i class="material-icons right ">send</i>
                                                 </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -168,91 +173,100 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- Modal Structure -->
-<div id="modal1 " class="modal modal-fixed-footer ">
-    <div class="modal-content ">
-        <h4>Actualizar Recetario</h4>
-        <div class="row ">
-            <div class="input-field col s12 ">
-                <i class="material-icons prefix ">assignment</i>
-                <input class="validate " hidden=True name="text " id="idRecetario " type="text ">
-                <label for="text " data-error="wrong " data-success="right ">Nombre</label>
-            </div>
-        </div>
-        <div class="row ">
-            <div class="input-field col s12 ">
-                <i class="material-icons prefix ">assignment</i>
-                <input class="validate " name="text " id="nombre " type="text ">
-                <label for="text " data-error="wrong " data-success="right ">Nombre</label>
-            </div>
-        </div>
-        <div class="row ">
-            <div class="input-field col s6 ">
-                <i class="material-icons prefix ">description</i>
-                <input class="validate " name="desc " id="desc " type="text ">
-                <label for="desc " data-error="wrong " data-success="right ">Descripción</label>
-            </div>
 
-            <div class="input-field col s6 ">
-                <i class="material-icons prefix ">attach_money</i>
-                <input class="validate " name="text " id="costo " type="text ">
-                <label for="text " data-error="wrong " data-success="right ">Costo</label>
+<!-- Modal Structure -->
+<form action="updateRecetario" method="POST">
+    <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Actualizar Materia Prima</h4>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input hidden class="validate " name="idRecetarioModal" id="idRecetario" type="text ">
+                </div>
             </div>
-        </div>
-        <div class="row ">
-            <div class="input-field col s6 ">
-                <i class="material-icons prefix ">assignment</i>
-                <input class="validate " name="text " id="cantidad " type="number ">
-                <label for="text " data-error="wrong " data-success="right ">Cantidad</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">assignment</i>
+                    <input class="validate" name="nombreModal" id="nombre" type="text">
+                </div>
             </div>
-        </div>
-        <div class="row ">
-            <div class="input-field col s12 ">
-                <img id="imgFoto2" height="380" width="380">
-                <div class="file-field input-field">
-                    <div class="btn btn-info btn-sm float-left waves-effect waves-light">
-                        <span>File</span>
-                        <input type="file">
-                        <input type="file" name="txtFoto2" id="txtFoto2" class="form-control text-black" onchange="cargarFoto1();">
-                        <textarea hidden="true" class="form-control text-black" name="txtBase642" id="txtBase642"></textarea>
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text">
+            <div class="row ">
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">description</i>
+                    <input class="validate" name="descripcionModal" id="desc" type="text">
+                </div>
+
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">attach_money</i>
+                    <input class="validate" name="costoModal" id="costo" type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <img id="imgFoto21" height="380" width="380">
+                    <div class="file-field input-field">
+                        <div class="btn btn-info btn-sm float-left waves-effect waves-light">
+                            <span>File</span>
+                            <input type="file" name="txtFoto2" id="txtFoto21" class="form-control text-black" onchange="cargarFoto11();">
+                            <textarea hidden id="textareaModal" name="textareaModal" class="materialize-textarea" data-length="120"></textarea>
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row ">
+        <div class="modal-footer">
 
-            <div class="input-field col s12 ">
-
-                <select multiple>
-                    <option value=" " disabled selected>Elegir...</option>
-                    {%for x in ingredientes%}
-                    <option value="{{x.id}}" id="ingredientes" >{{x.nombre}}</option>
-                    {%endfor%}
-                  </select>
-                <label>Ingredientes</label>
-            </div>
+            <a class="waves-effect waves-light red btn modal-close" id="closebtn" type="submit" name="action">
+                <i class="material-icons">cancel</i>
+            </a>
+            <button class="waves-effect waves-light green btn modal-trigger" id="updateBtn" type="submit" name="action">Actualizar
+                <i class="material-icons right ">send</i>
         </div>
     </div>
-    <div class="modal-footer ">
-        <a class="waves-effect waves-light red btn modal-close " id="closebtn " type="submit " name="action ">
-            <i class="material-icons ">cancel</i>
-        </a>
-        <a class="waves-effect waves-light green btn modal-trigger " id="updateBtn " type="submit " name="action ">
-            <i class="material-icons ">send</i>
-        </a>
-    </div>
-</div>
+</form>
 
+<script type="text/javascript">
+    function cargarFoto1() {
+        var fileChooser = document.getElementById("txtFoto2");
+        var foto = document.getElementById("imgFoto2");
+        var base64 = document.getElementById("textarea");
+        if (fileChooser.files.length > 0) {
+            var fr = new FileReader();
+            fr.onload = function() {
+                foto.src = fr.result;
+                base64.value = foto.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '');
+            }
+            fr.readAsDataURL(fileChooser.files[0]);
+        }
+    }
 
-<script type="text/javascript ">
+    function cargarFoto11() {
+        var fileChooser = document.getElementById("txtFoto21");
+        var foto = document.getElementById("imgFoto21");
+        var base64 = document.getElementById("textareaModal");
+        if (fileChooser.files.length > 0) {
+            var fr = new FileReader();
+            fr.onload = function() {
+                foto.src = fr.result;
+                base64.value = foto.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '');
+            }
+            fr.readAsDataURL(fileChooser.files[0]);
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.modal');
         var options = {}
@@ -263,16 +277,12 @@
         $('ul.tabs').tabs();
     });
 
-    function modal(idRecetario, nombre, ingrediente, descripcion, costo, foto) {
+    function modal(idRecetario, nombre, descripcion, costo, foto) {
         $("#idRecetario").val(idRecetario);
         $("#nombre").val(nombre);
         $("#desc").val(descripcion);
         $("#costo").val(costo);
-        //$("#cantidad").val(telefono);
-        $("#imgFoto2").val(foto);
-        $("#txtBase642").val(foto);
-        $("#ingredientes").val(ingrediente);
-
+        $("#imgFoto21").attr("src", foto).width(380).height(380);
 
         $("#updateBtn").click(function() {
             swal({
@@ -282,18 +292,35 @@
                 buttons: true,
                 dangerMode: true,
             }).then((willDelete) => {
-                if (willDelete) {
-                    var idRecetario = $("#idRecetario").val();
-                    var nombre = $("#nombre").val();
-                    var costo = $("#costo").val();
-                    var ingrediente = $("#ingredientes").val();
-                    var descripcion = $("#desc").val();
-                    var foto = $("#txtBase642").val();
-                    window.location.href = 'modificarProveedor?id=' + idRecetario + '&' + 'nombre=' + nombre + '&' + 'descripcion=' + descripcion + '&' + 'costo=' + costo + '&' + 'foto=' + foto + '&' + 'ingrediente=' + ingrediente;
-                } else {}
+                if (willDelete) {} else {}
             });
+            $(".modal").removeClass("is-active");
         });
     }
+    var insertarRecetario = () => {
+        var ingredientes= $("#ingredientes").val();
+        alert()
+        };
+    /*
+        var insertarRecetario = () => {
+            swal({
+                title: "¿Quieres insertar una nueva pizza al recetario? ",
+                text: "No se podrá deshacer esta acción ",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    var nombre = $("#nombrePizza").val();
+                    var costo = $("#Costopizza").val();
+                    var descripcion = $("#descripcionPizza").val();
+                    var foto = $("#textarea").val();
+                    var ingredientes = $("#ingredientes").val();
+                    window.location.href = 'agregarRecetario?nombre=' + nombre + '&' + 'descripcion=' + descripcion + '&' + 'costo=' + costo + '&' + 'foto=' + foto + '&' + 'ingredientes=' + ingredientes;
+                } else {}
+            });
+        };
+    */
 
     var confirmarEliminacion = (idRecetario, nombre) => {
         swal({
