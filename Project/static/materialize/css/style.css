@@ -5,10 +5,35 @@
  *
  * Made By MaterializeCSS.com
  */
- .tabs .indicator {
+.tabs .indicator {
   background-color: #222;
 }
- body {
+
+/* label focus color */
+.input-field input[type="text"]:focus + label {
+  color: rgb(71, 0, 0);
+}
+/* label underline focus color */
+.input-field input[type="text"]:focus {
+  border-bottom: 1px solid rgb(61, 2, 2);
+  box-shadow: 0 1px 0 0 rgb(49, 2, 2);
+}
+
+i.icon-blue {
+  color: blue;
+}
+
+/* label focus color */
+.input-field input:focus + label {
+  color: orange !important;
+}
+/* label underline focus color */
+.row .input-field input:focus {
+  border-bottom: 1px solid orange !important;
+  box-shadow: 0 1px 0 0 orange !important
+}
+
+body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
@@ -22,18 +47,18 @@ main {
   display: table;
   margin: auto;
 }
- #login-page {
-    width: 500px;
- }
- .card-image img{
-   background:black;
- }
- .card:before{
+#login-page {
+  width: 500px;
+}
+.card-image img {
   background: black;
 }
-.imagenes:before{
-   background: black;
- }
+.card:before {
+  background: black;
+}
+.imagenes:before {
+  background: black;
+}
 
 nav ul a,
 nav .brand-logo {
@@ -52,13 +77,13 @@ p {
   min-height: 380px;
   line-height: 0;
   height: auto;
-  color: rgba(255,255,255,.9);
+  color: rgba(255, 255, 255, 0.9);
 }
-  .parallax-container .section {
-    width: 100%;
-  }
+.parallax-container .section {
+  width: 100%;
+}
 
-@media only screen and (max-width : 992px) {
+@media only screen and (max-width: 992px) {
   .parallax-container .section {
     position: absolute;
     top: 40%;
@@ -68,7 +93,7 @@ p {
   }
 }
 
-@media only screen and (max-width : 600px) {
+@media only screen and (max-width: 600px) {
   #index-banner .section {
     top: 0;
   }

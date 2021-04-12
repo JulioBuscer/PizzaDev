@@ -19,11 +19,13 @@ personas_direcciones = dbSQL.Table('personas_direcciones',
 venta_recetario = dbSQL.Table('venta_recetario',
                         dbSQL.Column('idVenta', dbSQL.Integer,dbSQL.ForeignKey('Venta.idVenta')),
                         dbSQL.Column('idRecetario', dbSQL.Integer, dbSQL.ForeignKey('Recetario.idRecetario')),
-                        dbSQL.Column('cantidad', dbSQL.Integer, nullable=False))
+                        dbSQL.Column('cantidad', dbSQL.Float, nullable=False))
 
 recetario_materiaprima = dbSQL.Table('recetario_materiaprima',
                         dbSQL.Column('idRecetario', dbSQL.Integer, dbSQL.ForeignKey('Recetario.idRecetario')),
-                        dbSQL.Column('idMateriaPrima', dbSQL.Integer, dbSQL.ForeignKey('MateriaPrima.idMateriaPrima')))
+                        dbSQL.Column('idMateriaPrima', dbSQL.Integer, dbSQL.ForeignKey('MateriaPrima.idMateriaPrima')),
+                        dbSQL.Column('cantidad', dbSQL.Float, nullable=False))
+                        
 
 class User(UserMixin, dbSQL.Model):
     """User account model"""
@@ -106,11 +108,11 @@ class Recetario(dbSQL.Model):
     costo= dbSQL.Column(dbSQL.String(8), nullable=False)
     foto= dbSQL.Column(dbSQL.Text(), nullable=False)
     active = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)
+    
     materiaprima= dbSQL.relationship('MateriaPrima',
                             secondary=recetario_materiaprima,
                             backref=dbSQL.backref('recetariosmateriaprima', lazy='dynamic'))
-
-
+    
 class MateriaPrima(dbSQL.Model):
     """MateriaPrima model"""
 
@@ -119,9 +121,10 @@ class MateriaPrima(dbSQL.Model):
     nombre= dbSQL.Column(dbSQL.String(50), nullable=False)
     descripcion= dbSQL.Column(dbSQL.String(80), nullable=False)
     categoria= dbSQL.Column(dbSQL.String(20), nullable=False)
-    precio= dbSQL.Column(dbSQL.String(10), nullable=False)
+    precio= dbSQL.Column(dbSQL.Float, nullable=False)
     cantidad= dbSQL.Column(dbSQL.Integer, nullable=False)
     fecha= dbSQL.Column(dbSQL.String(40), nullable=False)
+    unidad= dbSQL.Column(dbSQL.String(3), nullable=False)
     active = dbSQL.Column(dbSQL.Boolean, nullable=False, default=1)
     idProveedor= dbSQL.Column('idProveedor', dbSQL.Integer,dbSQL.ForeignKey('Proveedor.idProveedor'))
     proveedor = dbSQL.relationship('Proveedor', backref=dbSQL.backref('proveedores', lazy='dynamic'))

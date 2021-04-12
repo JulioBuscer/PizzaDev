@@ -15,46 +15,13 @@
     <!--  Scripts-->
     <script src="../static/materialize/js/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-    <script src="../static/materialize/js/init.js"></script>
-    <script src="../static/materialize/js/loader.js"></script>
-
+    
     <!-- Sweetalert -->
     <link rel="stylesheet" href="sweetalert2.min.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <!-- Scripts-->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.datepicker');
-            var options = {}
-            var instances = M.Datepicker.init(elems, options);
-        });
-
-        // Or with jQuery
-
-        $(document).ready(function () {
-            $('.datepicker').datepicker();
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('select');
-            var options = {}
-            var instances = M.FormSelect.init(elems, options);
-        });
-
-        // Or with jQuery
-
-        $(document).ready(function () {
-            $('select').formSelect();
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.dropdown-trigger');
-            var options = {}
-            var instances = M.Dropdown.init(elems, options);
-        });
-
-    </script>
+    <!-- Scripts funciones-->
+    <script src="../static/materialize/js/init.js"></script>
 </head>
 
 <body>
@@ -67,7 +34,10 @@
                             class="material-icons prefix">person</i></a></li>
             </ul>
             <ul id='dropdown1' class='dropdown-content'>
-                <li><a href="#"  class="orange-text">{{name}}</a></li>
+                <li><a href="#"  class="orange-text">Mi perfil</a></li>
+                {%if cliente%}
+                <li><a href="#"  class="orange-text">Mis ordenes</a></li>
+                {%endif%}
                 <li><a href="{{ url_for('auth.logout') }}" class="orange-text">Salir</a></li>
 
             </ul>
@@ -95,9 +65,11 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
             </ul>
+            {%if cliente%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="">Ordenar</a></li>
             </ul>
+            {%endif%}
 
             {%if current_user.is_authenticated %}
             {%if admin%}
@@ -144,16 +116,10 @@
                     </a>
                 </li>
                 {%endif%}
-                {%if not current_user.is_authenticated %}
-                <li>
-                    <a href="{{ url_for('auth.register_user') }}">
-                        Registro
-                    </a>
-                </li>
 
-                {%endif%}
-
+                {%if index%}
                 <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                {%endif%}
                 <li><a href="">Ordenar</a></li>
 
                 {%if current_user.is_authenticated %}
@@ -192,7 +158,7 @@
     </main>
 
 
-    <footer class="page-footer orange accent-4">
+    <footer class="page-footer orange darken-4">
         <div class="container">
             <div class="row">
                 <div class="col l8 s12">

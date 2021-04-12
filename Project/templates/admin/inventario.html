@@ -1,116 +1,40 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
-<div class="container">
-    <div class="row">
-        <div class="col s12">
-            <br><br>
-            <h2>Materia Prima</h2>
-            <ul id="tabs-swipe-demo teal lighten-1" class="tabs">
-                <li class="tab col s4  "><a class="active" href="#test-swipe-1">Activos</a></li>
-                <li class="tab col s4"><a href="#test-swipe-2">Inactivos</a></li>
-                <li class="tab col s4"><a href="#test-swipe-3">Registro</a></li>
-            </ul>
-            <div id="test-swipe-1">
-                <div class="section">
-                    <table class="responsive-table highlight centered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Categoria</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                                <th>Fecha</th>
-                                <th>Proveedor</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {%for x in matPr%}
-                            {%if x.cantidad <= 10 %} <tr class="red darken-4">
-                                <td>
-                                    {{x.idMateriaPrima}}
-                                </td>
-                                <td >
-                                    {{x.nombre}}
-                                </td>
-                                <td>
-                                    {{x.descripcion}}
-                                </td>
-                                <td>
-                                    {{x.categoria}}
-                                </td>
-                                <td>
-                                    ${{x.precio}}
-                                </td>
-                                <td>
-                                    {{x.cantidad}} Kg
-                                </td>
-                                <td>
-                                    {{x.fecha}}
-                                </td>
-                                <td>
-                                    {{x.proveedor.empresa}}
-                                </td>
-                                <td>
-                                    <a onclick="confirmarEliminacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')"
-                                        class="waves-effect waves-light red btn modal-trigger"> <i
-                                            class="material-icons">delete</i></a>
-                                    <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')"
-                                        class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i
-                                            class="material-icons">edit</i></a>
-                                    <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')"
-                                        class="waves-effect waves-light green btn modal-trigger" href="#modal1"> <i
-                                            class="material-icons">add_shopping_cart
-                                        </i></a>
-                                </td>
-                                </tr>
-                                {%else%}
-                                <tr>
-                                    <td>
-                                        {{x.idMateriaPrima}}
-                                    </td>
-                                    <td>
-                                        {{x.nombre}}
-                                    </td>
-                                    <td>
-                                        {{x.descripcion}}
-                                    </td>
-                                    <td>
-                                        {{x.categoria}}
-                                    </td>
-                                    <td>
-                                        ${{x.precio}}
-                                    </td>
-                                    <td>
-                                        {{x.cantidad}} Kg
-                                    </td>
-                                    <td>
-                                        {{x.fecha}}
-                                    </td>
-                                    <td>
-                                        {{x.proveedor.empresa}}
-                                    </td>
-                                    <td>
-                                        <a onclick="confirmarEliminacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')"
-                                            class="waves-effect waves-light red btn modal-trigger"> <i
-                                                class="material-icons">delete</i></a>
-                                        <a onclick="modal('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')"
-                                            class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i
-                                                class="material-icons">edit</i></a>
-                                    </td>
-                                </tr>
-
-                                {%endif%}
-                                {%endfor%}
-                        </tbody>
-                    </table>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="notification is-danger">
+    <script>
+        var toastHTML = '<span>{{ messages[0] }}</span>';
+        var inDuration = 100;
+        M.toast({ html: toastHTML, inDuration });
+    </script>
+</div>
+{% endif %}
+{% endwith %}
+<div class="row">
+    <br>
+    <div class="col s3">
+        <nav class="orange lighten-1">
+            <div class="nav-wrapper">
+                <div class="col s12 ">
+                    <a href="{{ url_for('main.index')}}" class="breadcrumb">Inicio</a>
+                    <a href="#!" class="breadcrumb">Inventario</a>
                 </div>
             </div>
-            <div id="test-swipe-2">
+        </nav>
+    </div>
+
+    <div class="col s12">
+        <br>
+        <h4>Inventario - Materia Prima</h4>
+        <ul id="tabs-swipe-demo teal lighten-1" class="tabs">
+            <li class="tab col s4  "><a class="active" href="#test-swipe-1">Activos</a></li>
+            <li class="tab col s4"><a href="#test-swipe-2">Inactivos</a></li>
+            <li class="tab col s4"><a href="#test-swipe-3">Registro</a></li>
+        </ul>
+        <div id="test-swipe-1">
+            <div class="section">
                 <table class="responsive-table highlight centered">
                     <thead>
                         <tr>
@@ -126,10 +50,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {%for x in matPrIn%}
+                        {%for x in matPr%}
                         <tr>
                             <td>
-                                {{x.idInventario}}
+                                {{x.idMateriaPrima}}
                             </td>
                             <td>
                                 {{x.nombre}}
@@ -144,7 +68,7 @@
                                 ${{x.precio}}
                             </td>
                             <td>
-                                {{x.cantidad}} Kg
+                                {{x.cantidad}} {{x.unidad}}
                             </td>
                             <td>
                                 {{x.fecha}}
@@ -153,94 +77,166 @@
                                 {{x.proveedor.empresa}}
                             </td>
                             <td>
-                                <a onclick="confirmarActivacion('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}')"
-                                    class="waves-effect waves-light green btn modal-trigger"> <i
-                                        class="material-icons">check</i></a>
+                                <a onclick="confirmarEliminacionMatPrim('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}','{{x.unidad}}')"
+                                    class="waves-effect waves-light red btn modalMatPrim-trigger"> <i
+                                        class="material-icons">delete</i></a>
+                                <a onclick="modalMatPrim('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}','{{x.unidad}}')"
+                                    class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i
+                                        class="material-icons">edit</i></a>
                             </td>
                         </tr>
                         {%endfor%}
                     </tbody>
                 </table>
             </div>
-            <div id="test-swipe-3">
-                <div class="row">
-                    <div class="col s12 center">
-                        <h3><i class="mdi-content-send brown-text"></i></h3>
-                        <div class="row">
-                            <div class="col s12 m6 imagenes">
-                                <div class="card" style="background:black;">
-                                    <div class="card-image imagenes">
-                                        <img src="../../static/img/background1.jpg">
-                                        <span class="card-title">Nueva materia prima</span>
-                                    </div>
+        </div>
+        <div id="test-swipe-2">
+            <table class="responsive-table highlight centered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Categoria</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Fecha</th>
+                        <th>Proveedor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for x in matPrIn%}
+                    <tr>
+                        <td>
+                            {{x.idInventario}}
+                        </td>
+                        <td>
+                            {{x.nombre}}
+                        </td>
+                        <td>
+                            {{x.descripcion}}
+                        </td>
+                        <td>
+                            {{x.categoria}}
+                        </td>
+                        <td>
+                            ${{x.precio}}
+                        </td>
+                        <td>
+                            {{x.cantidad}} {{x.unidad}}
+                        </td>
+                        <td>
+                            {{x.fecha}}
+                        </td>
+                        <td>
+                            {{x.proveedor.empresa}}
+                        </td>
+                        <td>
+                            <a onclick="confirmarActivacionMatPri('{{x.idMateriaPrima}}','{{x.nombre}}','{{x.descripcion}}','{{x.categoria}}','{{x.precio}}', '{{x.cantidad}}','{{x.proveedor.idProveedor}}','{{x.unidad}}')"
+                                class="waves-effect waves-light green btn modalMatPrim-trigger"> <i
+                                    class="material-icons">check</i></a>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+        <div id="test-swipe-3">
+            <div class="row">
+                <div class="col s12 center">
+                    <h3><i class="mdi-content-send brown-text"></i></h3>
+                    <div class="row">
+                        <div class="col s6">
+                            <div class="card" style="background:black;">
+                                <div class="card-image imagenes">
+                                    <img alt="Unsplashed background img 2" src="../../static/img/background16.jpg"
+                                        height="465px">
+                                    <span class="card-title orange darken-4">Registrar nueva materia prima</span>
                                 </div>
                             </div>
-                            <div class="col s12 m6 ">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <i class="material-icons prefix">assignment</i>
-                                                <input class="validate" name="text" id="text" type="text">
-                                                <label for="text" data-error="wrong" data-success="right">Nombre</label>
-                                            </div>
+                        </div>
+                        <div class="col s6 ">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="orange-text text-darken-4 material-icons prefix">assignment</i>
+                                            <input placeholder="Nombre" class="validate" name="nombreMateria1" id="nombreMateria1" type="text">
+                                            <label for="text" data-error="wrong" data-success="right">Nombre</label>
                                         </div>
-                                        <div class="row">
-                                            <div class="input-field col s6">
-                                                <i class="material-icons prefix">description</i>
-                                                <input class="validate" name="desc" id="desc" type="text">
-                                                <label for="desc" data-error="wrong"
-                                                    data-success="right">Descripción</label>
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        
+                                        <div class="input-field col s6">
+                                            <i class="orange-text text-darken-4 material-icons prefix">description</i>
+                                            <input placeholder="Descripción" class="validate" name="descMatPrim1"
+                                                id="descMatPrim1" type="text">
+                                            <label for="desc" data-error="wrong"
+                                                data-success="right">Descripción</label>
+                                        </div>
 
-                                            <div class="input-field col s6">
-                                                <i class="material-icons prefix">class</i>
-                                                <input class="validate" name="text" id="ffd" type="text">
-                                                <label for="text" data-error="wrong"
-                                                    data-success="right">Categoria</label>
-                                            </div>
+                                        <div class="input-field col s6">
+                                            <i class="orange-text text-darken-4 material-icons prefix">class</i>
+                                            <input placeholder="Categoria" class="validate" name="categoria11"
+                                                id="categoria11" type="text">
+                                            <label for="text" data-error="wrong" data-success="right">Categoria</label>
                                         </div>
-                                        <div class="row">
-                                            <div class="input-field col s6">
-                                                <i class="material-icons prefix">attach_money</i>
-                                                <input class="validate" name="text" id="text" type="number">
-                                                <label for="text" data-error="wrong" data-success="right">Precio</label>
-                                            </div>
-                                            <div class="input-field col s6">
-                                                <i class="material-icons prefix">shopping_basket</i>
-                                                <input class="validate" name="text" id="text" type="number">
-                                                <label for="text" data-error="wrong"
-                                                    data-success="right">Cantidad</label>
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <i class="orange-text text-darken-4 material-icons prefix">attach_money</i>
+                                            <input placeholder="Precio" class="validate" name="precio11" id="precio11"
+                                                type="number">
+                                            <label for="text" data-error="wrong" data-success="right">Precio</label>
                                         </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <i class="material-icons prefix">date_range</i>
-                                                <input class="validate" type="text" class="datepicker">
-                                                <label for="text" data-error="wrong" data-success="right">Fecha</label>
-                                            </div>
+                                        <div class="input-field col s6">
+                                            <i
+                                                class="orange-text text-darken-4 material-icons prefix">shopping_basket</i>
+                                            <input placeholder="Cantidad" class="validate" name="cantidadMat1"
+                                                id="cantidadMat1" type="number">
+                                            <label for="text" data-error="wrong" data-success="right">Cantidad</label>
                                         </div>
-                                        <div class="row">
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s6">
 
-                                            <div class="input-field col s12">
+                                            <select id="unidadM1" class="validate">
+                                                <option id="unidadMat" value="" disabled selected>Elegir...</option>
+                                                <optgroup label="Solidos">
+                                                    <option class="red" value="gr">Gramos (gr)</option>
+                                                    <option class="red" value="Kg">Kilogramos (Kg)</option>
+                                                </optgroup>
 
-                                                <select class="validate">
-                                                    <option value="" disabled selected>Elegir...</option>
-                                                    {%for xs in prov%}
-                                                    <option class="red" value="{{xs.idProveedor}}">{{xs.empresa}}
-                                                    </option>
-                                                    {%endfor%}
-                                                </select>
-                                                <label>Proveedor</label>
-                                            </div>
+                                                <optgroup label="Líquidos">
+                                                    <option class="red" value="ml">Mililitros(ml)</option>
+                                                    <option class="red" value="L">Litros (L)</option>
+                                                </optgroup>
+                                                <optgroup label="Otros">
+                                                    <option class="red" value="pz">Pieza (pz)</option>
+                                                </optgroup>
+
+                                            </select>
+                                            <label>Unidad</label>
                                         </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <button class="btn waves-effect waves-red orange accent-4 btn-large"
-                                                    type="submit" name="action">Enviar
-                                                    <i class="material-icons right">send</i>
-                                                </button>
-                                            </div>
+                                        <div class="input-field col s6">
+
+                                            <select id="proveedorMat1" class="validate">
+                                                <option value="" disabled selected>Elegir...</option>
+                                                {%for xs in prov%}
+                                                <option class="red" value="{{xs.idProveedor}}">{{xs.empresa}}
+                                                </option>
+                                                {%endfor%}
+                                            </select>
+                                            <label>Proveedor</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <button class="btn waves-effect waves-red orange accent-4 btn-large"
+                                                type="submit" name="action">Enviar
+                                                <i class="material-icons right">send</i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -253,54 +249,67 @@
     </div>
 </div>
 
-<!-- Modal Structure -->
+<!-- modalMatPrim Structure -->
 <div id="modal1" class="modal modal-fixed-footer">
     <div class="modal-content">
         <h4>Actualizar Materia Prima</h4>
         <div class="row">
+            <input class="validate" style="display: none;" name="idMateriaPrima1" id="idMateriaPrima1" type="text">
             <div class="input-field col s12">
-                <i class="material-icons prefix">assignment</i>
-                <input class="validate" name="text" id="text" type="text">
+                <i class="orange-text text-darken-4 material-icons prefix">assignment</i>
+                <input placeholder="Nombre" class="validate" name="nombreMateria" id="nombreMateria" type="text">
                 <label for="text" data-error="wrong" data-success="right">Nombre</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6">
-                <i class="material-icons prefix">description</i>
-                <input class="validate" name="desc" id="desc" type="text">
+                <i class="orange-text text-darken-4 material-icons prefix">description</i>
+                <input placeholder="Descripción" class="validate" name="descMatPrim" id="descMatPrim" type="text">
                 <label for="desc" data-error="wrong" data-success="right">Descripción</label>
             </div>
 
             <div class="input-field col s6">
-                <i class="material-icons prefix">class</i>
-                <input class="validate" name="text" id="ffd" type="text">
+                <i class="orange-text text-darken-4 material-icons prefix">class</i>
+                <input placeholder="Categoria" class="validate" name="categoria1" id="categoria1" type="text">
                 <label for="text" data-error="wrong" data-success="right">Categoria</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6">
-                <i class="material-icons prefix">attach_money</i>
-                <input class="validate" name="text" id="text" type="number">
+                <i class="orange-text text-darken-4 material-icons prefix">attach_money</i>
+                <input placeholder="Precio" class="validate" name="precio1" id="precio1" type="number">
                 <label for="text" data-error="wrong" data-success="right">Precio</label>
             </div>
             <div class="input-field col s6">
-                <i class="material-icons prefix">shopping_basket</i>
-                <input class="validate" name="text" id="text" type="number">
+                <i class="orange-text text-darken-4 material-icons prefix">shopping_basket</i>
+                <input placeholder="Cantidad" class="validate" name="cantidadMat" id="cantidadMat" type="number">
                 <label for="text" data-error="wrong" data-success="right">Cantidad</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">date_range</i>
-                <input class="validate" type="text" class="datepicker">
-                <label for="text" data-error="wrong" data-success="right">Fecha</label>
+            <div class="input-field col s6">
+
+                <select id="unidadM" class="validate">
+                    <option id="unidadMat" value="" disabled selected>Elegir...</option>
+                    <optgroup label="Solidos">
+                        <option class="red" value="gr">Gramos (gr)</option>
+                        <option class="red" value="Kg">Kilogramos (Kg)</option>
+                    </optgroup>
+
+                    <optgroup label="Líquidos">
+                        <option class="red" value="ml">Mililitros(ml)</option>
+                        <option class="red" value="L">Litros (L)</option>
+                    </optgroup>
+                    <optgroup label="Otros">
+                        <option class="red" value="pz">Pieza (pz)</option>
+                    </optgroup>
+
+                </select>
+                <label>Unidad</label>
             </div>
-        </div>
-        <div class="row">
+            <div class="input-field col s6">
 
-            <div class="input-field col s12">
-
-                <select class="validate">
+                <select id="proveedorMat" class="validate">
                     <option value="" disabled selected>Elegir...</option>
                     {%for xs in prov%}
                     <option class="red" value="{{xs.idProveedor}}">{{xs.empresa}}</option>
@@ -319,78 +328,4 @@
         </a>
     </div>
 </div>
-
-
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('.modal');
-        var options = {}
-        var instances = M.Modal.init(elems, options);
-    });
-
-    $(document).ready(function () {
-        $('ul.tabs').tabs();
-    });
-
-    function modal(idMateriaPrima, nombre, descripcion, categoria, precio, cantidad, proveedor_empresa) {
-
-
-        $("#updateBtn").click(function () {
-            swal({
-                title: "¿Quieres actualizar el producto?",
-                text: "No se podrá deshacer esta acción",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
-                    window.location.href = 'modificarProducto?id=' + idMateriaPrima + '&name=' + nombre
-                        + '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad='
-                        + cantidad + '&fecha=' + fecha + '&proveedor_empresa=' + proveedor_empresa;
-                } else {
-                }
-            });
-            $(".modal").removeClass("is-active");
-        });
-    }
-
-    var confirmarEliminacion = (idMateriaPrima, nombre, descripcion, categoria, precio, cantidad, proveedor_empresa) => {
-        swal({
-            title: "¿Quieres borrar " + nombre + " de la materia prima? ",
-            text: "No se podrá deshacer esta acción",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                swal("Eliminada con éxito", {
-                    icon: "success",
-                });
-                window.location.href = 'deleteMatPrim?id=' + idMateriaPrima + '&name=' + nombre
-                    + '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad='
-                    + cantidad + '&proveedor_empresa=' + proveedor_empresa;
-            } else {
-            }
-        });
-    };
-    var confirmarActivacion = (idMateriaPrima, nombre, descripcion, categoria, precio, cantidad, proveedor_empresa) => {
-        swal({
-            title: "¿Quieres activar la materia prima " + nombre + "?",
-            text: "No se podrá deshacer esta acción",
-            icon: "info",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                swal("Activado con éxito", {
-                    icon: "success",
-                });
-                window.location.href = 'updateMatPrim?id=' + idMateriaPrima + '&name=' + nombre
-                    + '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad='
-                    + cantidad + '&proveedor_empresa=' + proveedor_empresa;
-            } else {
-            }
-        });
-    };
-</script>
 {%endblock%}

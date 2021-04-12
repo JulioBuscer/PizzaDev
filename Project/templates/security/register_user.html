@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-image">
                         <img src="../../static/img/background1.jpg">
-                        <span class="card-title">Registrarse</span>
+                        <span class="card-title orange darken-4">Registrarse</span>
                     </div>
                     <div class="card-content">
                         {% with messages = get_flashed_messages() %}
@@ -22,30 +22,28 @@
                         {% endif %}
                         {% endwith %}
                         <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">mail_outline</i>
+                            <div class="input-field col s6">
+                                <i class="orange-text text-darken-4 material-icons prefix">mail_outline</i>
                                 <input class="validate" name="email" id="email" type="email">
                                 <label for="email" data-error="wrong" data-success="right">Correo</label>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">account_circle</i>
+                            <div class="input-field col s6">
+                                <i class="orange-text text-darken-4 material-icons prefix">account_circle</i>
                                 <input class="validate" name="name" id="name" type="text">
                                 <label for="name" data-error="wrong" data-success="right">Nombre</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
-                                <i class="material-icons prefix">lock_outline</i>
+                                <i class="orange-text text-darken-4 material-icons prefix">lock_outline</i>
                                 <input name="password" id="password" type="password">
                                 <label for="password">Contraseña</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
-                                <button class="btn waves-effect waves-light btn-large" type="submit" name="action">Confirmar
-                                    <i class="material-icons right">send</i>
+                                <button class="btn waves-effect right waves-light orange darken-4 btn-large" type="submit" name="action">Confirmar
+                                    <i class="white-text text-darken-4 material-icons right">send</i>
                                   </button>
                             </div>
                         </div>
