@@ -13,7 +13,7 @@
     <title>PizzaDev | {% block title %}
         {% endblock %}</title>
 
-    <!-- CSS  -->
+    <!-- CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="../static/materialize/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="../static/materialize/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
@@ -41,25 +41,33 @@
                 <li> <a class='dropdown-trigger' href='#' data-target='dropdown1'><i
                             class="material-icons prefix">person</i></a></li>
             </ul>
-            <ul id='dropdown1' class='dropdown-content'>
                 <li><a href="#" class="orange-text">Mi perfil</a></li>
                 {%if cliente%}
                 <li><a href="#" class="orange-text">Mis ordenes</a></li>
                 {%endif%}
                 <li><a href="{{ url_for('auth.logout') }}" class="orange-text">Salir</a></li>
 
+            <ul class="right hide-on-med-and-down">
+                <li><a href="">Ordenar</a></li>
             </ul>
             {%endif%}
-
             {%if not current_user.is_authenticated %}
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('main.proveedores') }}">Proveedores</a></li>
+                <li>
+                    <a href="{{ url_for('main.perfil') }}" class="navbar-item">
+                        Perfil
+                    </a>
+                </li>
+            </ul>
+            {%endif%} {%if not current_user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('auth.login_users') }}" class="navbar-item">
                         Iniciar sesión
                     </a>
                 </li>
             </ul>
-            {%endif%}
-            {%if not current_user.is_authenticated %}
+            {%endif%} {%if not current_user.is_authenticated %}
             <ul class="right hide-on-med-and-down">
                 <li>
                     <a href="{{ url_for('auth.register_user') }}" class="navbar-item">
@@ -80,6 +88,7 @@
 
             {%if current_user.is_authenticated %}
             {%if empleado%}
+            {%endif%} {%if current_user.is_authenticated %} {%if admin%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('admin.ventas') }}" class="navbar-item">
                         Ventas
@@ -94,8 +103,7 @@
                     </a>
                 </li>
             </ul>
-            {%endif%}
-            {%if cliente%}
+            {%endif%} {%if cliente%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('main.ventas') }}" class="navbar-item">
                         Ventas
@@ -148,12 +156,6 @@
                 {%endif%}
                 {%endif%}
             </ul>
-            <ul id="dropdown2" class="dropdown-content">
-                <li><a href="#">{{name}}</a></li>
-                <li><a href="{{ url_for('auth.logout') }}">Salir</a></li>
-
-            </ul>
-
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
     </nav>
@@ -181,8 +183,8 @@
                     <h5 class="white-text">PizzaDev</h5>
                     <p class="grey-text text-lighten-4">Nos ubicamos en León, Guanajuato en donde desde hace 25 años
                         hemos satisfecho el apetito de nuestros clientes con comida preparada al momento con
-                        ingredientes frescos y de calidad. Gracias a ello, nos hemos ganado la preferencia del público
-                        que busca un delicioso sabor.</p>
+                        ingredientes frescos y de calidad. Gracias a ello, nos hemos ganado la preferencia del
+                        público que busca un delicioso sabor.</p>
 
 
                 </div>
@@ -200,9 +202,5 @@
             </div>
         </div>
     </footer>
-
-
-
 </body>
-
 </html>
