@@ -54,7 +54,7 @@ def inventario():
 def recetario():
     if current_user.has_role('admin'):
         admin = True
-        query="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
+        query="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto, rm.cantidad,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
     
         recetario = dbSQL.session.execute(query)
         pizzasactiv = []
@@ -65,11 +65,12 @@ def recetario():
                 "costo":x.costo,
                 "descripcion":x.descripcion,
                 "foto":x.foto,
-                "ingrediente":x.nombreIngre
+                "ingrediente":x.nombreIngre,
+                "cantidad":x.cantidad
                 })
             
             
-        query2="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=0 GROUP BY r.nombre;"
+        query2="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto, rm.cantidad,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=0 GROUP BY r.nombre;"
         
         recetario2 = dbSQL.session.execute(query2)
         pizzasdeactiv = []
@@ -80,7 +81,8 @@ def recetario():
                 "costo":x.costo,
                 "descripcion":x.descripcion,
                 "foto":x.foto,
-                "ingrediente":x.nombreIngre
+                "ingrediente":x.nombreIngre,
+                 "cantidad":x.cantidad
                 })
             
         ingre = dbSQL.session.execute("select * from materiaprima where categoria= 'materia prima';")
@@ -148,7 +150,7 @@ def updateRecetario():
         recetario.nombre = request.form.get("nombreModal")
         recetario.descripcion=request.form.get("descripcionModal")
         recetario.costo=request.form.get("costoModal")
-        recetario.foto= ("data:image/jpeg;base64,"+request.form.get("textareaModal"))
+        recetario.foto= (request.form.get("textareaModal"))
 
         dbSQL.session.add(recetario)
         dbSQL.session.commit()
@@ -164,7 +166,7 @@ def agregarRecetario():
                 nombre= request.form.get('nombrePizza'),
                 descripcion= request.form.get('descripcionPizza'),
                 costo= request.form.get('costoPizza'),
-                 foto = ("data:image/jpeg;base64,"+request.form.get("textarea")),
+                 foto = (request.form.get("textarea")),
                 active= 1
                      
             )
@@ -178,7 +180,7 @@ def agregarRecetario():
             print(ingredientes)
             for x in ingredientes:
                 print("ingrediente"+x[0])
-                rec_mat= "insert into recetario_materiaprima() values("+str(lastid.idRecetario)+","+x[0]+ "," + str(0) +")"
+                rec_mat= "insert into recetario_materiaprima() values("+str(lastid.idRecetario)+","+x[0]+ "," + str(150) +")"
                 dbSQL.session.execute(rec_mat)
                 dbSQL.session.commit()
         
