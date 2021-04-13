@@ -16,7 +16,7 @@
                     <table class="responsive-table highlight centered">
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>Nombre</th>
                                 <th>Correo</th>
                                 <th>Rol</th>
                                 <th>Acciones</th>
@@ -25,26 +25,19 @@
                         <tbody>
                             {%for usuario in usuarios %}
                             <tr>
-                                <td>{{usuario.name}}</td>
-                                <td>{{usuario.email}}</td>
-                                <td>{{usuario.roles}}</td>
-                                <td><a onclick="confirmarEliminacion('{{usuario.id}}','{{usuario.name}}')"
+                                <td>{{usuario.User.name}}</td>
+                                <td>{{usuario.User.email}}</td>
+                                <td>{{usuario.Role.name}}</td>
+                                
+                                <td><a onclick="confirmarEliminacion('{{usuario.User.id}}','{{usuario.User.name}}')"
                                         class="waves-effect waves-light red btn modal-trigger"> <i
                                             class="material-icons">delete</i></a>
-                                    <a onclick="modal('{{usuario.id}}','{{usuario.name}}','{{usuario.email}}','{{usuario.password}}',
-                                '{{usuario.roles}}')"
-                                        class="waves-effect waves-light blue btn modal-trigger" href="#modal1"> <i
-                                            class="material-icons">edit</i></a>
+                                    <a onclick="modal('{{usuario.User.id}}','{{usuario.User.name}}','{{usuario.User.email}}','{{usuario.User.password}}',
+                                '{{usuario.Role.name}}')" class="waves-effect waves-light blue btn modal-trigger"
+                                        href="#modal1"> <i class="material-icons">edit</i></a>
                                 </td>
                             </tr>
                             {%endfor%}
-                            {% if usuarios|count == 0 %}
-                            <tr colspan="6">
-                                <td colspan="6">
-                                    No hay datos disponibles
-                                </td>
-                            </tr>
-                            {%endif%}
                         </tbody>
                     </table>
                 </div>
@@ -53,7 +46,7 @@
                 <table class="responsive-table highlight centered">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Nombre</th>
                             <th>Correo</th>
                             <th>Rol</th>
                             <th>Acciones</th>
@@ -62,21 +55,14 @@
                     <tbody>
                         {%for usuario in usuarios1 %}
                         <tr>
-                            <td>{{usuario.name}}</td>
-                            <td>{{usuario.email}}</td>
-                            <td>{{usuario.roles}}</td>
-                            <td><a onclick="confirmarActivacion('{{usuario.id}}','{{usuario.name}}')"
+                            <td>{{usuario.User.name}}</td>
+                            <td>{{usuario.User.email}}</td>
+                            <td>{{usuario.Role.name}}</td>
+                            <td><a onclick="confirmarActivacion('{{usuario.User.id}}','{{usuario.User.name}}')"
                                     class="waves-effect waves-light green btn modal-trigger"> <i
                                         class="material-icons">check</i></a></td>
                         </tr>
                         {%endfor%}
-                        {% if usuarios1|count == 0 %}
-                        <tr colspan="6">
-                            <td colspan="6">
-                                No hay datos disponibles
-                            </td>
-                        </tr>
-                        {%endif%}
                     </tbody>
                 </table>
             </div>
@@ -94,7 +80,7 @@
                                 </div>
                             </div>
                             <div class="col s12 m6 ">
-                                <form action="guardarProveedor" method="POST">
+                                <form action="guardarUsuario" method="POST">
                                     <div class="card">
                                         <div class="card-content">
                                             <div class="row">
@@ -115,9 +101,30 @@
 
                                                 <div class="input-field col s6">
                                                     <i class="material-icons prefix">fingerprint</i>
-                                                    <input class="validate" name="txtContraseña" id="ffd" type="password">
+                                                    <input class="validate" name="txtContraseña" id="ffd"
+                                                        type="password">
                                                     <label for="text" data-error="wrong"
                                                         data-success="right">Contraseña</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <select id="cmbRol" name="cmbRol" class="validate">
+                                                        <option value="" disabled selected>Elegir...</option>
+                                                        {%for r in roles %}
+                                                        <option class="red" value="{{r.name}}">{{r.name}}
+                                                        </option>
+                                                        {%endfor%}
+                                                    </select>
+                                                    <label>Empleado</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <button class="btn waves-effect waves-red orange accent-4 btn-large"
+                                                        type="submit" name="action">Enviar
+                                                        <i class="material-icons right">send</i>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -138,7 +145,7 @@
     <div class="modal-content">
         <h4>Actualizar Usuario</h4>
         <div class="row">
-            <input type="hidden" name="id" id="id1">
+            <input type="hidden" name="id1" id="id1">
             <div class="input-field col s12">
                 <i class="material-icons prefix">account_box</i>
                 <input class="validate" name="txtNombre" id="txtNombre1" type="text">
@@ -153,6 +160,18 @@
             <div class="input-field col s6">
                 <i class="material-icons prefix">fingerprint</i>
                 <input class="validate" name="txtContraseña" id="txtContraseña1" type="password">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <select id="cmbRol1" name="cmbRol1" class="validate">
+                    <option value="" disabled selected id="cmbRol1">{{rol}}</option>
+                    {%for r in roles%}
+                    <option class="red" value="{{r.name}}">{{r.name}}</option>
+                    {%endfor%}
+                </select>
+                <label>Rol</label>
+                <input class="validate" name="txtRol1" id="txtRol1" type="text" disabled>
             </div>
         </div>
     </div>
@@ -181,16 +200,16 @@
     });
 
 
-    function modal(id, name, email, password, roles) {
-        $("#id1").val(id);
-        $("#txtCorreo1").val(email);
-        $("#txtContraseña1").val(password);
-        $("#txtNombre1").val(name);
 
+    function modal(id, name, email, password, rol) {
+        $("#id1").val(id);
+        $("#txtNombre1").val(name);
+        $("#txtCorreo1").val(email);
+        $("#txtRol1").val(rol);
 
         $("#updateBtn").click(function () {
             swal({
-                title: "¿Quieres actualizar el proveedor?",
+                title: "¿Quieres actualizar al usuario?",
                 text: "No se podrá deshacer esta acción",
                 icon: "warning",
                 buttons: true,
@@ -198,10 +217,18 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     var id = $("#id1").val();
+                    console.log(id)
                     var email = $("#txtCorreo1").val();
                     var password = $("#txtContraseña1").val();
                     var name = $("#txtNombre1").val();
-                    window.location.href = 'modificarProveedor?idProveedor1=' + idProveedor + '&' + 'txtEmpresa1=' + empresa + '&' + 'txtDirección1=' + direccionPro + '&' + 'txtEmail1=' + email + '&' + 'txtTelefono1=' + telefono + '&' + 'txtRepresentante1=' + representante;
+                    var r=$('select[id="cmbRol1"] option:selected').val();
+                    if (r!=""){
+                        var rol = r;
+                    }else{
+                        var rol= $("#txtRol1").val();
+                    }
+                    console.log(rol);
+                    window.location.href = 'modificarUsuario?id1=' + id + '&' + 'txtCorreo1=' + email + '&' + 'txtContraseña1=' + password + '&' + 'txtNombre1=' + name + '&' + 'cmbRol1=' + rol;
                 } else {
                 }
             });
