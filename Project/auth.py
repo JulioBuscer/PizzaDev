@@ -37,7 +37,8 @@ def login_users_post():
         try:
             login_user(user, remember=remember)
             if current_user.has_role('cliente') or current_user.has_role('admin') or current_user.has_role('empleado'):
-                return redirect(url_for('main.index'))
+                flash('Bienvenido '+current_user.name)
+                return redirect(url_for('main.index'))                
             else:
                 logout_user()
                 flash('No tienes permiso para acceder al sistema')
@@ -107,6 +108,7 @@ def register_user_post():
         cliente_role = userDataStore.find_or_create_role('cliente')
         userDataStore.create_user(name=name, email=email,
                                   password=generate_password_hash(password, method='sha256'), roles=[cliente_role])
+        flash('Te has registrado con éxito')
         # Agregamos el usuario a la bd.
         dbSQL.session.commit()
     except:
@@ -144,6 +146,8 @@ def register_user_post():
 @login_required
 def logout():
     # Cerramos la session
+    flash('Tu sesión ha finalizado')
     logout_user()
     return redirect(url_for('main.index'))
+
 

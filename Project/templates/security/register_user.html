@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% block title %}Registro {%endblock %}
+
 {%block content %}
 <div id="login-page" class="row">
     <form class="login-form" method="POST" action="/security/register_user">
@@ -11,16 +13,6 @@
                         <span class="card-title orange darken-4">Registrarse</span>
                     </div>
                     <div class="card-content">
-                        {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                        <div class="notification is-danger">
-                            <script>
-                                var toastHTML = '<span>{{ messages[0] }}</span>';
-                                M.toast({ html: toastHTML });
-                            </script>
-                        </div>
-                        {% endif %}
-                        {% endwith %}
                         <div class="row">
                             <div class="input-field col s6">
                                 <i class="orange-text text-darken-4 material-icons prefix">mail_outline</i>

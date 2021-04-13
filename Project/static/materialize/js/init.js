@@ -1,5 +1,5 @@
-(function($){
-  $(function(){
+(function ($) {
+  $(function () {
     $('.modal').modal();
     $('.parallax').parallax();
     $('.sidenav').sidenav();
@@ -60,67 +60,95 @@ function modalMatPrim(idMateriaPrima, nombre, descripcion, categoria, precio, ca
   $('#unidadMat').val(unidad);
 
   $("#updateBtn").click(function () {
-      swal({
-          title: "¿Quieres actualizar el producto?",
-          text: "No se podrá deshacer esta acción",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-      }).then((willDelete) => {
-          if (willDelete) {
-              idMateriaPrimas = $('#idMateriaPrima1').val();
-              nombres = $('#nombreMateria').val();
-              descripcions = $('#descMatPrim').val();
-              categorias = $('#categoria1').val();
-              precios = $('#precio1').val();
-              cantidads = $('#cantidadMat').val();
-              unidads = $('#unidadM').val();
-              proveedor_empresas = $('#proveedorMat').val();
-              window.location.href = 'updateMatPrim?id=' + idMateriaPrimas + '&name=' + nombres
-                  + '&descripcion=' + descripcions + '&categoria=' + categorias + '&precio=' + precios + '&cantidad='
-                  + cantidads + '&unidad=' + unidads + '&proveedor_empresa=' + proveedor_empresas;
-          } else {
-          }
-      });
+    swal({
+      title: "¿Quieres actualizar el producto?",
+      text: "No se podrá deshacer esta acción",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        idMateriaPrimas = $('#idMateriaPrima1').val();
+        nombres = $('#nombreMateria').val();
+        descripcions = $('#descMatPrim').val();
+        categorias = $('#categoria1').val();
+        precios = $('#precio1').val();
+        cantidads = $('#cantidadMat').val();
+        unidads = $('#unidadM').val();
+        proveedor_empresas = $('#proveedorMat').val();
+        window.location.href = 'updateMatPrim?id=' + idMateriaPrimas + '&name=' + nombres
+          + '&descripcion=' + descripcions + '&categoria=' + categorias + '&precio=' + precios + '&cantidad='
+          + cantidads + '&unidad=' + unidads + '&proveedor_empresa=' + proveedor_empresas;
+      } else {
+      }
+    });
   });
 }
 
 var confirmarEliminacionMatPrim = (idMateriaPrima, nombre, descripcion, categoria, precio, cantidad, proveedor_empresa, unidad) => {
   swal({
-      title: "¿Quieres borrar " + nombre + " de la materia prima? ",
-      text: "No se podrá deshacer esta acción",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
+    title: "¿Quieres borrar " + nombre + " de la materia prima? ",
+    text: "No se podrá deshacer esta acción",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
   }).then((willDelete) => {
-      if (willDelete) {
-          swal("Eliminada con éxito", {
-              icon: "success",
-          });
-          window.location.href = 'deleteMatPrim?id=' + idMateriaPrima + '&name=' + nombre
-              + '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad='
-              + cantidad + '&unidad=' + unidad + '&proveedor_empresa=' + proveedor_empresa;
-      } else {
-      }
+    if (willDelete) {
+      swal("Eliminada con éxito", {
+        icon: "success",
+      });
+      window.location.href = 'deleteMatPrim?id=' + idMateriaPrima + '&name=' + nombre
+        + '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad='
+        + cantidad + '&unidad=' + unidad + '&proveedor_empresa=' + proveedor_empresa;
+    } else {
+    }
   });
 };
 var confirmarActivacionMatPri = (idMateriaPrima, nombre, descripcion, categoria, precio, cantidad, proveedor_empresa, unidad) => {
   swal({
-      title: "¿Quieres activar la materia prima " + nombre + "?",
-      text: "No se podrá deshacer esta acción",
-      icon: "info",
-      buttons: true,
-      dangerMode: true,
+    title: "¿Quieres activar la materia prima " + nombre + "?",
+    text: "No se podrá deshacer esta acción",
+    icon: "info",
+    buttons: true,
+    dangerMode: true,
   }).then((willDelete) => {
-      if (willDelete) {
-          swal("Activado con éxito", {
-              icon: "success",
-          });
-          window.location.href = 'updateMatPrim?id=' + idMateriaPrima + '&name=' + nombre
-              + '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad='
-              + cantidad + '&unidad=' + unidad + '&proveedor_empresa=' + proveedor_empresa;
-      } else {
-      }
+    if (willDelete) {
+      swal("Activado con éxito", {
+        icon: "success",
+      });
+      window.location.href = 'updateMatPrim?id=' + idMateriaPrima + '&name=' + nombre
+        + '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad='
+        + cantidad + '&unidad=' + unidad + '&proveedor_empresa=' + proveedor_empresa;
+    } else {
+    }
+  });
+};
+
+var confirmarInsercionMatPri = () => {
+
+  swal({
+    title: "¿Quieres activar la materia prima " + $('#nombreMateria1').val() + "?",
+    text: "No se podrá deshacer esta acción",
+    icon: "info",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      nombre = $('#nombreMateria1').val();
+      descripcion = $('#descMatPrim1').val();
+      categoria = $('#categoria11').val();
+      precio = $('#precio11').val();
+      cantidad = $('#cantidadMat1').val();
+      unidad = $('#unidadM1').val();
+      proveedor_empresa = $('#proveedorMat1').val();
+      swal("Activado con éxito", {
+        icon: "success",
+      });
+      window.location.href = 'insertMatPrim?name=' + nombre
+        + '&descripcion=' + descripcion + '&categoria=' + categoria + '&precio=' + precio + '&cantidad='
+        + cantidad + '&unidad=' + unidad + '&proveedor_empresa=' + proveedor_empresa;
+    } else {
+    }
   });
 };
 

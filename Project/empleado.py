@@ -5,10 +5,10 @@ from werkzeug.utils import redirect
 from . import models
 from . import dbSQL
 
-from datetime import datetime
-
+from datetime import date, datetime
 empleado = Blueprint('empleado', __name__, url_prefix='/empleado')
 
+# ----------------------------- MATERIA PRIMA CRUD --------------------------------
 @empleado.route('inventario')
 @roles_required('empleado')
 def inventario():
@@ -24,6 +24,7 @@ def inventario():
         proveedor = dbSQL.session.query(models.Proveedor).filter(models.Proveedor.active == 1)
         flash('Estás en inventario de materia prima')
         return render_template('/empleado/inventario.html', name=current_user.name, empleado=empleado, matPr = matPrima, matPrIn = matPrimaIn, prov= proveedor)
+    flash('No tienes permiso para acceder a este apartado')
     return redirect(url_for('main.index'))
 
 @empleado.route('deleteMatPrim')
@@ -47,6 +48,7 @@ def deleteMatPrim():
             dbSQL.session.commit()
             flash('Materia prima eliminada')
             return redirect(url_for('empleado.inventario'))
+    flash('No tienes permiso para acceder a este apartado')
     return redirect(url_for('main.index'))
 
 @empleado.route('updateMatPrim')
@@ -70,4 +72,30 @@ def updateMatPrim():
             dbSQL.session.commit()
             flash('Materia prima actualizada')
             return redirect(url_for('empleado.inventario'))
+    flash('No tienes permiso para acceder a este apartado')
     return redirect(url_for('main.index'))
+
+@empleado.route('insertMatPrim')
+@roles_required('empleado')
+def insertMatPrim():
+    if current_user.has_role('empleado'):
+        empleados = True
+        if request.method == 'GET':
+            matPrim = models.MateriaPrima(nombre=request.args.get("name"),
+                     descripcion=request.args.get("descripcion"),
+                     categoria=request.args.get("categoria"),
+                     precio=request.args.get("precio"),
+                     cantidad=request.args.get("cantidad"),
+                     fecha=str(datetime.today()),
+                     unidad=request.args.get("unidad"),
+                     active = bool(True),
+                     idProveedor=request.args.get("proveedor_empresa"))
+                     
+            dbSQL.session.add(matPrim)
+            dbSQL.session.commit()
+            flash('Materia prima actualizada')
+            return redirect(url_for('empleado.inventario'))
+    flash('No tienes permiso para acceder a este apartado')
+    return redirect(url_for('main.index'))
+
+# ------------------------------ FIN MATERIA PRIMA CRUD -----------------------------------------

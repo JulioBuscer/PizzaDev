@@ -1,9 +1,8 @@
-from flask import Flask
-from flask_principal import Permission, RoleNeed
+from flask import Flask, render_template
+from flask_principal import RoleNeed
 from flask_mongoengine import MongoEngine
 from flask_sqlalchemy import SQLAlchemy
-from flask_security import Security, MongoEngineUserDatastore, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_security import Security, SQLAlchemyUserDatastore
 from pymongo import MongoClient
 import os
 # Creamos una instancia de SQLAlchemy
@@ -38,6 +37,11 @@ def create_app():
     def create_all():
         dbSQL.create_all()
 
+    
+    @app.errorhandler(404)
+    def page_not_found(e):
+        # note that we set the 404 status explicitly
+        return render_template('404.html'), 404
     #Vincula los modelos a flask-security
     security = Security(app, userDataStore)
 
