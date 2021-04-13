@@ -48,6 +48,10 @@ def create_app():
     #Registramos el blueprint para las rutas admin
     from .admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint)
+    
+    #Registramos el blueprint para las rutas empleado
+    from .empleado import empleado as empleado_blueprint
+    app.register_blueprint(empleado_blueprint)
 
     #Registramos el blueprint para el resto de la aplicación
     from .main import main as main_blueprint

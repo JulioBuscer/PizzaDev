@@ -36,7 +36,7 @@ def login_users_post():
         # Creamos una sessión y logueamso al usuario.
         try:
             login_user(user, remember=remember)
-            if current_user.has_role('cliente') or current_user.has_role('admin'):
+            if current_user.has_role('cliente') or current_user.has_role('admin') or current_user.has_role('empleado'):
                 return redirect(url_for('main.index'))
             else:
                 logout_user()

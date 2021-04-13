@@ -61,7 +61,6 @@
             </ul>
 
             {%endif%}
-
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
             </ul>
@@ -72,7 +71,7 @@
             {%endif%}
 
             {%if current_user.is_authenticated %}
-            {%if admin%}
+            {%if empleado%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('admin.ventas') }}" class="navbar-item">
                         Ventas
@@ -80,9 +79,9 @@
                 </li>
             </ul>
             {%endif%}
-            {%if admin%}
+            {%if empleado%}
             <ul class="right hide-on-med-and-down">
-                <li><a href="{{ url_for('admin.inventario') }}" class="navbar-item">
+                <li><a href="{{ url_for('empleado.inventario') }}" class="navbar-item">
                         Inventario
                     </a>
                 </li>
@@ -117,20 +116,18 @@
                 </li>
                 {%endif%}
 
-                {%if index%}
                 <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
-                {%endif%}
                 <li><a href="">Ordenar</a></li>
 
                 {%if current_user.is_authenticated %}
-                {%if admin%}
+                {%if empleado%}
                 <li><a href="{{ url_for('admin.ventas') }}">
                         Ventas
                     </a>
                 </li>
                 {%endif%}
-                {%if admin%}
-                <li><a href="{{ url_for('admin.inventario') }}">
+                {%if empleado%}
+                <li><a href="{{ url_for('empleado.inventario') }}">
                         Inventario
                     </a>
                 </li>
