@@ -1,22 +1,13 @@
 from flask import Flask, render_template
-from . models import User, Role
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore
-from pymongo import MongoClient
 import os
 # Creamos una instancia de SQLAlchemy
+
 dbSQL = SQLAlchemy()
+from . models import User,Role
 userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
-# Creamos una instancia de PyMongo
-cluster = MongoClient(
-    "mongodb+srv://admin:gmJR1NOhBmEEQm9t@cluster0.c8eub.mongodb.net/pizza_dev?authSource=admin&replicaSet=atlas-b00mj0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
-dbMongo = cluster['pizza_dev']
-print(dbMongo.list_collection_names())
-''' Creamos una instancia de MongoEngine
-dbMongo = MongoEngine()
-from .models import User, Role
-userDataStore = MongoEngineUserDatastore(dbSQL, User, Role)
-'''
 
 
 def create_app():
@@ -28,7 +19,7 @@ def create_app():
     app.config['SECRET_KEY'] = os.urandom(24)
     
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root12@localhost:3303/tiendaflask'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/tiendaflask'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://pizzadev:idgs801!@192.168.0.108:3306/tiendaflask'
 
     app.config['SECURITY_PASSWORD_SALT'] = 'thissecretsalt'

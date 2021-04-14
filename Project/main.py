@@ -11,7 +11,7 @@ from flask_security import login_required, current_user
 from flask_security.decorators import roles_required
 from flask_sqlalchemy import model
 from werkzeug.utils import redirect
-from . import dbSQL, dbMongo
+from . import dbSQL
 from . import models
 from flask_principal import Principal, Permission, RoleNeed
 
