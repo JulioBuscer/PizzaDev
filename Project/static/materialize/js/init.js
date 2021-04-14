@@ -153,3 +153,91 @@ var confirmarInsercionMatPri = () => {
 };
 
 // ---------------------- FIN MAT PRIMA ------------------------------
+
+
+function cargarFoto1() {
+  var fileChooser = document.getElementById("txtFoto2");
+  var foto = document.getElementById("imgFoto2");
+  var base64 = document.getElementById("textarea");
+  if (fileChooser.files.length > 0) {
+      var fr = new FileReader();
+      fr.onload = function() {
+          foto.src = fr.result;
+          base64.value = foto.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '');
+      }
+      fr.readAsDataURL(fileChooser.files[0]);
+  }
+}
+
+function cargarFoto11() {
+  var fileChooser = document.getElementById("txtFoto21");
+  var foto = document.getElementById("imgFoto21");
+  var base64 = document.getElementById("textareaModal");
+  if (fileChooser.files.length > 0) {
+      var fr = new FileReader();
+      fr.onload = function() {
+          foto.src = fr.result;
+          base64.value = foto.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '');
+      }
+      fr.readAsDataURL(fileChooser.files[0]);
+  }
+}
+
+
+function modalRecetario(idRecetario, nombre, descripcion, costo, foto) {
+  $("#idRecetario").val(idRecetario);
+  $("#nombre").val(nombre);
+  $("#desc").val(descripcion);
+  $("#costo").val(costo);
+  $("#imgFoto21").attr("src", "data:image/jpeg;base64,"+foto).width(380).height(380);
+  $("#textareaModal").val(foto);
+
+
+
+  $("#updateBtn").click(function() {
+      swal({
+          title: "¿Quieres actualizar el Recetario?",
+          text: "No se podrá deshacer esta acción",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      }).then((willDelete) => {
+          if (willDelete) {} else {}
+      });
+      $(".modal").removeClass("is-active");
+  });
+}
+var confirmarEliminacionRecetario = (idRecetario, nombre) => {
+  swal({
+      title: "¿Quieres borrar " + nombre + " de la materia prima? ",
+      text: "No se podrá deshacer esta acción ",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+  }).then((willDelete) => {
+      if (willDelete) {
+          swal("Eliminada con éxito ", {
+              icon: "success",
+          });
+          window.location.href = 'desactivarPizza?id=' + idRecetario;
+      } else {}
+  });
+};
+var confirmarActivacionRecetario = (idRecetario, nombre) => {
+  swal({
+      title: "¿Quieres activar la materia prima " + nombre + "? ",
+      text: "No se podrá deshacer esta acción ",
+      icon: "info",
+      buttons: true,
+      dangerMode: true,
+  }).then((willDelete) => {
+      if (willDelete) {
+          swal("Activado con éxito ", {
+              icon: "success",
+          });
+          window.location.href = 'activarPizza?id=' + idRecetario;
+      } else {}
+  });
+};
+
+// ---------------------- FUNCIONES RECETARIO ------------------------

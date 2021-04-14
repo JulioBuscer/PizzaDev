@@ -6,7 +6,7 @@ from operator import concat
 import pymongo
 import dns
 # connection string
-from flask import Blueprint, render_template, request, session, Flask
+from flask import Blueprint, render_template, request, session, Flask, flash
 from flask.helpers import url_for
 from flask_security import login_required, current_user
 from flask_security.decorators import roles_required
@@ -21,16 +21,19 @@ main = Blueprint('main', __name__)
 
 @main.route('/perfil')
 def perfil():
-        return render_template('perfil.html')
+    return render_template('perfil.html')
+
 
 @main.route('/pedidosDia')
 def pedidosDia():
-        return render_template('pedidosDia.html')
+    return render_template('pedidosDia.html')
+
 
 @main.route('/pedidosSemana')
 def pedidosSemana():
-        return render_template('pedidosSemana.html')
-    
+    return render_template('pedidosSemana.html')
+
+
 @main.route('/')
 def index():
     if current_user.has_role('admin'):
@@ -49,13 +52,17 @@ def index():
 def mostrarDatosUsuario():
     return render_template("usuario.html")
 
+
 @main.route("/proveedores")
 def proveedores():
     return render_template("proveedores.html")
 
-@main.route('/registrarProveedor',methods=['GET','POST'])
+
+@main.route('/registrarProveedor', methods=['GET', 'POST'])
 def registrarProveedor():
     return render_template('registrarProveedor.html')
+
+
 @main.route('/ventas')
 def ventas():
     if current_user.has_role('cliente'):
@@ -74,21 +81,20 @@ def admin_ventas():
 
 @main.route('/menu')
 def menu():
-      
-    query="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
-    
-    recetario = dbSQL.session.execute(query)
-    pizzas = []
-    for x in recetario:
-        pizzas.append({
-            "id":x.idRecetario,
-            "nombre":x.nombre,
-            "costo":x.costo,
-            "descripcion":x.descripcion,
-            "foto":x.foto,
-            "ingrediente":x.nombreIngre
+    if current_user.has_role('cliente'):
+        cliente = True
+        query = "SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
+        recetario = dbSQL.session.execute(query)
+        pizzas = []
+        for x in recetario:
+            pizzas.append({
+                "id": x.idRecetario,
+                "nombre": x.nombre,
+                "costo": x.costo,
+                "descripcion": x.descripcion,
+                "foto": x.foto,
+                "ingrediente": x.nombreIngre
             })
-        
-        
-    return render_template("menu.html", menu=pizzas)
-
+        return render_template('cliente/menu.html', menu=pizzas, cliente=cliente)
+    flash('Debes de iniciar sesión para poder ordenar')
+    return redirect(url_for('main.index'))
