@@ -1,6 +1,7 @@
 
 # import datetime module
 import datetime
+from operator import concat
 # import pymongo module
 import pymongo
 import dns
@@ -71,11 +72,23 @@ def admin_ventas():
     return render_template('index.html')
 
 
-@main.route('/recetario')
-def recetario():
-    return render_template("recetario.html")
+@main.route('/menu')
+def menu():
+      
+    query="SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
+    
+    recetario = dbSQL.session.execute(query)
+    pizzas = []
+    for x in recetario:
+        pizzas.append({
+            "id":x.idRecetario,
+            "nombre":x.nombre,
+            "costo":x.costo,
+            "descripcion":x.descripcion,
+            "foto":x.foto,
+            "ingrediente":x.nombreIngre
+            })
+        
+        
+    return render_template("menu.html", menu=pizzas)
 
-
-@main.route('/registroRecetario')
-def registroRecetario():
-    return render_template("registrarRecetario.html")
