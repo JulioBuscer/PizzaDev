@@ -7,4 +7,4 @@ set FLASK_APP=Project
 set FLASK_ENV=development
 
 
-flask run --host=0.0.0.0
+flask run 

@@ -4,19 +4,13 @@ from flask_security.decorators import roles_required
 from werkzeug.utils import redirect
 from . import models
 from . import dbSQL
-
-from datetime import date, datetime
+from datetime import datetime
 empleado = Blueprint('empleado', __name__, url_prefix='/empleado')
 
 # ----------------------------- MATERIA PRIMA CRUD --------------------------------
 @empleado.route('inventario')
 @roles_required('empleado')
 def inventario():
-    #persona = dbSQL.session.query(models.Persona,models.PersonaDireccion, models.Direccion).join(models.PersonaDireccion.persona, models.PersonaDireccion.direccion).filter(models.Persona.idPersona == 2)
-    #direccion = dbSQL.session.query(models.Direccion).join(persona, persona.idDireccion == models.Direccion.idDireccion).filter(idPersona=persona)
-    #persona = dbSQL.session.query(models.users_roles, models.User, models.Role).join(models.User).join(models.Role).all()
-    #for x in persona:
-    #    print(x)
     if current_user.has_role('empleado'):
         empleado = True
         matPrima = dbSQL.session.query(models.MateriaPrima).join(models.Proveedor, models.Proveedor.idProveedor == models.MateriaPrima.idProveedor).filter(models.MateriaPrima.active == 1)
@@ -25,7 +19,7 @@ def inventario():
         flash('Estás en inventario de materia prima')
         return render_template('/empleado/inventario.html', name=current_user.name, empleado=empleado, matPr = matPrima, matPrIn = matPrimaIn, prov= proveedor)
     flash('No tienes permiso para acceder a este apartado')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('empleado.index'))
 
 @empleado.route('deleteMatPrim')
 @roles_required('empleado')
@@ -49,7 +43,7 @@ def deleteMatPrim():
             flash('Materia prima eliminada')
             return redirect(url_for('empleado.inventario'))
     flash('No tienes permiso para acceder a este apartado')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('empleado.index'))
 
 @empleado.route('updateMatPrim')
 @roles_required('empleado')
@@ -73,7 +67,7 @@ def updateMatPrim():
             flash('Materia prima actualizada')
             return redirect(url_for('empleado.inventario'))
     flash('No tienes permiso para acceder a este apartado')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('empleado.index'))
 
 @empleado.route('insertMatPrim')
 @roles_required('empleado')
@@ -96,12 +90,13 @@ def insertMatPrim():
             flash('Materia prima actualizada')
             return redirect(url_for('empleado.inventario'))
     flash('No tienes permiso para acceder a este apartado')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('empleado.index'))
 
 # ------------------------------ FIN MATERIA PRIMA CRUD -----------------------------------------
 
 # ----------------------------- RECETARIO CRUD --------------------------------------------------
 @empleado.route('/recetario')
+@roles_required('empleado')
 def recetario():
     if current_user.has_role('empleado'):
         empleado = True
@@ -150,9 +145,10 @@ def recetario():
         flash('Estás en recetario')
         return render_template("/empleado/administracionRecetario.html", recetario=pizzasactiv, recetariodesac= pizzasdeactiv, empleado=empleado, ingredientes=ingredientes)
     flash('No tienes permiso para acceder a este apartado')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('empleado.index'))
     
 @empleado.route('/activarPizza', methods=['GET', 'POST'])
+@roles_required('empleado')
 def activarPizza():
     if current_user.has_role('empleado'):
         empleado = True
@@ -165,9 +161,10 @@ def activarPizza():
         dbSQL.session.commit()
         return redirect(url_for('empleado.recetario'))
     flash('No tienes permiso para acceder a este apartado')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('empleado.index'))
 
 @empleado.route('/desactivarPizza', methods=['GET', 'POST'])
+@roles_required('empleado')
 def eliminarPizza():
     if current_user.has_role('empleado'):
         empleado = True
@@ -180,9 +177,10 @@ def eliminarPizza():
         dbSQL.session.commit()
         return redirect(url_for('empleado.recetario'))
     flash('No tienes permiso para acceder a este apartado')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('empleado.index'))
 
 @empleado.route('updateRecetario', methods=['POST', 'GET'])
+@roles_required('empleado')
 def updateRecetario():
     if current_user.has_role('empleado'):
         empleado = True
@@ -198,9 +196,10 @@ def updateRecetario():
         dbSQL.session.commit()
         return redirect(url_for('empleado.recetario'))
     flash('No tienes permiso para acceder a este apartado')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('empleado.index'))
 
 @empleado.route('/agregarRecetario', methods=['POST', 'GET'])
+@roles_required('empleado')
 def agregarRecetario():
     if current_user.has_role('empleado'):
         empleado = True 
@@ -223,6 +222,98 @@ def agregarRecetario():
                 dbSQL.session.commit()
             return redirect(url_for('empleado.recetario'))
     flash('No tienes permiso para acceder a este apartado')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('empleado.index'))
 
 # ------------------------------ FIN RECETARIO CRUD -------------------------------------
+
+# ----------------------------- PROVEEDOR CRUD ------------------------------------------
+@empleado.route("/proveedores")
+@roles_required('empleado')
+def proveedores():
+    if current_user.has_role('empleado'):
+        empleado = True
+        pro = models.Proveedor.query.filter(models.Proveedor.active == 1).all()
+        pro1 = models.Proveedor.query.filter(
+            models.Proveedor.active == 0).all()
+        flash('Estás en proveedores')
+        return render_template("empleado/proveedores.html", proveedores=pro, proveedores1=pro1, empleado=empleado)
+    flash('No tienes permiso para acceder a este apartado')
+    return redirect(url_for('main.index'))
+
+@empleado.route('/guardarProveedor', methods=['GET', 'POST'])
+@roles_required('empleado')
+def guardarProveedor():
+    if current_user.has_role('empleado'):
+        empleado = True
+        if request.method == 'POST':
+            pro = models.Proveedor(
+                empresa=request.form.get("txtEmpresa"),
+                direccion=request.form.get("txtDirección"),
+                email=request.form.get("txtEmail"),
+                representante=request.form.get("txtRepresentante"),
+                telefono=request.form.get("txtTelefono"))
+            dbSQL.session.add(pro)
+            dbSQL.session.commit()
+            flash('Proveedor registrado')
+        return redirect(url_for('empleado.proveedores'))
+    flash('No tienes permiso para acceder a este apartado')
+    return redirect(url_for('main.index'))
+
+@empleado.route("/modificarProveedor", methods=['POST', 'GET'])
+@roles_required('empleado')
+def modificarProveedor():
+    if current_user.has_role('empleado'):
+        empleado = True
+        if request.method == 'GET':
+            id = request.args.get("idProveedor1")
+            pro = dbSQL.session.query(models.Proveedor).filter(
+                models.Proveedor.idProveedor == id).first()
+            print("AQUI")
+            print(request.args.get("txtEmpresa1"))
+            pro.empresa = request.args.get("txtEmpresa1")
+            pro.direccion = request.args.get("txtDirección1")
+            pro.email = request.args.get("txtEmail1")
+            pro.representante = request.args.get("txtTelefono1")
+            pro.telefono = request.args.get("txtRepresentante1")
+            dbSQL.session.add(pro)
+            dbSQL.session.commit()
+            flash('Proveedor actualizado')
+        return redirect(url_for('empleado.proveedores'))
+    flash('No tienes permiso para acceder a este apartado')
+    return redirect(url_for('main.index'))
+
+@empleado.route('/activarrProveedor', methods=['GET', 'POST'])
+@roles_required('empleado')
+def activarrProveedor():
+    if current_user.has_role('empleado'):
+        empleado = True
+        if request.method == 'GET':
+            id = request.args.get("idProveedor")
+            pro = dbSQL.session.query(models.Proveedor).filter(
+                models.Proveedor.idProveedor == id).first()
+        pro.active = 1
+        dbSQL.session.add(pro)
+        dbSQL.session.commit()
+        flash('Proveedor activado')
+        return redirect(url_for('empleado.proveedores'))
+    flash('No tienes permiso para acceder a este apartado')
+    return redirect(url_for('main.index'))
+
+@empleado.route('/eliminarProveedor', methods=['GET', 'POST'])
+@roles_required('empleado')
+def eliminarProveedor():
+    if current_user.has_role('empleado'):
+        empleado = True
+        if request.method == 'GET':
+            id = request.args.get("idProveedor")
+            pro = dbSQL.session.query(models.Proveedor).filter(
+                models.Proveedor.idProveedor == id).first()
+        pro.active = 0
+        dbSQL.session.add(pro)
+        dbSQL.session.commit()
+        flash('Proveedor eliminado')
+        return redirect(url_for('empleado.proveedores'))
+    flash('No tienes permiso para acceder a este apartado')
+    return redirect(url_for('main.index'))
+
+# ------------------------------ FIN PROVEEDOR CRUD ----------------------------------

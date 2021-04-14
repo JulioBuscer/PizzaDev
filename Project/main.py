@@ -1,20 +1,12 @@
-
 # import datetime module
 import datetime
 from operator import concat
-# import pymongo module
-import pymongo
-import dns
-# connection string
-from flask import Blueprint, render_template, request, session, Flask, flash
+from flask import Blueprint, render_template, request, flash
 from flask.helpers import url_for
-from flask_security import login_required, current_user
-from flask_security.decorators import roles_required
-from flask_sqlalchemy import model
+from flask_security import current_user
 from werkzeug.utils import redirect
 from . import dbSQL
 from . import models
-from flask_principal import Principal, Permission, RoleNeed
 
 main = Blueprint('main', __name__)
 
@@ -47,20 +39,6 @@ def index():
         return render_template('index.html', empleado=empleado, name=current_user.name)
     return render_template('index.html')
 
-
-@main.route("/usuario")
-def mostrarDatosUsuario():
-    return render_template("usuario.html")
-
-
-@main.route("/proveedores")
-def proveedores():
-    return render_template("proveedores.html")
-
-
-@main.route('/registrarProveedor', methods=['GET', 'POST'])
-def registrarProveedor():
-    return render_template('registrarProveedor.html')
 
 
 @main.route('/ventas')

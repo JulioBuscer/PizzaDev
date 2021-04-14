@@ -240,4 +240,150 @@ var confirmarActivacionRecetario = (idRecetario, nombre) => {
   });
 };
 
-// ---------------------- FUNCIONES RECETARIO ------------------------
+// ---------------------- FIN FUNCIONES RECETARIO ------------------------
+
+// ---------------------- FUNCIONES USUARIO ADMIN ------------------------
+
+function modalUsuario(id, name, email, password, rol) {
+  $("#id1").val(id);
+  $("#txtNombre1").val(name);
+  $("#txtCorreo1").val(email);
+  $("#txtRol1").val(rol);
+
+  $("#updateBtn").click(function () {
+      swal({
+          title: "¿Quieres actualizar al usuario?",
+          text: "No se podrá deshacer esta acción",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      }).then((willDelete) => {
+          if (willDelete) {
+              var id = $("#id1").val();
+              console.log(id)
+              var email = $("#txtCorreo1").val();
+              var password = $("#txtContraseña1").val();
+              var name = $("#txtNombre1").val();
+              var r=$('select[id="cmbRol1"] option:selected').val();
+              if (r!=""){
+                  var rol = r;
+              }else{
+                  var rol= $("#txtRol1").val();
+              }
+              console.log(rol);
+              window.location.href = 'modificarUsuario?id1=' + id + '&' + 'txtCorreo1=' + email + '&' + 'txtContraseña1=' + password + '&' + 'txtNombre1=' + name + '&' + 'cmbRol1=' + rol;
+          } else {
+          }
+      });
+      $(".modal").removeClass("is-active");
+  });
+}
+
+var confirmarEliminacionUsuario = (id, name) => {
+  swal({
+      title: "¿Quieres borrar al usuario " + name + " ? ",
+      text: "No se podrá deshacer esta acción",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+  }).then((willDelete) => {
+      if (willDelete) {
+          swal("Eliminada con éxito", {
+              icon: "success",
+          });
+          window.location.href = 'eliminarUsuario?id=' + id;
+      } else {
+      }
+  });
+};
+var confirmarActivacionUsuario = (id, name) => {
+  swal({
+      title: "¿Quieres activar al usuario " + name + "?",
+      text: "No se podrá deshacer esta acción",
+      icon: "info",
+      buttons: true,
+      dangerMode: true,
+  }).then((willDelete) => {
+      if (willDelete) {
+          swal("Activado con éxito", {
+              icon: "success",
+          });
+          window.location.href = 'activarrUsuario?id=' + id;
+      } else {
+      }
+  });
+};
+
+// -------------------- FIN FUNCIONES USUARIO ADMIN ---------------------------
+
+// -------------------- FUNCIONES PROVEEDOR -----------------------------------
+
+
+function modalProveedor(idProveedor, empresa, direccionPro, email, representante, telefono) {
+  $("#idProveedor1").val(idProveedor);
+  $("#txtEmpresa1").val(empresa);
+  $("#txtDirección1").val(direccionPro);
+  $("#txtEmail1").val(email);
+  $("#txtTelefono1").val(telefono);
+  $("#txtRepresentante1").val(representante);
+
+
+  $("#updateBtn").click(function () {
+      swal({
+          title: "¿Quieres actualizar el proveedor?",
+          text: "No se podrá deshacer esta acción",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      }).then((willDelete) => {
+          if (willDelete) {
+              var idProveedor = $("#idProveedor1").val();
+              var empresa = $("#txtEmpresa1").val();
+              var direccionPro = $("#txtDirección1").val();
+              var email = $("#txtEmail1").val();
+              var telefono = $("#txtTelefono1").val();
+              var representante = $("#txtRepresentante1").val();
+              window.location.href = 'modificarProveedor?idProveedor1=' + idProveedor + '&' + 'txtEmpresa1=' + empresa + '&' + 'txtDirección1=' + direccionPro + '&' + 'txtEmail1=' + email + '&' + 'txtTelefono1=' + telefono + '&' + 'txtRepresentante1=' + representante;
+          } else {
+          }
+      });
+      $(".modal").removeClass("is-active");
+  });
+}
+
+var confirmarEliminacionProveedor = (idProveedor, empresa) => {
+  swal({
+      title: "¿Quieres borrar " + empresa + " del proveedor? ",
+      text: "No se podrá deshacer esta acción",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+  }).then((willDelete) => {
+      if (willDelete) {
+          swal("Eliminada con éxito", {
+              icon: "success",
+          });
+          window.location.href = 'eliminarProveedor?idProveedor=' + idProveedor;
+      } else {
+      }
+  });
+};
+var confirmarActivacionProveedor = (idProveedor, empresa) => {
+  swal({
+      title: "¿Quieres activar al proveedor " + empresa + "?",
+      text: "No se podrá deshacer esta acción",
+      icon: "info",
+      buttons: true,
+      dangerMode: true,
+  }).then((willDelete) => {
+      if (willDelete) {
+          swal("Activado con éxito", {
+              icon: "success",
+          });
+          window.location.href = 'activarrProveedor?idProveedor=' + idProveedor;
+      } else {
+      }
+  });
+};
+
+// --------------------------- FIN FUNCIONES PROVEEDOR --------------------------
