@@ -8,6 +8,9 @@
   }); // end of document ready
 })(jQuery); // end of jQuery name space
 
+$('#textarea').val();
+M.textareaAutoResize($('#textarea'));
+
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('.datepicker');
   var options = {}
@@ -153,19 +156,31 @@ var confirmarInsercionMatPri = () => {
 };
 
 // ---------------------- FIN MAT PRIMA ------------------------------
-
+function cargarFotoUsuario() {
+  var fileChooser = document.getElementById("txtFoto");
+  var foto = document.getElementById("imgFoto2");
+  var base64 = document.getElementById("textarea");
+  if (fileChooser.files.length > 0) {
+    var fr = new FileReader();
+    fr.onload = function () {
+      foto.src = fr.result;
+      base64.value = foto.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '');
+    }
+    fr.readAsDataURL(fileChooser.files[0]);
+  }
+}
 
 function cargarFoto1() {
   var fileChooser = document.getElementById("txtFoto2");
   var foto = document.getElementById("imgFoto2");
   var base64 = document.getElementById("textarea");
   if (fileChooser.files.length > 0) {
-      var fr = new FileReader();
-      fr.onload = function() {
-          foto.src = fr.result;
-          base64.value = foto.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '');
-      }
-      fr.readAsDataURL(fileChooser.files[0]);
+    var fr = new FileReader();
+    fr.onload = function () {
+      foto.src = fr.result;
+      base64.value = foto.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '');
+    }
+    fr.readAsDataURL(fileChooser.files[0]);
   }
 }
 
@@ -174,12 +189,12 @@ function cargarFoto11() {
   var foto = document.getElementById("imgFoto21");
   var base64 = document.getElementById("textareaModal");
   if (fileChooser.files.length > 0) {
-      var fr = new FileReader();
-      fr.onload = function() {
-          foto.src = fr.result;
-          base64.value = foto.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '');
-      }
-      fr.readAsDataURL(fileChooser.files[0]);
+    var fr = new FileReader();
+    fr.onload = function () {
+      foto.src = fr.result;
+      base64.value = foto.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, '');
+    }
+    fr.readAsDataURL(fileChooser.files[0]);
   }
 }
 
@@ -189,54 +204,54 @@ function modalRecetario(idRecetario, nombre, descripcion, costo, foto) {
   $("#nombre").val(nombre);
   $("#desc").val(descripcion);
   $("#costo").val(costo);
-  $("#imgFoto21").attr("src", "data:image/jpeg;base64,"+foto).width(380).height(380);
+  $("#imgFoto21").attr("src", "data:image/jpeg;base64," + foto).width(380).height(380);
   $("#textareaModal").val(foto);
 
 
 
-  $("#updateBtn").click(function() {
-      swal({
-          title: "¿Quieres actualizar el Recetario?",
-          text: "No se podrá deshacer esta acción",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-      }).then((willDelete) => {
-          if (willDelete) {} else {}
-      });
-      $(".modal").removeClass("is-active");
+  $("#updateBtn").click(function () {
+    swal({
+      title: "¿Quieres actualizar el Recetario?",
+      text: "No se podrá deshacer esta acción",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) { } else { }
+    });
+    $(".modal").removeClass("is-active");
   });
 }
 var confirmarEliminacionRecetario = (idRecetario, nombre) => {
   swal({
-      title: "¿Quieres borrar " + nombre + " de la materia prima? ",
-      text: "No se podrá deshacer esta acción ",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
+    title: "¿Quieres borrar " + nombre + " de la materia prima? ",
+    text: "No se podrá deshacer esta acción ",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
   }).then((willDelete) => {
-      if (willDelete) {
-          swal("Eliminada con éxito ", {
-              icon: "success",
-          });
-          window.location.href = 'desactivarPizza?id=' + idRecetario;
-      } else {}
+    if (willDelete) {
+      swal("Eliminada con éxito ", {
+        icon: "success",
+      });
+      window.location.href = 'desactivarPizza?id=' + idRecetario;
+    } else { }
   });
 };
 var confirmarActivacionRecetario = (idRecetario, nombre) => {
   swal({
-      title: "¿Quieres activar la materia prima " + nombre + "? ",
-      text: "No se podrá deshacer esta acción ",
-      icon: "info",
-      buttons: true,
-      dangerMode: true,
+    title: "¿Quieres activar la materia prima " + nombre + "? ",
+    text: "No se podrá deshacer esta acción ",
+    icon: "info",
+    buttons: true,
+    dangerMode: true,
   }).then((willDelete) => {
-      if (willDelete) {
-          swal("Activado con éxito ", {
-              icon: "success",
-          });
-          window.location.href = 'activarPizza?id=' + idRecetario;
-      } else {}
+    if (willDelete) {
+      swal("Activado con éxito ", {
+        icon: "success",
+      });
+      window.location.href = 'activarPizza?id=' + idRecetario;
+    } else { }
   });
 };
 
@@ -251,66 +266,66 @@ function modalUsuario(id, name, email, password, rol) {
   $("#txtRol1").val(rol);
 
   $("#updateBtn").click(function () {
-      swal({
-          title: "¿Quieres actualizar al usuario?",
-          text: "No se podrá deshacer esta acción",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-      }).then((willDelete) => {
-          if (willDelete) {
-              var id = $("#id1").val();
-              console.log(id)
-              var email = $("#txtCorreo1").val();
-              var password = $("#txtContraseña1").val();
-              var name = $("#txtNombre1").val();
-              var r=$('select[id="cmbRol1"] option:selected').val();
-              if (r!=""){
-                  var rol = r;
-              }else{
-                  var rol= $("#txtRol1").val();
-              }
-              console.log(rol);
-              window.location.href = 'modificarUsuario?id1=' + id + '&' + 'txtCorreo1=' + email + '&' + 'txtContraseña1=' + password + '&' + 'txtNombre1=' + name + '&' + 'cmbRol1=' + rol;
-          } else {
-          }
-      });
-      $(".modal").removeClass("is-active");
+    swal({
+      title: "¿Quieres actualizar al usuario?",
+      text: "No se podrá deshacer esta acción",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        var id = $("#id1").val();
+        console.log(id)
+        var email = $("#txtCorreo1").val();
+        var password = $("#txtContraseña1").val();
+        var name = $("#txtNombre1").val();
+        var r = $('select[id="cmbRol1"] option:selected').val();
+        if (r != "") {
+          var rol = r;
+        } else {
+          var rol = $("#txtRol1").val();
+        }
+        console.log(rol);
+        window.location.href = 'modificarUsuario?id1=' + id + '&' + 'txtCorreo1=' + email + '&' + 'txtContraseña1=' + password + '&' + 'txtNombre1=' + name + '&' + 'cmbRol1=' + rol;
+      } else {
+      }
+    });
+    $(".modal").removeClass("is-active");
   });
 }
 
 var confirmarEliminacionUsuario = (id, name) => {
   swal({
-      title: "¿Quieres borrar al usuario " + name + " ? ",
-      text: "No se podrá deshacer esta acción",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
+    title: "¿Quieres borrar al usuario " + name + " ? ",
+    text: "No se podrá deshacer esta acción",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
   }).then((willDelete) => {
-      if (willDelete) {
-          swal("Eliminada con éxito", {
-              icon: "success",
-          });
-          window.location.href = 'eliminarUsuario?id=' + id;
-      } else {
-      }
+    if (willDelete) {
+      swal("Eliminada con éxito", {
+        icon: "success",
+      });
+      window.location.href = 'eliminarUsuario?id=' + id;
+    } else {
+    }
   });
 };
 var confirmarActivacionUsuario = (id, name) => {
   swal({
-      title: "¿Quieres activar al usuario " + name + "?",
-      text: "No se podrá deshacer esta acción",
-      icon: "info",
-      buttons: true,
-      dangerMode: true,
+    title: "¿Quieres activar al usuario " + name + "?",
+    text: "No se podrá deshacer esta acción",
+    icon: "info",
+    buttons: true,
+    dangerMode: true,
   }).then((willDelete) => {
-      if (willDelete) {
-          swal("Activado con éxito", {
-              icon: "success",
-          });
-          window.location.href = 'activarrUsuario?id=' + id;
-      } else {
-      }
+    if (willDelete) {
+      swal("Activado con éxito", {
+        icon: "success",
+      });
+      window.location.href = 'activarrUsuario?id=' + id;
+    } else {
+    }
   });
 };
 
@@ -329,31 +344,115 @@ function modalProveedor(idProveedor, empresa, direccionPro, email, representante
 
 
   $("#updateBtn").click(function () {
-      swal({
-          title: "¿Quieres actualizar el proveedor?",
-          text: "No se podrá deshacer esta acción",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-      }).then((willDelete) => {
-          if (willDelete) {
-              var idProveedor = $("#idProveedor1").val();
-              var empresa = $("#txtEmpresa1").val();
-              var direccionPro = $("#txtDirección1").val();
-              var email = $("#txtEmail1").val();
-              var telefono = $("#txtTelefono1").val();
-              var representante = $("#txtRepresentante1").val();
-              window.location.href = 'modificarProveedor?idProveedor1=' + idProveedor + '&' + 'txtEmpresa1=' + empresa + '&' + 'txtDirección1=' + direccionPro + '&' + 'txtEmail1=' + email + '&' + 'txtTelefono1=' + telefono + '&' + 'txtRepresentante1=' + representante;
-          } else {
-          }
-      });
-      $(".modal").removeClass("is-active");
+    swal({
+      title: "¿Quieres actualizar el proveedor?",
+      text: "No se podrá deshacer esta acción",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        var idProveedor = $("#idProveedor1").val();
+        var empresa = $("#txtEmpresa1").val();
+        var direccionPro = $("#txtDirección1").val();
+        var email = $("#txtEmail1").val();
+        var telefono = $("#txtTelefono1").val();
+        var representante = $("#txtRepresentante1").val();
+        window.location.href = 'modificarProveedor?idProveedor1=' + idProveedor + '&' + 'txtEmpresa1=' + empresa + '&' + 'txtDirección1=' + direccionPro + '&' + 'txtEmail1=' + email + '&' + 'txtTelefono1=' + telefono + '&' + 'txtRepresentante1=' + representante;
+      } else {
+      }
+    });
+    $(".modal").removeClass("is-active");
   });
 }
 
 var confirmarEliminacionProveedor = (idProveedor, empresa) => {
   swal({
-      title: "¿Quieres borrar " + empresa + " del proveedor? ",
+    title: "¿Quieres borrar " + empresa + " del proveedor? ",
+    text: "No se podrá deshacer esta acción",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      swal("Eliminada con éxito", {
+        icon: "success",
+      });
+      window.location.href = 'eliminarProveedor?idProveedor=' + idProveedor;
+    } else {
+    }
+  });
+};
+var confirmarActivacionProveedor = (idProveedor, empresa) => {
+  swal({
+    title: "¿Quieres activar al proveedor " + empresa + "?",
+    text: "No se podrá deshacer esta acción",
+    icon: "info",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      swal("Activado con éxito", {
+        icon: "success",
+      });
+      window.location.href = 'activarrProveedor?idProveedor=' + idProveedor;
+    } else {
+    }
+  });
+};
+
+// --------------------------- FIN FUNCIONES PROVEEDOR ------------------------------
+
+// --------------------------- FUNCIONES PERFIL, ETC --------------------------------
+function doSearch() {
+  const tableReg = document.getElementById('datos');
+  const searchText = document.getElementById('searchTerm').value.toLowerCase();
+  let total = 0;
+
+  // Recorremos todas las filas con contenido de la tabla
+  for (let i = 1; i < tableReg.rows.length; i++) {
+    // Si el td tiene la clase "noSearch" no se busca en su cntenido
+    if (tableReg.rows[i].classList.contains("noSearch")) {
+      continue;
+    }
+
+    let found = false;
+    const cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
+    // Recorremos todas las celdas
+    for (let j = 0; j < cellsOfRow.length && !found; j++) {
+      const compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+      // Buscamos el texto en el contenido de la celda
+      if (searchText.length == 0 || compareWith.indexOf(searchText) > -1) {
+        found = true;
+        total++;
+      }
+    }
+    if (found) {
+      tableReg.rows[i].style.display = '';
+    } else {
+      // si no ha encontrado ninguna coincidencia, esconde la
+      // fila de la tabla
+      tableReg.rows[i].style.display = 'none';
+    }
+  }
+
+  // mostramos las coincidencias
+  const lastTR = tableReg.rows[tableReg.rows.length - 1];
+  const td = lastTR.querySelector("td");
+  lastTR.classList.remove("hide", "red");
+  if (searchText == "") {
+    lastTR.classList.add("hide");
+  } else if (total) {
+    td.innerHTML = "Se ha encontrado " + total + " coincidencia" + ((total > 1) ? "s" : "");
+  } else {
+    lastTR.classList.add("orange");
+    td.innerHTML = "No se han encontrado coincidencias";
+  }
+}
+
+var confirmarEliminacionPerfil = (idDireccion) => {
+  swal({
+      title: "¿Quieres borrar esta dirección?",
       text: "No se podrá deshacer esta acción",
       icon: "warning",
       buttons: true,
@@ -363,27 +462,51 @@ var confirmarEliminacionProveedor = (idProveedor, empresa) => {
           swal("Eliminada con éxito", {
               icon: "success",
           });
-          window.location.href = 'eliminarProveedor?idProveedor=' + idProveedor;
-      } else {
-      }
-  });
-};
-var confirmarActivacionProveedor = (idProveedor, empresa) => {
-  swal({
-      title: "¿Quieres activar al proveedor " + empresa + "?",
-      text: "No se podrá deshacer esta acción",
-      icon: "info",
-      buttons: true,
-      dangerMode: true,
-  }).then((willDelete) => {
-      if (willDelete) {
-          swal("Activado con éxito", {
-              icon: "success",
-          });
-          window.location.href = 'activarrProveedor?idProveedor=' + idProveedor;
+          window.location.href = 'eliminarDireccion?id=' + idDireccion;
       } else {
       }
   });
 };
 
-// --------------------------- FIN FUNCIONES PROVEEDOR --------------------------
+function modalPerfil(idDireccion, calle, colonia, numeroInt, numeroExt, cp, descripcion) {
+  $("#txtCalle_").val(calle);
+  $("#txtColonia_").val(colonia);
+  $("#txtDescripcion_").val(descripcion);
+  $("#txtNumInt_").val(numeroInt);
+  $("#txtNumExt_").val(numeroExt);
+  $("#txtCP_").val(cp);
+
+  $("#updateBtn").click(function () {
+      swal({
+          title: "¿Quieres actualizar esta dirección?",
+          text: "No se podrá deshacer esta acción",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      }).then((willDelete) => {
+          if (willDelete) {
+              window.location.href = 'modificarDirección?id=' + idDireccion + '&calle=' + $("#txtCalle_").val()
+                  + '&colonia=' + $("#txtColonia_").val() + '&numeroInt=' + $("#txtNumInt_").val() + '&numeroExt=' + $("#txtNumExt_").val() + '&cp='
+                  + $("#txtCP_").val() + '&descripcion=' + $("#txtDescripcion_").val();
+          } else {
+          }
+      });
+  });
+}
+
+var img64 = null;
+var elemento = document.createElement("iframe");
+function base64(element) {
+  var file = element.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function () {
+      img64 = reader.result;
+      $("#textarea").val(img64);
+  }
+  reader.readAsDataURL(file);
+}
+
+function ponerValor() {
+  img = $("#txtCalle_").val();
+  $("#textarea").val(img);
+}

@@ -46,14 +46,21 @@
                 </li>
             </ul>
             <ul id='dropdown1' class='dropdown-content'>
-                <li><a href="#" class="orange-text">Mi perfil</a></li>
+                <li><a href="{{ url_for('main.perfil') }}" class="orange-text">Mi perfil</a></li>
                 {%if cliente%}
-                <li><a href="#" class="orange-text">Mis ordenes</a></li>
+                <li><a href="{{ url_for('main.pedidos') }}" class="orange-text">Mis ordenes</a></li>
                 {%endif%}
                 <li><a href="{{ url_for('auth.logout') }}" class="orange-text">Salir</a></li>
 
             </ul>
-
+            {%if cliente %}
+            <ul class="right hide-on-med-and-down">
+                <li class="material-icons prefix black-text"><a class="modal-trigger" href="#modal1">
+                    <i class="material-icons prefix">shopping_cart</i>
+                    </a>
+                </li>
+            </ul>
+            {%endif%}
 
             {%endif%}
             {%if not current_user.is_authenticated %}
@@ -73,20 +80,20 @@
             <ul class="right hide-on-med-and-down">
                 <li>
                     <a href="{{ url_for('auth.register_user') }}" class="navbar-item">
-                        Registro
+                        <i class="material-icons prefix">contacts</i></a></li>
                     </a>
                 </li>
             </ul>
 
             {%endif%}
             <ul class="right hide-on-med-and-down">
-                <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                <li><a href="{{ url_for('main.index') }}"><i class="material-icons prefix">home</i></a></li>
             </ul>
             {%if cliente%}
             <ul class="right hide-on-med-and-down">
                 <li>
                     <a href="{{ url_for('main.menu') }}">
-                        Menú
+                        <i class="material-icons prefix">local_pizza</i></a></li>
                     </a>
                 </li>
             </ul>
@@ -221,5 +228,58 @@
         </div>
     </footer>
 </body>
+
+<div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h4>Actualizar Dirección</h4>
+        <div class="row">
+            <div class="input-field col s6">
+                <i class="material-icons prefix">description</i>
+                <input class="validate" name="txtCalle_" id="txtCalle_" type="text" placeholder="Calle">
+                <label for="desc" data-error="wrong" data-success="right">Calle</label>
+            </div>
+
+            <div class="input-field col s6">
+                <i class="material-icons prefix">description</i>
+                <input class="validate" name="txtColonia_" id="txtColonia_" type="text" placeholder="Colonia">
+                <label for="desc" data-error="wrong" data-success="right">Colonia</label>
+            </div>
+
+            <div class="input-field col s6">
+                <i class="material-icons prefix">class</i>
+                <input class="validate" name="txtDescripcion_" id="txtDescripcion_" type="text"
+                    placeholder="Descripción">
+                <label for="text" data-error="wrong" data-success="right">Descripción</label>
+            </div>
+
+
+            <div class="input-field col s6">
+                <i class="material-icons prefix">attach_money</i>
+                <input class="validate" name="txtNumInt_" id="txtNumInt_" type="text" placeholder="Num.interior">
+                <label for="text" data-error="wrong" data-success="right">Número Int</label>
+            </div>
+            <div class="input-field col s6">
+                <i class="material-icons prefix">shopping_basket</i>
+                <input class="validate" name="txtNumExt_" id="txtNumExt_" type="text" placeholder="Num.Exterior">
+                <label for="text" data-error="wrong" data-success="right">Número Ext</label>
+            </div>
+
+
+            <div class="input-field col s6">
+                <i class="material-icons prefix">date_range</i>
+                <input class="validate" type="text" id="txtCP_" name="txtCP_" class="datepicker" placeholder="C.P">
+                <label for="text" data-error="wrong" data-success="right">C.P</label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="waves-effect waves-light red btn modal-close" id="closebtn" type="submit" name="action">
+            <i class="material-icons">cancel</i>
+        </a>
+        <a class="waves-effect waves-light green btn modal-trigger" id="updateBtn" type="submit" name="action">
+            <i class="material-icons">send</i>
+        </a>
+    </div>
+</div>
 
 </html>
