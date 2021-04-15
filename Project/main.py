@@ -361,22 +361,51 @@ def pedidos():
             per=Persona.query.get(d.Persona.idPersona)
             idPersona = d.Persona.idPersona
         
-        query = 'select r.nombre, v.cantidad, v.subtotal, r.costo, v.fecha,v.idVenta from venta_recetario vr inner join venta v on vr.idVenta = v.idVenta inner join recetario r on vr.idRecetario = r.idRecetario where v.idPersona = '+ str(idPersona) +';'       
+        query = 'select r.nombre, v.cantidad, v.subtotal, r.costo, v.fecha,v.idVenta, v.direccion from venta_recetario vr inner join venta v on vr.idVenta = v.idVenta inner join recetario r on vr.idRecetario = r.idRecetario where v.idPersona = '+ str(idPersona) +' group by vr.idVenta;'       
         ventas_persona= dbSQL.session.execute(query)
-              
-        for x in ventas_persona:
-            
+
+        for x in ventas_persona:           
             arreglo_ventas_per.append({
                 "id":str(shortuuid.uuid()),
+                "idVenta":x.idVenta,
                 "fecha": x.fecha,
-                "sabor":x.nombre,
                 "cantidad":x.cantidad,
-                "costo":x.costo,
-                "subtotal":x.subtotal
+                "direccion":x.direccion,
+                "total":x.cantidad * int(x.costo)
             })
             
             print ('ventas'+str(arreglo_ventas_per))  
         return render_template('pedidos.html', cliente=cliente,name=current_user.name,arreglo_ventas_per=arreglo_ventas_per)
+    return redirect(url_for('main.index'))
+
+@main.route('/detalleVentas',methods=['GET','POST'])
+def detalleVentas():
+    if current_user.has_role('cliente'):
+        cliente = True
+        
+        idVenta=request.args.get("id")
+        arregloDetalle.clear()
+        
+        id=current_user.id
+        user = dbSQL.session.query(models.Persona,models.User).join(models.User, models.Persona.idUsuario == models.User.id).filter(models.Persona.idUsuario==id) 
+        for d in user:
+            per=Persona.query.get(d.Persona.idPersona)
+            idPersona = d.Persona.idPersona
+        
+        query = 'select r.nombre, vr.cantidad, v.subtotal, r.costo from venta_recetario vr inner join venta v on vr.idVenta = v.idVenta inner join recetario r on vr.idRecetario = r.idRecetario where vr.idVenta = '+ str(idVenta) +';'       
+        detalle= dbSQL.session.execute(query)
+        total =0
+
+        for x in detalle:
+            total += x.subtotal            
+            arregloDetalle.append({
+                "sabor":x.nombre,
+                "cantidad":x.cantidad,
+                "subtotal":x.subtotal,
+                "total":int(x.cantidad) * x.costo
+            })
+            print ('ventas'+str(arreglo_ventas_per))  
+        return render_template('detallePedido.html', cliente=cliente,name=current_user.name,arregloDetalle=arregloDetalle)
     return redirect(url_for('main.index'))
 
 # -------------------- INICIO ----------------------
