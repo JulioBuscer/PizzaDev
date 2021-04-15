@@ -32,6 +32,10 @@
                             <th>Direccion</th>
                             <th>Total</th>
                             <th>Detalle de venta</th>
+                            <th>Sabor</th>
+                            <th>Cantidad</th>
+                            <th>Costo</th>
+                            <th>Subtotal</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,9 +47,6 @@
                             <td>{{i.direccion}}</td>
                             <td>{{i.total}}</td>
                             <td><a href="detalleVentas?id={{i.idVenta}}" class="btn btn-warning" name="btnmodificar"><i class="material-icons">list</i></a></td>
-                        <tr class='noSearch hide'>
-                            <td colspan="12"></td>
-                        </tr>
                         {%endfor%}
                     </tbody>
                 </table>
