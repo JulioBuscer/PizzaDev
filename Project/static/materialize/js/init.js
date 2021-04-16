@@ -452,19 +452,19 @@ function doSearch() {
 
 var confirmarEliminacionPerfil = (idDireccion) => {
   swal({
-      title: "¿Quieres borrar esta dirección?",
-      text: "No se podrá deshacer esta acción",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
+    title: "¿Quieres borrar esta dirección?",
+    text: "No se podrá deshacer esta acción",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
   }).then((willDelete) => {
-      if (willDelete) {
-          swal("Eliminada con éxito", {
-              icon: "success",
-          });
-          window.location.href = 'eliminarDireccion?id=' + idDireccion;
-      } else {
-      }
+    if (willDelete) {
+      swal("Eliminada con éxito", {
+        icon: "success",
+      });
+      window.location.href = 'eliminarDireccion?id=' + idDireccion;
+    } else {
+    }
   });
 };
 
@@ -477,20 +477,20 @@ function modalPerfil(idDireccion, calle, colonia, numeroInt, numeroExt, cp, desc
   $("#txtCP_").val(cp);
 
   $("#updateBtn").click(function () {
-      swal({
-          title: "¿Quieres actualizar esta dirección?",
-          text: "No se podrá deshacer esta acción",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-      }).then((willDelete) => {
-          if (willDelete) {
-              window.location.href = 'modificarDirección?id=' + idDireccion + '&calle=' + $("#txtCalle_").val()
-                  + '&colonia=' + $("#txtColonia_").val() + '&numeroInt=' + $("#txtNumInt_").val() + '&numeroExt=' + $("#txtNumExt_").val() + '&cp='
-                  + $("#txtCP_").val() + '&descripcion=' + $("#txtDescripcion_").val();
-          } else {
-          }
-      });
+    swal({
+      title: "¿Quieres actualizar esta dirección?",
+      text: "No se podrá deshacer esta acción",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        window.location.href = 'modificarDirección?id=' + idDireccion + '&calle=' + $("#txtCalle_").val()
+          + '&colonia=' + $("#txtColonia_").val() + '&numeroInt=' + $("#txtNumInt_").val() + '&numeroExt=' + $("#txtNumExt_").val() + '&cp='
+          + $("#txtCP_").val() + '&descripcion=' + $("#txtDescripcion_").val();
+      } else {
+      }
+    });
   });
 }
 
@@ -500,8 +500,8 @@ function base64(element) {
   var file = element.files[0];
   var reader = new FileReader();
   reader.onloadend = function () {
-      img64 = reader.result;
-      $("#textarea").val(img64);
+    img64 = reader.result;
+    $("#textarea").val(img64);
   }
   reader.readAsDataURL(file);
 }
@@ -509,4 +509,128 @@ function base64(element) {
 function ponerValor() {
   img = $("#txtCalle_").val();
   $("#textarea").val(img);
+}
+
+// ---------------------------------- CARRITO -----------------------------
+let listadoC = []
+
+function carrito(idRecetario, nombre, descripcion, cantidad, precio) {
+
+  var carritos = {
+      idRecetario: idRecetario,
+      nombre: nombre,
+      descripcion: descripcion,
+      cantidad: 1,
+      precio: precio
+  }
+  listadoC.push(carritos)
+  tamanio = listadoC.length;
+  $('#txtTamnanio').html(tamanio);
+  console.log(listadoC)
+  var toastHTML = '<span>Agregado al carrito éxitosamente</span>';
+  M.toast({ html: toastHTML });
+
+  for(var i=0; i <= listadoC.length; i++){
+    if(idRecetario == listadoC[i].idRecetario){
+      $('#btnCarritos'+idRecetario).hide()
+      var desactivado = "Ya está en el carrito";
+      $('#txtCarrito'+idRecetario).html(desactivado);
+    }
+  }
+}
+
+function detalleCarrito() {
+  var str = '';
+  var costoTotal = 0.0;
+  var costoTotalProductos = 0.0;
+  var cantidadSubt = 0;
+  var cantidadTotal=0;
+  for (var i = 0; i < listadoC.length; i++) {
+    var subtotal = (listadoC[i].cantidad * listadoC[i].precio);
+    var subQ =0
+    subQ = subQ+listadoC[i].cantidad;
+    console.log(subtotal)
+    str += '<tr>' +
+      '<td>' + listadoC[i].nombre + '</td>' +
+      '<td>' + listadoC[i].descripcion + '</td>' +
+      '<td>' + '<a href="#" class="waves-effect waves-light blue btn"\n\
+      onclick="disminuirQ('  + i + ');">\n\
+      <i class="material-icons">remove</i></a>' + '<a href="#" class="black-text grey lighten-2 btn"\n\
+      ">'+ listadoC[i].cantidad + '</a>' + '<a href="#" class="waves-effect waves-light green btn"\n\
+      onclick="aumentarQ('  + i + ');">\n\
+      <i class="material-icons">add</i></a>' + '</td>' +
+      '<td>' + subtotal + '</td>' +
+      '<td><a href="#" class="waves-effect waves-light red btn"\n\
+              onclick="removeItemFromArr('  + i + ');">\n\
+              <i class="material-icons">delete</i></a>' + '</td></tr>';
+
+    costoTotalProductos += subtotal;
+    cantidadSubt += subQ;
+  }
+  costoTotal = "Total: $" + costoTotalProductos;
+  cantidadTotal = cantidadSubt;
+  $('#tbCarrito').html(str);
+  $('#txtCantidad').val(cantidadTotal);
+  $('#txtTotal').html(costoTotal);
+  $('#txtTotalInput').val(costoTotalProductos);
+}
+
+
+function removeItemFromArr(item) {
+  listadoC.splice(item, 1);
+  var toastHTML = '<span>Removido del carrito</span>';
+  M.toast({ html: toastHTML });
+  tamanio = listadoC.length;
+  $('#txtTamnanio').html(tamanio);
+  detalleCarrito();
+}
+
+function disminuirQ(item) {
+  if (listadoC[item].cantidad == 1) {
+    var toastHTML = '<span>No puedes agregar cantidades negativas</span>';
+    M.toast({ html: toastHTML });
+  } else if (listadoC[item].cantidad == 0) {
+    listadoC.splice(item, 1);
+    var toastHTML = '<span>Removido del carrito</span>';
+    M.toast({ html: toastHTML });
+    detalleCarrito();
+  } else {
+    listadoC[item].cantidad = listadoC[item].cantidad - 1
+    detalleCarrito();
+  }
+
+}
+
+function aumentarQ(item) {
+  listadoC[item].cantidad = listadoC[item].cantidad + 1
+  detalleCarrito();
+}
+
+function enviarCarrito() {
+  $("#updateBtnCarrito").click(function () {
+    swal({
+      title: "¿Seguro que deseas terminar tu compra?",
+      text: "No se podrá deshacer esta acción",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        console.log($('#textareaDescripcion').val())
+        $.ajax({
+          type: 'POST',
+          url: 'http://localhost:5000/venta',
+          dataType: "json",
+          data: {
+            'pizzas': JSON.stringify({ pizzas: listadoC }),
+            'cantidad': $('#txtCantidad').val(),
+            'total': $('#txtTotalInput').val(),
+            'descripcion': $('#textareaDescripcion').val(),
+            'direccion': $('#direccionVenta').val() // <-- the $ sign in the parameter name seems unusual, I would avoid it
+          }
+        });
+      } else {
+      }
+    });
+  });
 }

@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Mis pedidos {%endblock %}
+{% block title %}Detalle pedido {%endblock %}
 {% block content %}
 <!--#eeeeee-->
 <div class="row">
@@ -9,43 +9,31 @@
             <div class="nav-wrapper">
                 <div class="col s12 ">
                     <a href="{{ url_for('main.index')}}" class="breadcrumb">Inicio</a>
-                    <a href="#!" class="breadcrumb">Pedidos</a>
+                    <a href="{{ url_for('main.pedidos')}}" class="breadcrumb">Pedidos</a>
+                    <a href="#!" class="breadcrumb">Detalle</a>
                 </div>
             </div>
         </nav>
     </div>
     <div class="col s12">
         <br>
-        <h4>Resúmen de Pedidos</h4>
-        <div>
-            <label for="searchTerm">Buscar compras por fecha</label>
-            <input type="date" class="" id="searchTerm" onchange="doSearch()">
-        </div>
+        <h4>Detalle de pedido</h4>
         <div id="test-swipe-1">
             <div class="section">
                 <table class="table table-striped table-bordered centered" id="datos">
                     <thead style="color:#900C3F">
                         <tr class="tr-head">
-                            <th>No.Venta</th>
-                            <th>Fecha</th>
                             <th>Sabor</th>
                             <th>Cantidad</th>
-                            <th>Costo</th>
                             <th>Subtotal</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {%for i in arreglo_ventas_per%}
+                        {%for i in arregloDetalle%}
                         <tr>
-                            <td>{{i.id}}</td>
-                            <td>{{i.fecha}}</td>
                             <td>{{i.sabor}}</td>
                             <td>{{i.cantidad}}</td>
-                            <td>{{i.costo}}</td>
                             <td>{{i.subtotal}}</td>
-                        <tr class='noSearch hide'>
-                            <td colspan="12"></td>
-                        </tr>
                         {%endfor%}
                     </tbody>
                 </table>

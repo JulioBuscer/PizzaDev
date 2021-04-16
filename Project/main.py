@@ -12,6 +12,8 @@ from . models import Persona
 from . models import Direccion
 from . models import personas_direcciones
 import shortuuid
+from datetime import date
+import json
 
 main = Blueprint('main', __name__)
 arregloDir = []
@@ -43,11 +45,11 @@ def perfil():
         
         if apellidoP == '':
             persona= Persona(
-                nombre=current_user.name,
+                nombre='-',
                 apellidoP = '-',
                 apellidoM = '-',
                 telefono = '-',
-                fotografia = '-',
+                fotografia = '',
                 idUsuario=current_user.id
             )
             print('print'+str(current_user.id))
@@ -91,11 +93,11 @@ def perfil():
         
         if apellidoP == '':
             persona= Persona(
-                nombre=current_user.name,
+                nombre='-',
                 apellidoP = '-',
                 apellidoM = '-',
                 telefono = '-',
-                fotografia = '-',
+                fotografia = '',
                 idUsuario=current_user.id
             )
             print('print'+str(current_user.id))
@@ -138,11 +140,11 @@ def perfil():
         
         if apellidoP == '':
             persona= Persona(
-                nombre=current_user.name,
+                nombre='-',
                 apellidoP = '-',
                 apellidoM = '-',
                 telefono = '-',
-                fotografia = '-',
+                fotografia = '',
                 idUsuario=current_user.id
             )
             print('print'+str(current_user.id))
@@ -183,14 +185,19 @@ def agregarDatos():
         for d in user:
             per=Persona.query.get(d.Persona.idPersona)
         
-        user_.name=request.form.get('txtNombre') 
         user_.email=request.form.get('txtEmail')            
 
         per.nombre=request.form.get('txtNombre')
         per.apellidoP=request.form.get('txtApellidoP')
         per.apellidoM=request.form.get('txtApellidoM')
         per.telefono=request.form.get('txtTelefono')
-        per.fotografia=request.form.get('textarea')
+        if not request.form.get('textarea'):
+            print("Hola jej")
+        else:
+            per.fotografia=request.form.get('textarea')
+        
+        print(request.form.get('textarea'))
+        
         #dato.Persona.idUsuario=current_user.id
             
         dbSQL.session.add(user_)
@@ -347,8 +354,7 @@ def modificarDireccion():
         
     return redirect(url_for('main.index'))
 
-@main.route('/pedidos',methods=['GET','POST'])
-def pedidos():
+
     if current_user.has_role('cliente'):
         cliente = True
         
@@ -379,6 +385,65 @@ def pedidos():
         return render_template('pedidos.html', cliente=cliente,name=current_user.name,arreglo_ventas_per=arreglo_ventas_per)
     return redirect(url_for('main.index'))
 
+@main.route('/pedidos',methods=['GET','POST'])
+def pedidos():
+    if current_user.has_role('cliente'):
+        cliente = True
+        
+        arreglo_ventas_per.clear()
+        arregloDetalle.clear()
+        
+        id=current_user.id
+        user = dbSQL.session.query(models.Persona,models.User).join(models.User, models.Persona.idUsuario == models.User.id).filter(models.Persona.idUsuario==id) 
+        for d in user:
+            per=Persona.query.get(d.Persona.idPersona)
+            idPersona = d.Persona.idPersona
+        
+        query = 'select r.nombre, v.cantidad, v.subtotal, r.costo, v.fecha,v.idVenta, v.direccion from venta_recetario vr inner join venta v on vr.idVenta = v.idVenta inner join recetario r on vr.idRecetario = r.idRecetario where v.idPersona = '+ str(idPersona) +' group by vr.idVenta;'       
+        ventas_persona= dbSQL.session.execute(query)
+
+        for x in ventas_persona:           
+            arreglo_ventas_per.append({
+                "id":str(shortuuid.uuid()),
+                "idVenta":x.idVenta,
+                "fecha": x.fecha,
+                "cantidad":x.cantidad,
+                "direccion":x.direccion,
+                "total": x.subtotal
+            })
+            
+            print ('ventas'+str(arreglo_ventas_per))  
+        return render_template('cliente/pedidos.html', cliente=cliente,name=current_user.name,arreglo_ventas_per=arreglo_ventas_per)
+    return redirect(url_for('main.index'))
+
+@main.route('/detalleVentas',methods=['GET','POST'])
+def detalleVentas():
+    if current_user.has_role('cliente'):
+        cliente = True
+        
+        idVenta=request.args.get("id")
+        arregloDetalle.clear()
+        
+        id=current_user.id
+        user = dbSQL.session.query(models.Persona,models.User).join(models.User, models.Persona.idUsuario == models.User.id).filter(models.Persona.idUsuario==id) 
+        for d in user:
+            per=Persona.query.get(d.Persona.idPersona)
+            idPersona = d.Persona.idPersona
+        
+        query = 'select r.nombre, vr.cantidad, v.subtotal, r.costo from venta_recetario vr inner join venta v on vr.idVenta = v.idVenta inner join recetario r on vr.idRecetario = r.idRecetario where vr.idVenta = '+ str(idVenta) +';'       
+        detalle= dbSQL.session.execute(query)
+        total =0
+
+        for x in detalle:
+            total += x.subtotal            
+            arregloDetalle.append({
+                "sabor":x.nombre,
+                "cantidad":x.cantidad,
+                "subtotal":  int(x.cantidad) * int(x.costo)
+            })
+            print ('ventas'+str(arreglo_ventas_per))  
+        return render_template('cliente/detallePedido.html', cliente=cliente,name=current_user.name,arregloDetalle=arregloDetalle)
+    return redirect(url_for('main.index'))
 # -------------------- INICIO ----------------------
 @main.route('/')
 def index():
@@ -394,12 +459,35 @@ def index():
     return render_template('index.html')
 
 # ----------------------- PENDIENTE ------------------------
-@main.route('/ventas')
+
+
+@main.route('/venta', methods=["GET","POST"])
 def ventas():
     if current_user.has_role('cliente'):
         cliente = True
-        return render_template('ventas.html', cliente=cliente)
-    return render_template('index.html')
+        print(request.get_json())
+        userid = current_user.id
+        userPersona = dbSQL.session.query(models.Persona).filter(models.Persona.idUsuario == userid).first()
+        arreglopizzas = json.loads(request.form.get('pizzas'))
+        pizzas = models.Venta(
+            cantidad = request.form.get('cantidad'),
+            subtotal = request.form.get('total'),
+            fecha = str(date.today()),
+            descripcion = request.form.get('descripcion'),
+            direccion = request.form.get('direccion'),
+            estatus=1,
+            idPersona = userPersona.idPersona
+        )
+        dbSQL.session.add(pizzas)
+        dbSQL.session.commit()
+        lastid = dbSQL.session.query(models.Venta).order_by(models.Venta.idVenta.desc()).first()
+        for x in arreglopizzas['pizzas']:
+            rec_mat= "insert into venta_recetario() values("+str(lastid.idVenta)+","+str(x['idRecetario'])+ "," + str(x['cantidad']) +")"
+            dbSQL.session.execute(rec_mat)
+            dbSQL.session.commit()
+            print(x['nombre'])
+        return redirect(url_for('main.index'))
+    return redirect(url_for('main.index'))
 
 @main.route('/admin/ventas')
 def admin_ventas():
@@ -409,9 +497,11 @@ def admin_ventas():
     return render_template('index.html')
 
 # ------------------------ MENU CLIENTE -----------------------
+
 @main.route('/menu')
 def menu():
     if current_user.has_role('cliente'):
+        arregloDire = []
         cliente = True
         query = "SELECT r.idRecetario, r.nombre, r.costo, r.descripcion,r.foto,  GROUP_CONCAT(DISTINCT mp.nombre) as nombreIngre FROM recetario r LEFT JOIN recetario_materiaprima rm ON(r.idRecetario= rm.idRecetario) LEFT JOIN materiaprima mp ON(mp.idMateriaPrima= rm.idMateriaPrima) WHERE r.active=1 GROUP BY r.nombre;"
         recetario = dbSQL.session.execute(query)
@@ -425,6 +515,22 @@ def menu():
                 "foto": x.foto,
                 "ingrediente": x.nombreIngre
             })
-        return render_template('cliente/menu.html', menu=pizzas, cliente=cliente)
+
+        id=current_user.id
+
+        query = 'select d.idDireccion,d.calle,d.colonia,d.numeroInt,d.numeroExt,d.codigoPostal,d.descripcion from personas_direcciones pd inner join persona p on pd.idPersona = p.idPersona inner join direccion d on pd.idDireccion = d.idDireccion inner join user u on p.idUsuario = u.id where u.id = '+ str(id) +' ;'
+            
+        direcciones= dbSQL.session.execute(query)
+        for x in direcciones:
+            arregloDire.append({
+                "id":x.idDireccion,
+                "calle": x.calle,
+                "colonia": x.colonia,
+                "numInt": x.numeroInt,
+                "numExt": x.numeroExt,
+                "cp": x.codigoPostal,
+                "descripcion": x.descripcion
+            })
+        return render_template('cliente/menu.html', menu=pizzas, cliente=cliente, direcciones=arregloDire)
     flash('Debes de iniciar sesión para poder ordenar')
     return redirect(url_for('main.index'))

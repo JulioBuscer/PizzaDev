@@ -4,7 +4,7 @@ from flask_security.decorators import roles_required
 from werkzeug.utils import redirect
 from . import models
 from . import dbSQL
-from datetime import datetime
+from datetime import date
 empleado = Blueprint('empleado', __name__, url_prefix='/empleado')
 
 # ----------------------------- MATERIA PRIMA CRUD --------------------------------
@@ -34,7 +34,7 @@ def deleteMatPrim():
             matPrim.categoria = request.args.get("categoria")
             matPrim.precio = request.args.get("precio")
             matPrim.cantidad = request.args.get("cantidad")
-            matPrim.fecha = str(datetime.today())
+            matPrim.fecha = str(date.today())
             matPrim.active = bool(False)
             matPrim.idProveedor = request.args.get("proveedor_empresa")
             dbSQL.session.add(matPrim)
@@ -58,7 +58,7 @@ def updateMatPrim():
             matPrim.categoria = request.args.get("categoria")
             matPrim.precio = request.args.get("precio")
             matPrim.cantidad = request.args.get("cantidad")
-            matPrim.fecha = str(datetime.today())
+            matPrim.fecha = str(date.today())
             matPrim.active = bool(True)
             matPrim.idProveedor = request.args.get("proveedor_empresa")
             matPrim.unidad = request.args.get("unidad")
@@ -80,7 +80,7 @@ def insertMatPrim():
                      categoria=request.args.get("categoria"),
                      precio=request.args.get("precio"),
                      cantidad=request.args.get("cantidad"),
-                     fecha=str(datetime.today()),
+                     fecha=str(date.today()),
                      unidad=request.args.get("unidad"),
                      active = bool(True),
                      idProveedor=request.args.get("proveedor_empresa"))
@@ -95,6 +95,7 @@ def insertMatPrim():
 # ------------------------------ FIN MATERIA PRIMA CRUD -----------------------------------------
 
 # ----------------------------- RECETARIO CRUD --------------------------------------------------
+
 @empleado.route('/recetario')
 @roles_required('empleado')
 def recetario():
@@ -142,6 +143,8 @@ def recetario():
                 "fecha":x.fecha,
                 "idProvedor":x.idProveedor
                 })
+
+        
         flash('Estás en recetario')
         return render_template("/empleado/administracionRecetario.html", recetario=pizzasactiv, recetariodesac= pizzasdeactiv, empleado=empleado, ingredientes=ingredientes)
     flash('No tienes permiso para acceder a este apartado')

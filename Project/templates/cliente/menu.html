@@ -1,25 +1,22 @@
 {% extends "layout.html" %}
 {% block title %}Menú {%endblock %}
 {% block content %}
-
-<div id="index-banner" class="parallax-container">
-    <div class="section no-pad-bot">
-        <div class="container">
-            <br><br>
-            <h1 class="header center white-text">PizzaDev</h1>
-            <div class="row center">
-                <h5 class="header col s12 white-text text-darken-2">Las mejores pizzas de la comunidad en este menu.
-                </h5>
+<div class="row">
+    <br>
+    <div class="col s3">
+        <nav class="orange lighten-1">
+            <div class="nav-wrapper">
+                <div class="col s12 ">
+                    <a href="{{ url_for('main.index')}}" class="breadcrumb">Inicio</a>
+                    <a href="#!" class="breadcrumb">Menú</a>
+                </div>
             </div>
-            <br><br>
-        </div>
+        </nav>
     </div>
-    <div class="parallax"><img src="../static/img/background7.jpg" alt="Unsplashed background img 1"></div>
-</div>
 
-
-<div class="section">
-
+    <div class="col s12">
+        <h4>Menú</h4>
+    </div>
     <!--   Icon Section   -->
     {% for x in menu %}
     <div class="row">
@@ -35,12 +32,16 @@
                     <h5>Ingredientes</h5>
                     <p>{{x.ingrediente}}</p>
                     <h5 class="orange-text">${{x.costo}} MXN</h5>
+                    
                 </div>
                 <div class="card-action">
-                    <a href="#">Agregar al carrito
+                    <p id="txtCarrito{{x.id}}"></p>
+                    <a id="btnCarritos{{x.id}}" onclick="carrito('{{x.id}}','{{x.nombre}}','{{x.descripcion}}','{{x.cantidad}}','{{x.costo}}');">Agregar al
+                        carrito
                         <i class="material-icons left">add</i>
                     </a>
                 </div>
+                
             </div>
         </div>
         {% endfor %}

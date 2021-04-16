@@ -1,11 +1,10 @@
 from . import dbSQL
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
-
+from io import open
 from datetime import datetime
 
 hoy = datetime.now()
-
 # Definiendo la tabla relacional
 users_roles = dbSQL.Table('users_roles',
                           dbSQL.Column('userId', dbSQL.Integer,

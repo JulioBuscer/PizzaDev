@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block title %}Mis pedidos {%endblock %}
+{% block content %}
+<!--#eeeeee-->
+<div class="row">
+    <br>
+    <div class="col s3">
+        <nav class="orange lighten-1">
+            <div class="nav-wrapper">
+                <div class="col s12 ">
+                    <a href="{{ url_for('main.index')}}" class="breadcrumb">Inicio</a>
+                    <a href="#!" class="breadcrumb">Pedidos</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="col s12">
+        <br>
+        <h4>Resumen de Pedidos</h4>
+        <div>
+            <label for="searchTerm">Buscar compras por fecha</label>
+            <input type="date" class="" id="searchTerm" onchange="doSearch()">
+        </div>
+        <div id="test-swipe-1">
+            <div class="section">
+                <table class="table table-striped table-bordered centered" id="datos">
+                    <thead style="color:#900C3F">
+                        <tr class="tr-head">
+                            <th>No.Venta</th>
+                            <th>Fecha</th>
+                            <th>Cantidad</th>
+                            <th>Direccion</th>
+                            <th>Total</th>
+                            <th>Detalle de venta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for i in arreglo_ventas_per%}
+                        <tr>
+                            <td>{{i.id}}</td>
+                            <td>{{i.fecha}}</td>
+                            <td>{{i.cantidad}}</td>
+                            <td>{{i.direccion}}</td>
+                            <td>{{i.total}}</td>
+                            <td><a href="detalleVentas?id={{i.idVenta}}" class="btn btn-warning" name="btnmodificar"><i class="material-icons">list</i></a></td>
+                        <tr class='noSearch hide'>
+                            <td colspan="12"></td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
