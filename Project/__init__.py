@@ -9,7 +9,6 @@ dbSQL = SQLAlchemy()
 from . models import User,Role
 userDataStore = SQLAlchemyUserDatastore(dbSQL, User, Role)
 
-
 def create_app():
     # Creamos una instancia del flask
     app = Flask(__name__)

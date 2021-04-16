@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 __pycache__
+=======
+Project/__pycache__
+>>>>>>> b6d3fe6386544f9afa68311667470293f3dc3778
 .cache
 *.pyc
 env
