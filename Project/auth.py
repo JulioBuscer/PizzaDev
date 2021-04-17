@@ -17,7 +17,6 @@ def login_users():
 @auth.route('/login_users', methods=['POST'])
 def login_users_post():
     try:
-        
         email = request.form.get('email')
         password = request.form.get('password')
         remember = True if request.form.get('remember') else False
@@ -25,32 +24,35 @@ def login_users_post():
         # Consultamos si existe un usuario ya registrado con el email.
         user = User.query.filter_by(email=email).first()
 
+        if email == '' or password=='':
+            flash('Completa todos los campos')
+        else:
         # Verificamos si el usuario existe, encriptamos el password y lo comparamos con
         # el de la BD.
-        if not user or not check_password_hash(user.password, password):
-            # Si el usuario no existe o no coinciden los passwords
-            flash('El usuario y/o la contraseña son incorrectos')
-            # Error de Autenticación
-            return redirect(url_for('auth.login_users'))
-
-        # En este punto el usuario tiene los datos correctos
-        try:
-
-            # Creamos una sessión y logueamso al usuario.
-            login_user(user, remember=remember)
-            if current_user.has_role('cliente') or current_user.has_role('admin') or current_user.has_role('empleado'):
-                flash('Bienvenido '+current_user.name)
-                return redirect(url_for('main.index'))                
-            else:
-                logout_user()
-                flash('No tienes permiso para acceder al sistema')
+            if not user or not check_password_hash(user.password, password):
+                # Si el usuario no existe o no coinciden los passwords
+                flash('El usuario y/o la contraseña son incorrectos')
+                # Error de Autenticación
                 return redirect(url_for('auth.login_users'))
-        except:
-            flash('Error al iniciar sesión')
-            return redirect(url_for('auth.login_users'))
+
+            # En este punto el usuario tiene los datos correctos
+            try:
+
+                # Creamos una sessión y logueamso al usuario.
+                login_user(user, remember=remember)
+                if current_user.has_role('cliente') or current_user.has_role('admin') or current_user.has_role('empleado'):
+                    flash('Bienvenido '+current_user.name)
+                    return redirect(url_for('main.index'))                
+                else:
+                    logout_user()
+                    flash('No tienes permiso para acceder al sistema')
+                    return redirect(url_for('auth.login_users'))
+            except:
+                flash('Error al iniciar sesión')
+                return redirect(url_for('auth.login_users'))
     except:
-        flash('El usuario y/o la contraseña son incorrectos')
-        return redirect(url_for('auth.login_users'))
+        flash('Error con el servidor')
+        return redirect(url_for('main.error'))
     return redirect(url_for('main.index'))
 
 
@@ -61,38 +63,48 @@ def register_user():
 
 @auth.route('/register_user', methods=['POST'])
 def register_user_post():
-    email = request.form.get('email')
-    name = request.form.get('name')
-    password = request.form.get('password')
-    
-
-    # Consultamos si existe un usuario ya registrado con el email.
-    user = User.query.filter_by(email=email).first()
-
-    if user:
-        # El usuario existe y regresamos a la página de registro.
-        flash('El correo '+ email +  ' ya está registrado')
-        return redirect(url_for('auth.register_user'))
     try:
-        # Creamos un nuevo usuario
-        cliente_role = userDataStore.find_or_create_role('cliente')
-        userDataStore.create_user(name=name, email=email,
-                                  password=generate_password_hash(password, method='sha256'), roles=[cliente_role])
-        flash('Te has registrado con éxito')
-        # Agregamos el usuario a la bd.
+        email = request.form.get('email')
+        name = request.form.get('name')
+        password = request.form.get('password')
         
-        dbSQL.session.commit()
+        if email == '' or name=='' or password=='':
+            flash('Completa todos los campos')
+        else:
+        # Consultamos si existe un usuario ya registrado con el email.
+            user = User.query.filter_by(email=email).first()
+            if user:
+                # El usuario existe y regresamos a la página de registro.
+                flash('El correo '+ email +  ' ya está registrado')
+                return redirect(url_for('auth.register_user'))
+            try:
+                # Creamos un nuevo usuario
+                cliente_role = userDataStore.find_or_create_role('cliente')
+                userDataStore.create_user(name=name, email=email,
+                                        password=generate_password_hash(password, method='sha256'), roles=[cliente_role])
+                flash('Te has registrado con éxito')
+                # Agregamos el usuario a la bd.
+                
+                dbSQL.session.commit()
+            except:
+                flash('Ha ocurrido un error')
+                return render_template('error.html')
+            return redirect(url_for('auth.login_users'))
     except:
-        flash('Error al registrar usuario')
-
-    return redirect(url_for('auth.login_users'))
+        flash('Ha ocurrido un error')
+        return render_template('error.html')
+    return redirect(url_for('auth.register_user'))
 
 @auth.route('/logout')
 @login_required
 def logout():
     # Cerramos la session
-    flash('Tu sesión ha finalizado')
-    logout_user()
+    try:
+        flash('Tu sesión ha finalizado')
+        logout_user()
+    except:
+        flash('Ha ocurrido un error')
+        return render_template('error.html')
     return redirect(url_for('main.index'))
 
 

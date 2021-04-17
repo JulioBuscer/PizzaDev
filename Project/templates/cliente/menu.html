@@ -18,6 +18,7 @@
         <h4>Menú</h4>
     </div>
     <!--   Icon Section   -->
+    
     {% for x in menu %}
     <div class="row">
         <div class="col s12 m4">
@@ -25,6 +26,7 @@
                 <div class="card-image">
                     <img img height="250" width="150" src="data:image/jpeg;base64,{{x.foto}}">
                     <span class="card-title orange darken-4">{{x.nombre}}</span>
+                    <a class="btn-floating halfway-fab waves-effect waves-light red" id="btnCarritos{{x.id}}" onclick="carrito('{{x.id}}','{{x.nombre}}','{{x.descripcion}}','{{x.cantidad}}','{{x.costo}}');"><i class="material-icons">add_shopping_cart</i></a>
                 </div>
                 <div class="card-content">
                     <h5>Descripción</h5>
@@ -36,10 +38,6 @@
                 </div>
                 <div class="card-action">
                     <p id="txtCarrito{{x.id}}"></p>
-                    <a id="btnCarritos{{x.id}}" onclick="carrito('{{x.id}}','{{x.nombre}}','{{x.descripcion}}','{{x.cantidad}}','{{x.costo}}');">Agregar al
-                        carrito
-                        <i class="material-icons left">add</i>
-                    </a>
                 </div>
                 
             </div>

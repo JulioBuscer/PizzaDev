@@ -58,7 +58,7 @@ class Persona(dbSQL.Model):
     nombre= dbSQL.Column(dbSQL.String(50), nullable=False)
     apellidoP= dbSQL.Column(dbSQL.String(50), nullable=False)
     apellidoM= dbSQL.Column(dbSQL.String(50), nullable=False)
-    telefono= dbSQL.Column(dbSQL.String(12), nullable=False)
+    telefono= dbSQL.Column(dbSQL.String(25), nullable=False)
     fotografia= dbSQL.Column(dbSQL.Text(), nullable=False)
     usuario = dbSQL.relationship('User', backref=dbSQL.backref('userspersona', lazy='dynamic'))
     direccion = dbSQL.relationship('Direccion',

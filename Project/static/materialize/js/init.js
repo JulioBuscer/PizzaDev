@@ -517,11 +517,11 @@ let listadoC = []
 function carrito(idRecetario, nombre, descripcion, cantidad, precio) {
 
   var carritos = {
-      idRecetario: idRecetario,
-      nombre: nombre,
-      descripcion: descripcion,
-      cantidad: 1,
-      precio: precio
+    idRecetario: idRecetario,
+    nombre: nombre,
+    descripcion: descripcion,
+    cantidad: 1,
+    precio: precio
   }
   listadoC.push(carritos)
   tamanio = listadoC.length;
@@ -530,11 +530,11 @@ function carrito(idRecetario, nombre, descripcion, cantidad, precio) {
   var toastHTML = '<span>Agregado al carrito éxitosamente</span>';
   M.toast({ html: toastHTML });
 
-  for(var i=0; i <= listadoC.length; i++){
-    if(idRecetario == listadoC[i].idRecetario){
-      $('#btnCarritos'+idRecetario).hide()
+  for (var i = 0; i <= listadoC.length; i++) {
+    if (idRecetario == listadoC[i].idRecetario) {
+      $('#btnCarritos' + idRecetario).hide()
       var desactivado = "Ya está en el carrito";
-      $('#txtCarrito'+idRecetario).html(desactivado);
+      $('#txtCarrito' + idRecetario).html(desactivado);
     }
   }
 }
@@ -544,11 +544,11 @@ function detalleCarrito() {
   var costoTotal = 0.0;
   var costoTotalProductos = 0.0;
   var cantidadSubt = 0;
-  var cantidadTotal=0;
+  var cantidadTotal = 0;
   for (var i = 0; i < listadoC.length; i++) {
     var subtotal = (listadoC[i].cantidad * listadoC[i].precio);
-    var subQ =0
-    subQ = subQ+listadoC[i].cantidad;
+    var subQ = 0
+    subQ = subQ + listadoC[i].cantidad;
     console.log(subtotal)
     str += '<tr>' +
       '<td>' + listadoC[i].nombre + '</td>' +
@@ -616,7 +616,6 @@ function enviarCarrito() {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        console.log($('#textareaDescripcion').val())
         $.ajax({
           type: 'POST',
           url: 'http://localhost:5000/venta',
@@ -628,9 +627,108 @@ function enviarCarrito() {
             'descripcion': $('#textareaDescripcion').val(),
             'direccion': $('#direccionVenta').val() // <-- the $ sign in the parameter name seems unusual, I would avoid it
           }
+
         });
+
+        window.location.href = "/menu";
+        var toastHTML23 = '<span class="white-text"> Venta terminada, consulta tus pedidos' + '</span><button class="btn-flat toast-action" href="{{ url_for("main.pedidos") }}">Pedidos</button>';
+        var inDuration = 100;
+        M.toast({ html: toastHTML23, inDuration });
+
       } else {
       }
     });
   });
+}
+
+
+// --------------------------- NORMALIZACION ----------------------------------
+
+
+function checkDomicilio(e) {
+  tecla = (document.all) ? e.keyCode : e.which;
+
+  //Tecla de retroceso para borrar, siempre la permite
+  if (tecla == 8) {
+    return true;
+  }
+
+  // Patron de entrada, en este caso solo acepta numeros y letras
+  patron = /[A-Za-z#.0-9 ]/;
+  tecla_final = String.fromCharCode(tecla);
+  return patron.test(tecla_final);
+}
+
+function checkNumeros(e) {
+  tecla = (document.all) ? e.keyCode : e.which;
+
+  //Tecla de retroceso para borrar, siempre la permite
+  if (tecla == 8) {
+    return true;
+  }
+
+  // Patron de entrada, en este caso solo acepta numeros y letras
+  patron = /[0-9.]/;
+  tecla_final = String.fromCodePoint(tecla);
+  return patron.test(tecla_final);
+}
+
+function checkEmail(e) {
+  // esta variable sería la tecla que voy haciendo
+
+  tecla = (document.all) ? e.keyCode : e.which;
+
+  //Tecla de retroceso para borrar, siempre la permite, permitimos la tecla de borrar por si se equivoca
+  if (tecla == 8) {
+    return true;
+  }
+
+  // Patron de entrada, en este caso solo acepta numeros y letras, sólo lo que se va a admitir en el teclado
+  patron = /[A-Za-z@.]/;
+  tecla_final = String.fromCharCode(tecla);
+  //y se obtiene la tecla final que esta permitida en el patrón
+
+
+  //ELIMINÓ LOS CARACTERES ESPCIALES EVITANDO ASÍ UNA "INYECCIÓN" DE CÓDIGO
+  return patron.test(tecla_final);
+}
+
+function checkTelefono(e) {
+  // esta variable sería la tecla que voy haciendo
+
+  tecla = (document.all) ? e.keyCode : e.which;
+
+  //Tecla de retroceso para borrar, siempre la permite, permitimos la tecla de borrar por si se equivoca
+  if (tecla == 8) {
+    return true;
+  }
+
+  // Patron de entrada, en este caso solo acepta numeros y letras, sólo lo que se va a admitir en el teclado
+  patron = /[0-9-+()]/;
+  tecla_final = String.fromCharCode(tecla);
+  //y se obtiene la tecla final que esta permitida en el patrón
+
+
+  //ELIMINÓ LOS CARACTERES ESPCIALES EVITANDO ASÍ UNA "INYECCIÓN" DE CÓDIGO
+  return patron.test(tecla_final);
+}
+
+function check(e) {
+  // esta variable sería la tecla que voy haciendo
+
+  tecla = (document.all) ? e.keyCode : e.which;
+
+  //Tecla de retroceso para borrar, siempre la permite, permitimos la tecla de borrar por si se equivoca
+  if (tecla == 8) {
+    return true;
+  }
+
+  // Patron de entrada, en este caso solo acepta numeros y letras, sólo lo que se va a admitir en el teclado
+  patron = /[A-Za-z ]/;
+  tecla_final = String.fromCharCode(tecla);
+  //y se obtiene la tecla final que esta permitida en el patrón
+
+
+  //ELIMINÓ LOS CARACTERES ESPCIALES EVITANDO ASÍ UNA "INYECCIÓN" DE CÓDIGO
+  return patron.test(tecla_final);
 }

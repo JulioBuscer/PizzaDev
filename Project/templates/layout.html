@@ -107,7 +107,7 @@
             {%if empleado%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('admin.ventas') }}" class="navbar-item">
-                        Ventas
+                        <i class="material-icons prefix">shopping_basket</i>
                     </a>
                 </li>
             </ul>
@@ -115,7 +115,7 @@
             {%if empleado%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('empleado.proveedores') }}" class="navbar-item">
-                        Proveedores
+                        <i class="material-icons prefix">local_shipping</i>
                     </a>
                 </li>
             </ul>
@@ -123,14 +123,14 @@
             {%if empleado%}
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('empleado.inventario') }}" class="navbar-item">
-                        Inventario
+                        <i class="material-icons prefix">kitchen</i>
                     </a>
                 </li>
             </ul>
 
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('empleado.recetario') }}" class="navbar-item">
-                        Recetario
+                        <i class="material-icons prefix">local_pizza</i></a>
                     </a>
                 </li>
             </ul>
@@ -194,7 +194,7 @@
     {% if messages %}
     <div class="notification is-danger">
         <script>
-            var toastHTML = '<span>{{ messages[0] }}</span>';
+            var toastHTML = '<span class="white-text">{{ messages[0] }}' + '</span>';
             var inDuration = 100;
             M.toast({ html: toastHTML, inDuration });
         </script>
@@ -249,26 +249,44 @@
             </thead>
             <tbody id="tbCarrito">
             </tbody>
+            <tfooter>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <h5 id="txtTotal"></h5>
+                    </td>
+                </tr>
+            </tfooter>
         </table>
-        <h4 id="txtTotal"></h4>
+
         <input hidden class="validate" id="txtTotalInput">
+        <div class="row">
+            <h5>Nota</h5>
+            <div class="input-field col s12">
+                <textarea id="textareaDescripcion" class="materialize-textarea"
+                    placeholder="Sin servilletas, pocos condimentos, etc..."></textarea>
+            </div>
+        </div>
         <h5>Direccion de entrega</h5>
+        {%if direcciones%}
         <div class="row">
             <div class="input-field col s6">
                 <select id="direccionVenta" class="validate">
                     <option value="" disabled selected>Elegir...</option>
+                    
                     {%for xs in direcciones%}
-                    <option class="red" value="{{xs.calle}} #{{xs.numInt}}, Colonia: {{xs.colonia}}">{{xs.calle}} #{{xs.numInt}}, Colonia: {{xs.colonia}}
-                    </option>
+                        <option class="red" value="{{xs.calle}} #{{xs.numExt}}, Colonia: {{xs.colonia}}">{{xs.calle}} #{{xs.numExt}}, Colonia: {{xs.colonia}}</option>
                     {%endfor%}
+                    
                 </select>
             </div>
-            <div class="input-field col s6">
-                <textarea id="textareaDescripcion" class="materialize-textarea"></textarea>
-                <label for="textarea1">Descripción dirección</label>
-            </div>
         </div>
-
+        {%else%}
+            <a href="{{ url_for('main.perfil') }}" class="orange-text">Registra una dirección</a>
+        {%endif%}
         <div class="row" hidden>
             <div class="input-field col s6">
                 <input id="txtCantidad" type="text" class="validate">

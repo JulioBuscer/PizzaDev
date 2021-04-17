@@ -107,10 +107,10 @@
                     <h3><i class="mdi-content-send brown-text"></i></h3>
                     <div class="row">
                         <div class="col s12 m6 imagenes">
-                            <div class="card" style="background:black;">
+                            <div class="card">
                                 <div class="card-image imagenes">
-                                    <img src="../../static/img/background1.jpg">
-                                    <span class="card-title">Nuevo proveedor</span>
+                                    <img src="../../static/img/proveedor.png" height="465px">
+                                    <span class="card-title orange darken-4" >Nuevo proveedor</span>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                                         <div class="row">
                                             <div class="input-field col s12">
                                                 <i class="material-icons prefix">business</i>
-                                                <input class="validate" name="txtEmpresa" id="text" type="text">
+                                                <input onkeypress="return check(event)" class="validate" name="txtEmpresa" id="text" type="text">
                                                 <label for="text" data-error="wrong"
                                                     data-success="right">Empresa</label>
                                             </div>
@@ -129,27 +129,27 @@
                                         <div class="row">
                                             <div class="input-field col s6">
                                                 <i class="material-icons prefix">location_on</i>
-                                                <input class="validate" name="txtDirección" id="desc" type="text">
+                                                <input onkeypress="return checkDomicilio(event)" class="validate" name="txtDirección" id="desc" type="text">
                                                 <label for="desc" data-error="wrong"
                                                     data-success="right">Dirección</label>
                                             </div>
 
                                             <div class="input-field col s6">
                                                 <i class="material-icons prefix">local_post_office</i>
-                                                <input class="validate" name="txtEmail" id="ffd" type="email">
+                                                <input onkeypress="return checkEmail(event)" class="validate" name="txtEmail" id="ffd" type="email">
                                                 <label for="text" data-error="wrong" data-success="right">Email</label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s6">
                                                 <i class="material-icons prefix">local_phone</i>
-                                                <input class="validate" name="txtTelefono" id="text" type="text">
+                                                <input onkeypress="return checkTelefono(event)" class="validate" name="txtTelefono" id="text" type="text">
                                                 <label for="text" data-error="wrong"
                                                     data-success="right">Telefono</label>
                                             </div>
                                             <div class="input-field col s6">
                                                 <i class="material-icons prefix">assignment</i>
-                                                <input class="validate" name="txtRepresentante" id="text" type="text">
+                                                <input onkeypress="return check(event)" class="validate" name="txtRepresentante" id="text" type="text">
                                                 <label for="text" data-error="wrong"
                                                     data-success="right">Representante</label>
                                             </div>
@@ -185,28 +185,28 @@
             <input type="hidden" name="idProveedor" id="idProveedor1">
             <div class="input-field col s12">
                 <i class="material-icons prefix">business</i>
-                <input class="validate" name="txtEmpresa" id="txtEmpresa1" type="text">
+                <input class="validate" onkeypress="return check(event)" name="txtEmpresa" id="txtEmpresa1" type="text">
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">location_on</i>
-                <input class="validate" name="txtDirección" id="txtDirección1" type="text">
+                <input class="validate"  onkeypress="return checkDomicilio(event)" name="txtDirección" id="txtDirección1" type="text">
             </div>
 
             <div class="input-field col s6">
                 <i class="material-icons prefix">local_post_office</i>
-                <input class="validate" name="txtEmail" id="txtEmail1" type="text">
+                <input class="validate" onkeypress="return checkEmail(event)" name="txtEmail" id="txtEmail1" type="text">
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">local_phone</i>
-                <input class="validate" name="txtTelefono" id="txtTelefono1" type="text">
+                <input class="validate" onkeypress="return checkTelefono(event)" name="txtTelefono" id="txtTelefono1" type="text">
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">assignment</i>
-                <input class="validate" name="txtRepresentante" id="txtRepresentante1" type="text">
+                <input class="validate" onkeypress="return check(event)" name="txtRepresentante" id="txtRepresentante1" type="text">
             </div>
         </div>
     </div>

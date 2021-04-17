@@ -16,19 +16,19 @@
                         <div class="row">
                             <div class="input-field col s6">
                                 <i class="orange-text text-darken-4 material-icons prefix">mail_outline</i>
-                                <input class="validate" name="email" id="email" type="email">
+                                <input class="validate" name="email" onkeypress="return checkEmail(event)" id="email" type="email">
                                 <label for="email" data-error="wrong" data-success="right">Correo</label>
                             </div>
                             <div class="input-field col s6">
                                 <i class="orange-text text-darken-4 material-icons prefix">account_circle</i>
-                                <input class="validate" name="name" id="name" type="text">
+                                <input class="validate" name="name" id="name" onkeypress="return check(event)" type="text">
                                 <label for="name" data-error="wrong" data-success="right">Nombre</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="orange-text text-darken-4 material-icons prefix">lock_outline</i>
-                                <input name="password" id="password" type="password">
+                                <input name="password" id="password"  onkeypress="return checkDomicilio(event)"  type="password">
                                 <label for="password">Contraseña</label>
                             </div>
                         </div>

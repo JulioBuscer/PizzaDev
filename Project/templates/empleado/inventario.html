@@ -141,7 +141,7 @@
                             <div class="card" style="background:black;">
                                 <div class="card-image imagenes">
                                     <img alt="Unsplashed background img 2" src="../../static/img/background16.jpg"
-                                        height="465px">
+                                        height="570px">
                                     <span class="card-title orange darken-4">Registrar nueva materia prima</span>
                                 </div>
                             </div>
@@ -152,39 +152,44 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="orange-text text-darken-4 material-icons prefix">assignment</i>
-                                            <input placeholder="Nombre" class="validate" name="nombreMateria1" id="nombreMateria1" type="text">
+                                            <input placeholder="Nombre" onkeypress="return check(event)"
+                                                class="validate" name="nombreMateria1" id="nombreMateria1" type="text">
                                             <label for="text" data-error="wrong" data-success="right">Nombre</label>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        
+
                                         <div class="input-field col s6">
                                             <i class="orange-text text-darken-4 material-icons prefix">description</i>
                                             <input placeholder="Descripción" class="validate" name="descMatPrim1"
-                                                id="descMatPrim1" type="text">
+                                                id="descMatPrim1" onkeypress="return check(event)" type="text">
                                             <label for="desc" data-error="wrong"
                                                 data-success="right">Descripción</label>
                                         </div>
 
                                         <div class="input-field col s6">
-                                            <i class="orange-text text-darken-4 material-icons prefix">class</i>
-                                            <input placeholder="Categoria" class="validate" name="categoria11"
-                                                id="categoria11" type="text">
+                                            <select name="categoria11"
+                                            id="categoria11" class="validate">
+                                                <option id="unidadMat" value="" disabled selected>Elegir...</option>
+                                                    <option class="red" value="MATERIA PRIMA">MATERIA PRIMA</option>
+                                                    <option class="red" value="PRODUCTO">PRODUCTO</option>
+                                            </select>
                                             <label for="text" data-error="wrong" data-success="right">Categoria</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s6">
                                             <i class="orange-text text-darken-4 material-icons prefix">attach_money</i>
-                                            <input placeholder="Precio" class="validate" name="precio11" id="precio11"
+                                            <input placeholder="Precio" min="1" onkeypress="return checkNumeros(event)" class="validate" name="precio11" id="precio11"
                                                 type="number">
                                             <label for="text" data-error="wrong" data-success="right">Precio</label>
                                         </div>
                                         <div class="input-field col s6">
                                             <i
                                                 class="orange-text text-darken-4 material-icons prefix">shopping_basket</i>
-                                            <input placeholder="Cantidad" class="validate" name="cantidadMat1"
-                                                id="cantidadMat1" type="number">
+                                            <input placeholder="Cantidad" class="validate" min="1"
+                                                pattern="[^()/><\][\\\x22,;|]-+" onkeypress="return checkNumeros(event)"
+                                                name="cantidadMat1" id="cantidadMat1" type="number">
                                             <label for="text" data-error="wrong" data-success="right">Cantidad</label>
                                         </div>
                                     </div>
@@ -223,7 +228,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <button onclick="confirmarInsercionMatPri()" class="btn waves-effect waves-red orange accent-4 btn-large"
+                                            <button onclick="confirmarInsercionMatPri()"
+                                                class="btn waves-effect waves-red orange accent-4 btn-large"
                                                 type="submit" name="action">Enviar
                                                 <i class="material-icons right">send</i>
                                             </button>
@@ -247,14 +253,14 @@
             <input class="validate" style="display: none;" name="idMateriaPrima1" id="idMateriaPrima1" type="text">
             <div class="input-field col s12">
                 <i class="orange-text text-darken-4 material-icons prefix">assignment</i>
-                <input placeholder="Nombre" class="validate" name="nombreMateria" id="nombreMateria" type="text">
+                <input placeholder="Nombre" class="validate"  onkeypress="return check(event)" name="nombreMateria" id="nombreMateria" type="text">
                 <label for="text" data-error="wrong" data-success="right">Nombre</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6">
                 <i class="orange-text text-darken-4 material-icons prefix">description</i>
-                <input placeholder="Descripción" class="validate" name="descMatPrim" id="descMatPrim" type="text">
+                <input placeholder="Descripción" onkeypress="return check(event)" class="validate" name="descMatPrim" id="descMatPrim" type="text">
                 <label for="desc" data-error="wrong" data-success="right">Descripción</label>
             </div>
 
@@ -267,12 +273,12 @@
         <div class="row">
             <div class="input-field col s6">
                 <i class="orange-text text-darken-4 material-icons prefix">attach_money</i>
-                <input placeholder="Precio" class="validate" name="precio1" id="precio1" type="number">
+                <input placeholder="Precio" class="validate" onkeypress="return checkNumeros(event)" name="precio1" id="precio1" type="number">
                 <label for="text" data-error="wrong" data-success="right">Precio</label>
             </div>
             <div class="input-field col s6">
                 <i class="orange-text text-darken-4 material-icons prefix">shopping_basket</i>
-                <input placeholder="Cantidad" class="validate" name="cantidadMat" id="cantidadMat" type="number">
+                <input placeholder="Cantidad" class="validate" onkeypress="return checkNumeros(event)" name="cantidadMat" id="cantidadMat" type="number">
                 <label for="text" data-error="wrong" data-success="right">Cantidad</label>
             </div>
         </div>

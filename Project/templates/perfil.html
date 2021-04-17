@@ -31,7 +31,7 @@
                 <img src="../static/img/perfil.jpg" id="imgFoto2" style="width:60%; height:80%; border-radius:70%;">
                 <div class="btn-floating btn-large waves-effect waves-light red file-field">
                     <span><i class="material-icons">add</i></span>
-                    <input type="file" id="txtFoto" name="txtFoto" onchange="cargarFotoUsuario();" />
+                    <input type="file" accept="image/x-png,image/gif,image/jpeg" id="txtFoto" name="txtFoto" onchange="cargarFotoUsuario();" />
                 </div>
                 <div class="row" hidden>
                     <div class="input-field col s12">
@@ -60,29 +60,29 @@
             <div class="col s9">
                 <div class=" row">
                     <div class="input-field col s4">
-                        <input id="txtNombre" type="text" class="validate" name="txtNombre" value="{{x.Persona.nombre}}"
+                        <input id="txtNombre" type="text" class="validate" onkeypress="return check(event)" name="txtNombre" value="{{x.Persona.nombre}}"
                             required>
                         <label for="last_name">Nombre</label>
                     </div>
                     <div class="input-field col s4">
-                        <input id="txtApellidoP" type="text" name="txtApellidoP" class="validate"
+                        <input id="txtApellidoP" type="text" onkeypress="return check(event)" name="txtApellidoP" class="validate"
                             value="{{x.Persona.apellidoP}}" required>
                         <label for="last_name">Apellido Paterno</label>
                     </div>
                     <div class="input-field col s4">
-                        <input id="txtApellidoM" type="text" name="txtApellidoM" class="validate"
+                        <input id="txtApellidoM" type="text" onkeypress="return check(event)" name="txtApellidoM" class="validate"
                             value="{{x.Persona.apellidoM}}" required>
                         <label for="last_name">Apellido Materno</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s7">
-                        <input readonly id="email" type="email" class="validate" name="txtEmail" value="{{user_.email}}"
+                        <input readonly id="email" type="email" onkeypress="return checkEmail(event)" class="validate" name="txtEmail" value="{{user_.email}}"
                             required>
                         <label for="email">Email</label>
                     </div>
                     <div class="input-field col s5">
-                        <input id="txtUsuario" type="text" name="txtTelefono" class="validate"
+                        <input onkeypress="return checkTelefono(event)" id="txtUsuario" type="text" name="txtTelefono" class="validate"
                             value="{{x.Persona.telefono}}" required>
                         <label for="password">Teléfono</label>
                     </div>
@@ -106,27 +106,27 @@
         <h5>Registrar nueva dirección</h5>
         <form name='form1' action="/agregarDirección" method="POST">
             <div class="input-field col s4">
-                <input id="txtCalle" name="txtCalle" type="text" class="validate" required>
+                <input id="txtCalle" onkeypress="return check(event)" name="txtCalle" type="text" class="validate" required>
                 <label for="password">Calle</label>
             </div>
             <div class="input-field col s4">
-                <input id="txtCalle" name="txtColonia" type="text" class="validate" required>
+                <input id="txtCalle" onkeypress="return check(event)" name="txtColonia" type="text" class="validate" required>
                 <label for="password">Colonia</label>
             </div>
             <div class="input-field col s4">
-                <input id="txtCiudad" name="txtDescripcion" type="text" class="validate" required>
+                <input id="txtCiudad" onkeypress="return check(event)" name="txtDescripcion" type="text" class="validate" required>
                 <label for="password">Descripción</label>
             </div>
             <div class="input-field col s4">
-                <input id="txtNumero" name="txtNumInt" type="text" class="validate" required>
+                <input id="txtNumero" onkeypress="return checkDomicilio(event)" name="txtNumInt" type="text" class="validate" required>
                 <label for="password">Número Interior</label>
             </div>
             <div class="input-field col s4">
-                <input id="txtNumero" name="txtNumExt" type="text" class="validate" required>
+                <input id="txtNumero"  onkeypress="return checkDomicilio(event)" name="txtNumExt" type="text" class="validate" required>
                 <label for="password">Número Exterior</label>
             </div>
             <div class="input-field col s4">
-                <input id="txtCiudad" name="txtCP" type="text" class="validate" required>
+                <input id="txtCiudad" onkeypress="return checkNumero(event)" name="txtCP" type="text" class="validate" required>
                 <label for="password">C.P</label>
             </div>
             <div class="input-field col s1" style="margin-left:-10%; margin-top:-1%">
@@ -185,19 +185,19 @@
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">description</i>
-                <input class="validate" name="txtCalle_" id="txtCalle_" type="text" placeholder="Calle">
+                <input class="validate" name="txtCalle_" onkeypress="return check(event)" id="txtCalle_" type="text" placeholder="Calle">
                 <label for="desc" data-error="wrong" data-success="right">Calle</label>
             </div>
 
             <div class="input-field col s6">
                 <i class="material-icons prefix">description</i>
-                <input class="validate" name="txtColonia_" id="txtColonia_" type="text" placeholder="Colonia">
+                <input class="validate" name="txtColonia_" onkeypress="return check(event)" id="txtColonia_" type="text" placeholder="Colonia">
                 <label for="desc" data-error="wrong" data-success="right">Colonia</label>
             </div>
 
             <div class="input-field col s6">
                 <i class="material-icons prefix">class</i>
-                <input class="validate" name="txtDescripcion_" id="txtDescripcion_" type="text"
+                <input class="validate" name="txtDescripcion_" onkeypress="return check(event)" id="txtDescripcion_" type="text"
                     placeholder="Descripción">
                 <label for="text" data-error="wrong" data-success="right">Descripción</label>
             </div>
@@ -205,19 +205,19 @@
 
             <div class="input-field col s6">
                 <i class="material-icons prefix">attach_money</i>
-                <input class="validate" name="txtNumInt_" id="txtNumInt_" type="text" placeholder="Num.interior">
+                <input class="validate" name="txtNumInt_"  onkeypress="return checkDomicilio(event)" id="txtNumInt_" type="text" placeholder="Num.interior">
                 <label for="text" data-error="wrong" data-success="right">Número Int</label>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">shopping_basket</i>
-                <input class="validate" name="txtNumExt_" id="txtNumExt_" type="text" placeholder="Num.Exterior">
+                <input class="validate" name="txtNumExt_"  onkeypress="return checkDomicilio(event)" id="txtNumExt_" type="text" placeholder="Num.Exterior">
                 <label for="text" data-error="wrong" data-success="right">Número Ext</label>
             </div>
 
 
             <div class="input-field col s6">
                 <i class="material-icons prefix">date_range</i>
-                <input class="validate" type="text" id="txtCP_" name="txtCP_" class="datepicker" placeholder="C.P">
+                <input class="validate" type="text"  onkeypress="return checkNumeros(event)" id="txtCP_" name="txtCP_" class="datepicker" placeholder="C.P">
                 <label for="text" data-error="wrong" data-success="right">C.P</label>
             </div>
         </div>

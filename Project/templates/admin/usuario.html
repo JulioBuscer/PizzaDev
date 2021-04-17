@@ -84,10 +84,10 @@
                     <h3><i class="mdi-content-send brown-text"></i></h3>
                     <div class="row">
                         <div class="col s12 m6 imagenes">
-                            <div class="card" style="background:black;">
+                            <div class="card">
                                 <div class="card-image imagenes">
-                                    <img src="../../static/img/background1.jpg">
-                                    <span class="card-title">Nuevo usuario</span>
+                                    <img src="../../static/img/users.jpg" height="465x">
+                                    <span class="card-title orange darken-4">Nuevo usuario</span>
                                 </div>
                             </div>
                         </div>
@@ -98,20 +98,20 @@
                                         <div class="row">
                                             <div class="input-field col s12">
                                                 <i class="material-icons prefix">account_box</i>
-                                                <input class="validate" name="txtNombre" id="text" type="text">
+                                                <input class="validate" onkeypress="return check(event)" name="txtNombre" id="text" type="text">
                                                 <label for="text" data-error="wrong" data-success="right">Nombre</label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s6">
                                                 <i class="material-icons prefix">local_post_office</i>
-                                                <input class="validate" name="txtCorreo" id="desc" type="email">
+                                                <input class="validate" onkeypress="return checkEmail(event)" name="txtCorreo" id="desc" type="email">
                                                 <label for="desc" data-error="wrong" data-success="right">Correo</label>
                                             </div>
 
                                             <div class="input-field col s6">
                                                 <i class="material-icons prefix">fingerprint</i>
-                                                <input class="validate" name="txtContraseña" id="ffd" type="password">
+                                                <input class="validate" onkeypress="return checkDomicilio(event)" name="txtContraseña" id="ffd" type="password">
                                                 <label for="text" data-error="wrong"
                                                     data-success="right">Contraseña</label>
                                             </div>
@@ -156,18 +156,18 @@
             <input type="hidden" name="id1" id="id1">
             <div class="input-field col s12">
                 <i class="material-icons prefix">account_box</i>
-                <input class="validate" name="txtNombre" id="txtNombre1" type="text">
+                <input class="validate" onkeypress="return check(event)"  name="txtNombre" id="txtNombre1" type="text">
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">local_post_office</i>
-                <input class="validate" name="txtCorreo" id="txtCorreo1" type="email">
+                <input class="validate" onkeypress="return checkEmail(event)"  name="txtCorreo" id="txtCorreo1" type="email">
             </div>
 
             <div class="input-field col s6">
                 <i class="material-icons prefix">fingerprint</i>
-                <input class="validate" name="txtContraseña" id="txtContraseña1" type="password">
+                <input class="validate"  onkeypress="return checkDomicilio(event)" name="txtContraseña" id="txtContraseña1" type="password">
             </div>
         </div>
         <div class="row">

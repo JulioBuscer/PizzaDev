@@ -139,19 +139,19 @@
                                         <div class="row">
                                             <div class="input-field col s6">
                                                 <i class="material-icons prefix">assignment</i>
-                                                <input class="validate" name="nombrePizza" id="nombrePizza" type="text">
+                                                <input class="validate" onkeypress="return check(event)" name="nombrePizza" id="nombrePizza" type="text">
                                                 <label for="text" data-error="wrong" data-success="right">Nombre</label>
                                             </div>
                                             <div class="input-field col s6">
                                                 <i class="material-icons prefix">attach_money</i>
-                                                <input class="validate" name="costoPizza" id="costopizza" type="number">
+                                                <input class="validate" name="costoPizza" onkeypress="return checkNumeros(event)" id="costopizza" type="number">
                                                 <label for="text" data-error="wrong" data-success="right">Costo</label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s12">
                                                 <i class="material-icons prefix">description</i>
-                                                <input class="validate" name="descripcionPizza" id="descripcionPizza"
+                                                <input class="validate"  onkeypress="return check(event)" name="descripcionPizza" id="descripcionPizza"
                                                     type="text">
                                                 <label for="desc" data-error="wrong"
                                                     data-success="right">Descripción</label>
@@ -166,7 +166,7 @@
                                                         <input type="file">
                                                         <input type="file" name="txtFoto2" id="txtFoto2"
                                                             class="form-control text-black orange"
-                                                            onchange="cargarFoto1();">
+                                                            onchange="cargarFoto1();" accept="image/x-png,image/gif,image/jpeg">
                                                         <textarea id="textarea" name="textarea"
                                                             class="materialize-textarea" data-length="120"></textarea>
                                                     </div>
@@ -227,18 +227,18 @@
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">assignment</i>
-                    <input class="validate" name="nombreModal" id="nombre" type="text">
+                    <input class="validate" onkeypress="return check(event)" name="nombreModal" id="nombre" type="text">
                 </div>
             </div>
             <div class="row ">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">description</i>
-                    <input class="validate" name="descripcionModal" id="desc" type="text">
+                    <input class="validate" onkeypress="return check(event)" name="descripcionModal" id="desc" type="text">
                 </div>
 
                 <div class="input-field col s6">
                     <i class="material-icons prefix">attach_money</i>
-                    <input class="validate" name="costoModal" id="costo" type="text">
+                    <input class="validate" onkeypress="return checkNumeros(event)" name="costoModal" id="costo" type="text">
                 </div>
             </div>
             <div class="row">
@@ -252,7 +252,7 @@
                     <div class="file-field input-field">
                         <div class="btn btn-info btn-sm float-left waves-effect waves-light">
                             <span>File</span>
-                            <input type="file" name="txtFoto2" id="txtFoto21" class="form-control text-black"
+                            <input type="file" accept="image/x-png,image/gif,image/jpeg" name="txtFoto2" id="txtFoto21" class="form-control text-black"
                                 onchange="cargarFoto11();">
 
                         </div>
